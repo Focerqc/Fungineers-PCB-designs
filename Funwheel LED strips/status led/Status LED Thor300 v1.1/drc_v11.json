@@ -1,0 +1,188 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-09-30T09:25:01",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.6",
+    "schematic_parity": [],
+    "source": "Status_LED_Thor300_v1.1.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [GND] on B.Cu, length 67.6000 mm",
+                    "pos": {
+                        "x": 6.25,
+                        "y": 9.4
+                    },
+                    "uuid": "e3c4b537-1c07-4b0f-8d4c-598153948b56"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "PCB text 'GND' on F.Silkscreen",
+                    "pos": {
+                        "x": 4.6,
+                        "y": 76.8
+                    },
+                    "uuid": "72350210-52f5-4f4c-85e0-8005fee648b8"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5500 mm)",
+            "items": [
+                {
+                    "description": "PCB text 'DI' on F.Silkscreen",
+                    "pos": {
+                        "x": 6.6,
+                        "y": 81.2
+                    },
+                    "uuid": "a565faa2-cd3d-4e9a-9f66-a60e59cef5b0"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5500 mm)",
+            "items": [
+                {
+                    "description": "PCB text 'DO' on F.Silkscreen",
+                    "pos": {
+                        "x": 0.9,
+                        "y": 78.0
+                    },
+                    "uuid": "6fe98ed7-9d8e-4ef7-b8a6-c0c671afa372"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5500 mm)",
+            "items": [
+                {
+                    "description": "PCB text '12V' on F.Silkscreen",
+                    "pos": {
+                        "x": 0.9,
+                        "y": 81.2
+                    },
+                    "uuid": "299c1eaa-2130-43e8-9abf-34edc8a287e1"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "PCB text 'Thor300 v1.1' on F.Silkscreen",
+                    "pos": {
+                        "x": 5.15,
+                        "y": 3.1
+                    },
+                    "uuid": "1d3eeb0d-02aa-41c4-baed-c4e94abf5b38"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7500 mm)",
+            "items": [
+                {
+                    "description": "PCB text 'Status LED' on F.Silkscreen",
+                    "pos": {
+                        "x": 5.15,
+                        "y": 1.9
+                    },
+                    "uuid": "2fcd7fff-0ab9-4df2-877a-2f459e7e5ce8"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of R1 on F.Silkscreen",
+                    "pos": {
+                        "x": 5.762742,
+                        "y": 81.9775
+                    },
+                    "uuid": "2625ca97-7f13-428b-9e4c-feb321f4e0d8"
+                },
+                {
+                    "description": "PTH pad 1 [DATA_IN] of J_DI",
+                    "pos": {
+                        "x": 5.2,
+                        "y": 81.2
+                    },
+                    "uuid": "80fa7307-2eb4-4957-aca8-c95017cdbcaa"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "PCB text 'DO' on F.Silkscreen",
+                    "pos": {
+                        "x": 0.9,
+                        "y": 78.0
+                    },
+                    "uuid": "6fe98ed7-9d8e-4ef7-b8a6-c0c671afa372"
+                },
+                {
+                    "description": "PTH pad 1 [DATA_OUT] of J_DO",
+                    "pos": {
+                        "x": 2.0,
+                        "y": 78.0
+                    },
+                    "uuid": "e6fa9299-0295-4fb4-885c-25cb7b90987f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}

@@ -1,0 +1,75 @@
+{
+  "board": "C:\\Users\\quinn\\Desktop\\AI PCB CAD\\footpad connector controller box side\\6-pin\\Molex_MX150L_6Pin_Header\\Molex_MX150L_6Pin_Header.kicad_pcb",
+  "timestamp": "2026-09-04T03:43:23",
+  "total_violations": 6,
+  "violation_counts": {
+    "lib_footprint_issues": 6
+  },
+  "severity_counts": {
+    "error": 0,
+    "warning": 6,
+    "info": 0
+  },
+  "violations": [
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "Footprint 'MountingHole_4.2mm' not found in library 'MountingHole'",
+      "location": {
+        "x": -38.0,
+        "y": 0.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "Footprint 'MountingHole_4.2mm' not found in library 'MountingHole'",
+      "location": {
+        "x": 38.0,
+        "y": 0.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "The current configuration does not include the footprint library 'footpad_shared'",
+      "location": {
+        "x": 0.0,
+        "y": 0.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "The current configuration does not include the footprint library 'footpad_shared'",
+      "location": {
+        "x": -5.84,
+        "y": 0.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "The current configuration does not include the footprint library 'footpad_shared'",
+      "location": {
+        "x": 0.0,
+        "y": 3.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "The current configuration does not include the footprint library 'footpad_shared'",
+      "location": {
+        "x": 5.84,
+        "y": 0.0,
+        "unit": "mm"
+      }
+    }
+  ]
+}

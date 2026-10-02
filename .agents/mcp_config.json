@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "kicad": {
+      "command": "node",
+      "args": ["C:\\Users\\quinn\\KiCAD-MCP-Server\\dist\\index.js"],
+      "env": {
+        "KICAD_PYTHON": "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe",
+        "PYTHONPATH": "C:\\Program Files\\KiCad\\10.0\\bin\\Lib\\site-packages"
+      },
+      "autoApprove": [
+        "add_board_outline",
+        "search_parts_registry",
+        "place_component",
+        "delete_schematic_component",
+        "delete_schematic_net_label",
+        "add_schematic_component",
+        "add_schematic_net_label",
+        "add_schematic_wire",
+        "move_component",
+        "rotate_component",
+        "save_board",
+        "save_project",
+        "sync_schematic_to_board",
+        "run_erc",
+        "run_drc",
+        "get_board_2d_view",
+        "check_courtyard_overlaps",
+        "route_pad_to_pad",
+        "route_trace",
+        "add_copper_pour",
+        "create_footprint",
+        "create_symbol",
+        "register_footprint_library",
+        "close_project",
+        "open_project"
+      ]
+    }
+  }
+}

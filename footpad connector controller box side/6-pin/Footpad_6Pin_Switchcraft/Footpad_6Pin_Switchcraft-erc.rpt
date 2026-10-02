@@ -1,0 +1,36 @@
+ERC report (2026-09-04T14:11:18, Encoding UTF8)
+Report includes: Errors, Warnings
+
+***** Sheet /
+[footprint_link_issues]: The current configuration does not include the footprint library 'footpad_shared'
+    ; warning
+    @(50.80 mm, 101.60 mm): Symbol J1 [Conn_01x06]
+[lib_symbol_mismatch]: Symbol 'Conn_01x06' doesn't match copy in library 'Connector_Generic'
+    ; warning
+    @(50.80 mm, 101.60 mm): Symbol J1 [Conn_01x06]
+[footprint_link_issues]: The current configuration does not include the footprint library 'footpad_shared'
+    ; warning
+    @(101.60 mm, 101.60 mm): Symbol J2 [Conn_01x06]
+[lib_symbol_mismatch]: Symbol 'Conn_01x06' doesn't match copy in library 'Connector_Generic'
+    ; warning
+    @(101.60 mm, 101.60 mm): Symbol J2 [Conn_01x06]
+[footprint_link_issues]: The current configuration does not include the footprint library 'footpad_shared'
+    ; warning
+    @(152.40 mm, 101.60 mm): Symbol J3 [Conn_01x03]
+[lib_symbol_mismatch]: Symbol 'Conn_01x03' doesn't match copy in library 'Connector_Generic'
+    ; warning
+    @(152.40 mm, 101.60 mm): Symbol J3 [Conn_01x03]
+[footprint_link_issues]: The current configuration does not include the footprint library 'footpad_shared'
+    ; warning
+    @(203.20 mm, 101.60 mm): Symbol J4 [Conn_01x06]
+[lib_symbol_mismatch]: Symbol 'Conn_01x06' doesn't match copy in library 'Connector_Generic'
+    ; warning
+    @(203.20 mm, 101.60 mm): Symbol J4 [Conn_01x06]
+
+ ** ERC messages: 8  Errors 0  Warnings 8
+
+ ** Ignored checks:
+    - Global label only appears once in the schematic
+    - Four connection points are joined together
+    - SPICE model issue
+    - Assigned footprint doesn't match footprint filters

@@ -1,0 +1,22 @@
+** Drc report for sf hall ai pcb.kicad_pcb **
+** Created on 2026-09-04T00:32:36 **
+** Report includes: Errors, Warnings **
+
+** Found 1 DRC violations **
+[copper_sliver]: Copper sliver (B.Cu)
+    Local override; warning
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+    - Footprint not found in libraries
+    - Footprint doesn't match copy in library
+
+** End of Report **

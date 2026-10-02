@@ -1,0 +1,106 @@
+** Drc report for sf hall ai pcb.kicad_pcb **
+** Created on 2026-09-03T00:45:49 **
+** Report includes: Errors, Exclusions **
+
+** Found 22 DRC violations **
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.0000 mm)
+    Rule: board setup constraints edge; error
+    @(-11.8142 mm, 53.5114 mm): Segment on Edge.Cuts
+    @(-11.9727 mm, 48.0209 mm): Track [+5V] on F.Cu, length 6.9598 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4818 mm)
+    Rule: board setup constraints edge; error
+    @(51.3499 mm, 24.1634 mm): Arc on Edge.Cuts
+    @(48.5949 mm, 23.5485 mm): Track [+5V] on F.Cu, length 1.0259 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4818 mm)
+    Rule: board setup constraints edge; error
+    @(51.3499 mm, 24.1634 mm): Arc on Edge.Cuts
+    @(49.0335 mm, 22.6211 mm): Track [+5V] on F.Cu, length 1.0259 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4785 mm)
+    Rule: board setup constraints edge; error
+    @(52.2402 mm, 22.1746 mm): Arc on Edge.Cuts
+    @(49.4544 mm, 21.6855 mm): Track [+5V] on F.Cu, length 1.0259 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4785 mm)
+    Rule: board setup constraints edge; error
+    @(52.2402 mm, 22.1746 mm): Arc on Edge.Cuts
+    @(49.8575 mm, 20.7420 mm): Track [+5V] on F.Cu, length 1.0259 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.0000 mm)
+    Rule: board setup constraints edge; error
+    @(27.2527 mm, 49.7779 mm): Arc on Edge.Cuts
+    @(26.9645 mm, 46.0000 mm): Track [+5V] on F.Cu, length 3.2518 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.0000 mm)
+    Rule: board setup constraints edge; error
+    @(53.0530 mm, 20.1530 mm): Arc on Edge.Cuts
+    @(45.5567 mm, 19.3374 mm): Track [+5V] on F.Cu, length 6.9598 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4620 mm)
+    Rule: board setup constraints edge; error
+    @(21.9829 mm, 50.1975 mm): Segment on Edge.Cuts
+    @(23.1065 mm, 38.0441 mm): Track [HALL_V] on B.Cu, length 13.1312 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.0000 mm)
+    Rule: board setup constraints edge; error
+    @(-15.8332 mm, 54.4988 mm): Arc on Edge.Cuts
+    @(-14.0000 mm, 46.5000 mm): Track [HALL_W] on F.Cu, length 7.6051 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.0000 mm)
+    Rule: board setup constraints edge; error
+    @(51.3499 mm, 24.1634 mm): Arc on Edge.Cuts
+    @(46.0000 mm, 22.0000 mm): Track [HALL_U] on B.Cu, length 5.1707 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.0000 mm)
+    Rule: board setup constraints edge; error
+    @(-13.7294 mm, 55.0653 mm): Arc on Edge.Cuts
+    @(-11.0000 mm, 52.0000 mm): Track [GND] on B.Cu, length 3.5829 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.0000 mm)
+    Rule: board setup constraints edge; error
+    @(25.3219 mm, 50.7882 mm): Arc on Edge.Cuts
+    @(25.0540 mm, 44.0000 mm): Track [GND] on B.Cu, length 6.2506 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.5000 mm; actual 0.4369 mm)
+    Rule: board setup constraints edge; error
+    @(50.1975 mm, 21.9829 mm): Segment on Edge.Cuts
+    @(47.3000 mm, 17.5884 mm): Track [GND] on B.Cu, length 6.1784 mm
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(27.2527 mm, 49.7779 mm): Arc on Edge.Cuts
+    @(26.9645 mm, 49.2518 mm): PTH pad 1 [+5V] of U2
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(25.3219 mm, 50.7882 mm): Arc on Edge.Cuts
+    @(25.0540 mm, 50.2506 mm): PTH pad 2 [GND] of U2
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(21.9829 mm, 50.1975 mm): Segment on Edge.Cuts
+    @(23.1065 mm, 51.1753 mm): PTH pad 3 [HALL_V] of U2
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(53.0530 mm, 20.1530 mm): Arc on Edge.Cuts
+    @(52.4904 mm, 19.9393 mm): PTH pad 1 [+5V] of U1
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(50.1975 mm, 21.9829 mm): Segment on Edge.Cuts
+    @(51.6863 mm, 21.9396 mm): PTH pad 2 [GND] of U1
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(51.3499 mm, 24.1634 mm): Arc on Edge.Cuts
+    @(50.8060 mm, 23.9076 mm): PTH pad 3 [HALL_U] of U1
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(-11.8142 mm, 53.5114 mm): Segment on Edge.Cuts
+    @(-11.4824 mm, 54.9634 mm): PTH pad 1 [+5V] of U3
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(-13.7294 mm, 55.0653 mm): Arc on Edge.Cuts
+    @(-13.5839 mm, 54.4821 mm): PTH pad 2 [GND] of U3
+[copper_edge_clearance]: Board edge clearance violation
+    Rule: castellated_pads; error
+    @(-15.8332 mm, 54.4988 mm): Arc on Edge.Cuts
+    @(-15.6653 mm, 53.9205 mm): PTH pad 3 [HALL_W] of U3
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

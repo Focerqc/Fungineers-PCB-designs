@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "🚀 Start PCB Studio Dashboard Server",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/dashboard/server.js",
+      "console": "integratedTerminal",
+      "restart": true
+    },
+    {
+      "name": "🌐 Open PCB Dashboard in Edge",
+      "type": "msedge",
+      "request": "launch",
+      "file": "${workspaceFolder}/dashboard/index.html"
+    },
+    {
+      "name": "🌐 Open PCB Dashboard in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "file": "${workspaceFolder}/dashboard/index.html"
+    }
+  ]
+}

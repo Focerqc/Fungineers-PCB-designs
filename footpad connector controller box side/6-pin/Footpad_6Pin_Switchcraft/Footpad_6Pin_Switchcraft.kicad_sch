@@ -1,0 +1,180 @@
+(kicad_sch
+	(version 20260101)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "fa060001-0001-4001-8001-000000000001")
+	(paper "A4")
+	(title_block
+		(title "Universal 6-Pin Switchcraft EN3 Adapter (Thor 400 Pinout)")
+		(date "2026-09-04")
+		(rev "4.0")
+		(company "Footpad Controller Box Side")
+		(comment 1 "Dual JST-GH: 6-Pin Motor Hall (5V,Temp,H1,H2,H3,GND) + 3-Pin Footpad (ADC2,3V3,ADC1)")
+		(comment 2 "Dual Outputs: JST-GH 1.25mm + 6-Pin Solder Pads (2.0mm pitch)")
+	)
+	(lib_symbols
+		(symbol "Connector_Generic:Conn_01x06"
+			(pin_names (offset 1.016) (hide yes))
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(property "Reference" "J" (at 0 8.89 0) (effects (font (size 1.27 1.27))))
+			(property "Value" "Conn_01x06" (at 0 -8.89 0) (effects (font (size 1.27 1.27))))
+			(property "Footprint" "" (at 0 0 0) (hide yes) (effects (font (size 1.27 1.27))))
+			(symbol "Conn_01x06_1_1"
+				(rectangle (start -1.27 7.62) (end 1.27 -7.62) (stroke (width 0.254)) (fill (type background)))
+				(pin passive line (at -5.08 6.35 0) (length 3.81) (name "1") (number "1"))
+				(pin passive line (at -5.08 3.81 0) (length 3.81) (name "2") (number "2"))
+				(pin passive line (at -5.08 1.27 0) (length 3.81) (name "3") (number "3"))
+				(pin passive line (at -5.08 -1.27 0) (length 3.81) (name "4") (number "4"))
+				(pin passive line (at -5.08 -3.81 0) (length 3.81) (name "5") (number "5"))
+				(pin passive line (at -5.08 -6.35 0) (length 3.81) (name "6") (number "6"))
+			)
+		)
+		(symbol "Connector_Generic:Conn_01x03"
+			(pin_names (offset 1.016) (hide yes))
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(property "Reference" "J" (at 0 5.08 0) (effects (font (size 1.27 1.27))))
+			(property "Value" "Conn_01x03" (at 0 -5.08 0) (effects (font (size 1.27 1.27))))
+			(property "Footprint" "" (at 0 0 0) (hide yes) (effects (font (size 1.27 1.27))))
+			(symbol "Conn_01x03_1_1"
+				(rectangle (start -1.27 3.81) (end 1.27 -3.81) (stroke (width 0.254)) (fill (type background)))
+				(pin passive line (at -5.08 2.54 0) (length 3.81) (name "1") (number "1"))
+				(pin passive line (at -5.08 0 0) (length 3.81) (name "2") (number "2"))
+				(pin passive line (at -5.08 -2.54 0) (length 3.81) (name "3") (number "3"))
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x06")
+		(at 50.8 101.6 0)
+		(unit 1)
+		(uuid "fa060001-0001-4001-8001-000000000011")
+		(property "Reference" "J1" (at 50.8 91.44 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "Switchcraft_EN3P6MX" (at 50.8 111.76 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "footpad_shared:Switchcraft_EN3P6MX_Piggyback" (at 50.8 101.6 0) (hide yes))
+		(pin "1" (uuid "fa060001-0001-4001-8001-000000000021"))
+		(pin "2" (uuid "fa060001-0001-4001-8001-000000000022"))
+		(pin "3" (uuid "fa060001-0001-4001-8001-000000000023"))
+		(pin "4" (uuid "fa060001-0001-4001-8001-000000000024"))
+		(pin "5" (uuid "fa060001-0001-4001-8001-000000000025"))
+		(pin "6" (uuid "fa060001-0001-4001-8001-000000000026"))
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x06")
+		(at 101.6 101.6 0)
+		(unit 1)
+		(uuid "fa060001-0001-4001-8001-000000000012")
+		(property "Reference" "J2" (at 101.6 91.44 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "JST_GH_6P_MotorHall" (at 101.6 111.76 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "footpad_shared:JST_GH_BM06B-GHS-TBT_1x06_P1.25mm_Vertical" (at 101.6 101.6 0) (hide yes))
+		(pin "1" (uuid "fa060001-0001-4001-8001-000000000031"))
+		(pin "2" (uuid "fa060001-0001-4001-8001-000000000032"))
+		(pin "3" (uuid "fa060001-0001-4001-8001-000000000033"))
+		(pin "4" (uuid "fa060001-0001-4001-8001-000000000034"))
+		(pin "5" (uuid "fa060001-0001-4001-8001-000000000035"))
+		(pin "6" (uuid "fa060001-0001-4001-8001-000000000036"))
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x03")
+		(at 152.4 101.6 0)
+		(unit 1)
+		(uuid "fa060001-0001-4001-8001-000000000013")
+		(property "Reference" "J3" (at 152.4 93.98 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "JST_GH_3P_Footpad" (at 152.4 109.22 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "footpad_shared:JST_GH_BM03B-GHS-TBT_1x03_P1.25mm_Vertical" (at 152.4 101.6 0) (hide yes))
+		(pin "1" (uuid "fa060001-0001-4001-8001-000000000041"))
+		(pin "2" (uuid "fa060001-0001-4001-8001-000000000042"))
+		(pin "3" (uuid "fa060001-0001-4001-8001-000000000043"))
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x06")
+		(at 203.2 101.6 0)
+		(unit 1)
+		(uuid "fa060001-0001-4001-8001-000000000014")
+		(property "Reference" "J4" (at 203.2 91.44 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "SolderPads_6Pin" (at 203.2 111.76 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "footpad_shared:SolderPads_6Pin_Universal" (at 203.2 101.6 0) (hide yes))
+		(pin "1" (uuid "fa060001-0001-4001-8001-000000000051"))
+		(pin "2" (uuid "fa060001-0001-4001-8001-000000000052"))
+		(pin "3" (uuid "fa060001-0001-4001-8001-000000000053"))
+		(pin "4" (uuid "fa060001-0001-4001-8001-000000000054"))
+		(pin "5" (uuid "fa060001-0001-4001-8001-000000000055"))
+		(pin "6" (uuid "fa060001-0001-4001-8001-000000000056"))
+	)
+
+	(wire (pts (xy 45.72 95.25) (xy 35.56 95.25)) (stroke (width 0)) (uuid "w01-01"))
+	(label "H1_ADC1" (at 35.56 95.25 180) (effects (font (size 1.27 1.27))) (uuid "l01-01"))
+
+	(wire (pts (xy 45.72 97.79) (xy 35.56 97.79)) (stroke (width 0)) (uuid "w01-02"))
+	(label "H2_ADC2" (at 35.56 97.79 180) (effects (font (size 1.27 1.27))) (uuid "l01-02"))
+
+	(wire (pts (xy 45.72 100.33) (xy 35.56 100.33)) (stroke (width 0)) (uuid "w01-03"))
+	(label "GND" (at 35.56 100.33 180) (effects (font (size 1.27 1.27))) (uuid "l01-03"))
+
+	(wire (pts (xy 45.72 102.87) (xy 35.56 102.87)) (stroke (width 0)) (uuid "w01-04"))
+	(label "5V" (at 35.56 102.87 180) (effects (font (size 1.27 1.27))) (uuid "l01-04"))
+
+	(wire (pts (xy 45.72 105.41) (xy 35.56 105.41)) (stroke (width 0)) (uuid "w01-05"))
+	(label "TEMP" (at 35.56 105.41 180) (effects (font (size 1.27 1.27))) (uuid "l01-05"))
+
+	(wire (pts (xy 45.72 107.95) (xy 35.56 107.95)) (stroke (width 0)) (uuid "w01-06"))
+	(label "H3_3V3" (at 35.56 107.95 180) (effects (font (size 1.27 1.27))) (uuid "l01-06"))
+
+	(wire (pts (xy 96.52 95.25) (xy 86.36 95.25)) (stroke (width 0)) (uuid "w02-01"))
+	(label "5V" (at 86.36 95.25 180) (effects (font (size 1.27 1.27))) (uuid "l02-01"))
+
+	(wire (pts (xy 96.52 97.79) (xy 86.36 97.79)) (stroke (width 0)) (uuid "w02-02"))
+	(label "TEMP" (at 86.36 97.79 180) (effects (font (size 1.27 1.27))) (uuid "l02-02"))
+
+	(wire (pts (xy 96.52 100.33) (xy 86.36 100.33)) (stroke (width 0)) (uuid "w02-03"))
+	(label "H1_ADC1" (at 86.36 100.33 180) (effects (font (size 1.27 1.27))) (uuid "l02-03"))
+
+	(wire (pts (xy 96.52 102.87) (xy 86.36 102.87)) (stroke (width 0)) (uuid "w02-04"))
+	(label "H2_ADC2" (at 86.36 102.87 180) (effects (font (size 1.27 1.27))) (uuid "l02-04"))
+
+	(wire (pts (xy 96.52 105.41) (xy 86.36 105.41)) (stroke (width 0)) (uuid "w02-05"))
+	(label "H3_3V3" (at 86.36 105.41 180) (effects (font (size 1.27 1.27))) (uuid "l02-05"))
+
+	(wire (pts (xy 96.52 107.95) (xy 86.36 107.95)) (stroke (width 0)) (uuid "w02-06"))
+	(label "GND" (at 86.36 107.95 180) (effects (font (size 1.27 1.27))) (uuid "l02-06"))
+
+	(wire (pts (xy 147.32 99.06) (xy 137.16 99.06)) (stroke (width 0)) (uuid "w03-01"))
+	(label "H2_ADC2" (at 137.16 99.06 180) (effects (font (size 1.27 1.27))) (uuid "l03-01"))
+
+	(wire (pts (xy 147.32 101.6) (xy 137.16 101.6)) (stroke (width 0)) (uuid "w03-02"))
+	(label "H3_3V3" (at 137.16 101.6 180) (effects (font (size 1.27 1.27))) (uuid "l03-02"))
+
+	(wire (pts (xy 147.32 104.14) (xy 137.16 104.14)) (stroke (width 0)) (uuid "w03-03"))
+	(label "H1_ADC1" (at 137.16 104.14 180) (effects (font (size 1.27 1.27))) (uuid "l03-03"))
+
+	(wire (pts (xy 198.12 95.25) (xy 187.96 95.25)) (stroke (width 0)) (uuid "w04-01"))
+	(label "5V" (at 187.96 95.25 180) (effects (font (size 1.27 1.27))) (uuid "l04-01"))
+
+	(wire (pts (xy 198.12 97.79) (xy 187.96 97.79)) (stroke (width 0)) (uuid "w04-02"))
+	(label "TEMP" (at 187.96 97.79 180) (effects (font (size 1.27 1.27))) (uuid "l04-02"))
+
+	(wire (pts (xy 198.12 100.33) (xy 187.96 100.33)) (stroke (width 0)) (uuid "w04-03"))
+	(label "H1_ADC1" (at 187.96 100.33 180) (effects (font (size 1.27 1.27))) (uuid "l04-03"))
+
+	(wire (pts (xy 198.12 102.87) (xy 187.96 102.87)) (stroke (width 0)) (uuid "w04-04"))
+	(label "H2_ADC2" (at 187.96 102.87 180) (effects (font (size 1.27 1.27))) (uuid "l04-04"))
+
+	(wire (pts (xy 198.12 105.41) (xy 187.96 105.41)) (stroke (width 0)) (uuid "w04-05"))
+	(label "H3_3V3" (at 187.96 105.41 180) (effects (font (size 1.27 1.27))) (uuid "l04-05"))
+
+	(wire (pts (xy 198.12 107.95) (xy 187.96 107.95)) (stroke (width 0)) (uuid "w04-06"))
+	(label "GND" (at 187.96 107.95 180) (effects (font (size 1.27 1.27))) (uuid "l04-06"))
+
+	(sheet_instances
+		(path "/" (page "1"))
+	)
+)

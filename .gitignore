@@ -1,0 +1,48 @@
+# ==============================================================================
+# Fungineers PCB Designs - Hardware Repository Git Ignore
+# ==============================================================================
+
+# KiCad Project Runtime & Lock Files
+*.kicad_prl
+*.lck
+~*
+
+# KiCad Backups and Autosaves
+*.bak
+*-bak
+*-bak-*
+_autosave-*
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*.kicad_dru-bak
+*.kicad_pro-bak
+rescue-backup/
+.mcp-backups/
+
+# Test, Sweep & Intermediate Diagnostic Renders
+test_*.png
+crop_*.png
+find_*.png
+*_test.kicad_pcb
+*_test.kicad_sch
+
+# Local IDE & Extension History
+.history/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# OS Artifacts
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini

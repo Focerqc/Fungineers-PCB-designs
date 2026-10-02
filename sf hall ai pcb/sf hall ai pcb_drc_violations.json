@@ -1,0 +1,25 @@
+{
+  "board": "C:\\Users\\quinn\\Desktop\\AI PCB CAD\\sf hall ai pcb\\sf hall ai pcb.kicad_pcb",
+  "timestamp": "2026-09-03T01:55:28",
+  "total_violations": 1,
+  "violation_counts": {
+    "track_dangling": 1
+  },
+  "severity_counts": {
+    "error": 0,
+    "warning": 1,
+    "info": 0
+  },
+  "violations": [
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 38.921562,
+        "y": 20.521012,
+        "unit": "mm"
+      }
+    }
+  ]
+}

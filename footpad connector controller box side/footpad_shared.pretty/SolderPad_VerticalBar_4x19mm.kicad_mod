@@ -1,0 +1,60 @@
+(footprint "SolderPad_VerticalBar_4x19mm"
+  (version 20241229)
+  (generator "kicad-mcp")
+  (generator_version "9.0")
+  (layer "F.Cu")
+  (descr "Vertical Solder Pad 4.0x19.0mm (Extended Lower)")
+  (tags "solder pad vertical bar 4x19mm extended")
+
+  (property "Reference" "REF**" (at 0 -10.5 0)
+    (layer "F.SilkS")
+    (uuid "e700e822-788e-4b10-b254-672f7dbd1012")
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (property "Value" "SolderPad_VerticalBar_4x19mm" (at 0 10.5 0)
+    (layer "F.Fab")
+    (uuid "d3542d91-cf17-4b97-84b2-f45a2f1cb72b")
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (property "Datasheet" "" (at 0 0 0)
+    (layer "F.Fab")
+    (uuid "c4f9c9f6-7817-4713-b718-e44f44381d68")
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+
+  (fp_rect
+    (start -2.2 -9.7)
+    (end 2.2 9.7)
+    (stroke (width 0.05) (type default))
+    (fill none)
+    (layer "F.CrtYd")
+    (uuid "8eea1cae-14c2-4dea-bcde-6f32f201bb98")
+  )
+
+  (fp_rect
+    (start -2.1 -9.6)
+    (end 2.1 9.6)
+    (stroke (width 0.15) (type default))
+    (fill none)
+    (layer "F.SilkS")
+    (uuid "492c378f-f4e0-4726-9721-bf356130222f")
+  )
+
+  (fp_rect
+    (start -2 -9.5)
+    (end 2 9.5)
+    (stroke (width 0.1) (type default))
+    (fill none)
+    (layer "F.Fab")
+    (uuid "e49ef84f-76d3-44a9-9bda-ab2067ff22d3")
+  )
+
+  (pad "1" smd roundrect
+    (at 0 0)
+    (size 4 19)
+    (layers "F.Cu" "F.Mask" "F.Paste")
+    (roundrect_rratio 0.15)
+    (uuid "8ad0797a-1d01-4020-8ddb-162788cb162d")
+  )
+
+)

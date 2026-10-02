@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "funwheel_led_shared")(type "KiCad")(uri "${KIPRJMOD}/../../funwheel_led_shared.pretty")(options "")(descr "Shared footprints for Funwheel LED strips"))
+)

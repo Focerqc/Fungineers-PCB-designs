@@ -1,0 +1,128 @@
+(kicad_sch
+	(version 20260101)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "fa060003-0001-4001-8001-000000000001")
+	(paper "A4")
+	(title_block
+		(title "Molex MX150L 6-Circuit Header Controller Board")
+		(date "2026-09-04")
+		(rev "1.0")
+		(company "Footpad Controller Box Side")
+	)
+	(lib_symbols
+		(symbol "Connector_Generic:Conn_02x03_Top_Bottom"
+			(pin_names (offset 1.016) (hide yes))
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(property "Reference" "J" (at 1.27 5.08 0) (effects (font (size 1.27 1.27))))
+			(property "Value" "Conn_02x03_Top_Bottom" (at 1.27 -5.08 0) (effects (font (size 1.27 1.27))))
+			(property "Footprint" "" (at 0 0 0) (hide yes) (effects (font (size 1.27 1.27))))
+			(symbol "Conn_02x03_Top_Bottom_1_1"
+				(rectangle (start -1.27 3.81) (end 1.27 -3.81) (stroke (width 0.254)) (fill (type background)))
+				(pin passive line (at -5.08 2.54 0) (length 3.81) (name "1") (number "1"))
+				(pin passive line (at -5.08 0 0) (length 3.81) (name "2") (number "2"))
+				(pin passive line (at -5.08 -2.54 0) (length 3.81) (name "3") (number "3"))
+				(pin passive line (at 5.08 2.54 180) (length 3.81) (name "4") (number "4"))
+				(pin passive line (at 5.08 0 180) (length 3.81) (name "5") (number "5"))
+				(pin passive line (at 5.08 -2.54 180) (length 3.81) (name "6") (number "6"))
+			)
+		)
+		(symbol "Connector_Generic:Conn_01x01"
+			(pin_names (offset 1.016) (hide yes))
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(property "Reference" "PAD" (at 0 2.54 0) (effects (font (size 1.27 1.27))))
+			(property "Value" "Conn_01x01" (at 0 -2.54 0) (effects (font (size 1.27 1.27))))
+			(property "Footprint" "" (at 0 0 0) (hide yes) (effects (font (size 1.27 1.27))))
+			(symbol "Conn_01x01_1_1"
+				(rectangle (start -1.27 1.27) (end 1.27 -1.27) (stroke (width 0.254)) (fill (type background)))
+				(pin passive line (at -5.08 0 0) (length 3.81) (name "1") (number "1"))
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_02x03_Top_Bottom")
+		(at 100.33 69.85 0)
+		(unit 1)
+		(uuid "fa060003-0001-4001-8001-000000000011")
+		(property "Reference" "J1" (at 101.6 77.47 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "Molex_19428-0012" (at 101.6 62.23 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "footpad_shared:Molex_MX150L_19428-0012_2x03_P5.84mm_Vertical" (at 100.33 69.85 0) (hide yes))
+		(pin "1" (uuid "fa060003-0001-4001-8001-000000000021"))
+		(pin "2" (uuid "fa060003-0001-4001-8001-000000000022"))
+		(pin "3" (uuid "fa060003-0001-4001-8001-000000000023"))
+		(pin "4" (uuid "fa060003-0001-4001-8001-000000000024"))
+		(pin "5" (uuid "fa060003-0001-4001-8001-000000000025"))
+		(pin "6" (uuid "fa060003-0001-4001-8001-000000000026"))
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x01")
+		(at 142.24 67.31 0)
+		(unit 1)
+		(uuid "fa060003-0001-4001-8001-000000000012")
+		(property "Reference" "PAD1" (at 142.24 62.23 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "PAD_LEFT" (at 142.24 72.39 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "footpad_shared:SolderPad_VerticalBar_4x13mm" (at 142.24 67.31 0) (hide yes))
+		(pin "1" (uuid "fa060003-0001-4001-8001-000000000031"))
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x01")
+		(at 142.24 82.55 0)
+		(unit 1)
+		(uuid "fa060003-0001-4001-8001-000000000013")
+		(property "Reference" "PAD2" (at 142.24 77.47 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "PAD_CENTER" (at 142.24 87.63 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "footpad_shared:SolderPad_VerticalBar_4x19mm" (at 142.24 82.55 0) (hide yes))
+		(pin "1" (uuid "fa060003-0001-4001-8001-000000000032"))
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x01")
+		(at 142.24 97.79 0)
+		(unit 1)
+		(uuid "fa060003-0001-4001-8001-000000000014")
+		(property "Reference" "PAD3" (at 142.24 92.71 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "PAD_RIGHT" (at 142.24 102.87 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "footpad_shared:SolderPad_VerticalBar_4x13mm" (at 142.24 97.79 0) (hide yes))
+		(pin "1" (uuid "fa060003-0001-4001-8001-000000000033"))
+	)
+
+	(wire (pts (xy 95.25 67.31) (xy 87.63 67.31)) (stroke (width 0)) (uuid "w005-01"))
+	(label "NET_LEFT" (at 87.63 67.31 180) (effects (font (size 1.27 1.27))) (uuid "l005-01"))
+
+	(wire (pts (xy 105.41 67.31) (xy 113.03 67.31)) (stroke (width 0)) (uuid "w005-02"))
+	(label "NET_LEFT" (at 113.03 67.31 0) (effects (font (size 1.27 1.27))) (uuid "l005-02"))
+
+	(wire (pts (xy 95.25 69.85) (xy 87.63 69.85)) (stroke (width 0)) (uuid "w005-03"))
+	(label "NET_CENTER" (at 87.63 69.85 180) (effects (font (size 1.27 1.27))) (uuid "l005-03"))
+
+	(wire (pts (xy 105.41 69.85) (xy 113.03 69.85)) (stroke (width 0)) (uuid "w005-04"))
+	(label "NET_CENTER" (at 113.03 69.85 0) (effects (font (size 1.27 1.27))) (uuid "l005-04"))
+
+	(wire (pts (xy 95.25 72.39) (xy 87.63 72.39)) (stroke (width 0)) (uuid "w005-05"))
+	(label "NET_RIGHT" (at 87.63 72.39 180) (effects (font (size 1.27 1.27))) (uuid "l005-05"))
+
+	(wire (pts (xy 105.41 72.39) (xy 113.03 72.39)) (stroke (width 0)) (uuid "w005-06"))
+	(label "NET_RIGHT" (at 113.03 72.39 0) (effects (font (size 1.27 1.27))) (uuid "l005-06"))
+
+	(wire (pts (xy 137.16 67.31) (xy 129.54 67.31)) (stroke (width 0)) (uuid "w005-07"))
+	(label "NET_LEFT" (at 129.54 67.31 180) (effects (font (size 1.27 1.27))) (uuid "l005-07"))
+
+	(wire (pts (xy 137.16 82.55) (xy 129.54 82.55)) (stroke (width 0)) (uuid "w005-08"))
+	(label "NET_CENTER" (at 129.54 82.55 180) (effects (font (size 1.27 1.27))) (uuid "l005-08"))
+
+	(wire (pts (xy 137.16 97.79) (xy 129.54 97.79)) (stroke (width 0)) (uuid "w005-09"))
+	(label "NET_RIGHT" (at 129.54 97.79 180) (effects (font (size 1.27 1.27))) (uuid "l005-09"))
+
+	(sheet_instances
+		(path "/" (page "1"))
+	)
+)

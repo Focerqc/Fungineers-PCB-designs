@@ -1,0 +1,8 @@
+{
+  "pythonVersion": "3.14",
+  "reportMissingModuleSource": "none",
+  "reportMissingImports": "none",
+  "reportUnknownVariableType": "none",
+  "reportUnknownMemberType": "none",
+  "reportAttributeAccessIssue": "none"
+}

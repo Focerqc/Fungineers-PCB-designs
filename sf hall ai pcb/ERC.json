@@ -1,0 +1,352 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-09-03T01:42:20",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.6",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/9011a9b6-3c30-4887-a782-9064c150a133",
+            "violations": [
+                {
+                    "description": "Symbol 'MountingHole' doesn't match copy in library 'Mechanical'",
+                    "items": [
+                        {
+                            "description": "Symbol H1 [MountingHole]",
+                            "pos": {
+                                "x": 0.254,
+                                "y": 1.4224
+                            },
+                            "uuid": "4bdd8991-847c-48b4-b2f4-91cb490e9017"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'MountingHole' doesn't match copy in library 'Mechanical'",
+                    "items": [
+                        {
+                            "description": "Symbol H2 [MountingHole]",
+                            "pos": {
+                                "x": 0.4572,
+                                "y": 1.4224
+                            },
+                            "uuid": "6c4bf15b-98ba-4d8b-b492-f3ff937e24e1"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'Conn_01x06_Pin' not found in symbol library 'Connector_Generic'",
+                    "items": [
+                        {
+                            "description": "Symbol J1 [Conn_01x06_Pin]",
+                            "pos": {
+                                "x": 0.508,
+                                "y": 0.762
+                            },
+                            "uuid": "4cf2ed0b-88f9-4f32-baef-5275ca2dab14"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_issues"
+                },
+                {
+                    "description": "Symbol 'R_NTC' not found in symbol library 'Device'",
+                    "items": [
+                        {
+                            "description": "Symbol TH1 [R_NTC]",
+                            "pos": {
+                                "x": 0.508,
+                                "y": 1.1684
+                            },
+                            "uuid": "a88f6ae2-9dc7-40ae-9961-8ba670bd7d55"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_issues"
+                },
+                {
+                    "description": "Symbol 'GND' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR09 [GND]",
+                            "pos": {
+                                "x": 0.508,
+                                "y": 1.2192
+                            },
+                            "uuid": "a9a00c05-f43c-4b75-9556-de0050f05af9"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'PWR_FLAG' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #FLG01 [PWR_FLAG]",
+                            "pos": {
+                                "x": 0.5588,
+                                "y": 0.6985
+                            },
+                            "uuid": "b25de8ef-6ac3-447c-8d1f-0df555dea063"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol '+5V' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR01 [+5V]",
+                            "pos": {
+                                "x": 0.5588,
+                                "y": 0.6985
+                            },
+                            "uuid": "b8391024-9427-4a2a-a858-fcb1881fdce7"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'GND' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR02 [GND]",
+                            "pos": {
+                                "x": 0.5588,
+                                "y": 0.7239
+                            },
+                            "uuid": "196bdee2-e5dc-4295-b511-f55d6cc3957f"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'PWR_FLAG' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #FLG02 [PWR_FLAG]",
+                            "pos": {
+                                "x": 0.5588,
+                                "y": 0.7239
+                            },
+                            "uuid": "dd798e59-6f84-47d9-8d72-51b2b70479f5"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol '+5V' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR03 [+5V]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 0.4953
+                            },
+                            "uuid": "f1d4b926-83df-47b7-bfb6-c58bb6d7e646"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'C' doesn't match copy in library 'Device'",
+                    "items": [
+                        {
+                            "description": "Symbol C1 [C]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 0.5334
+                            },
+                            "uuid": "6aeda0df-e04f-4e66-8d74-d970a561a8fa"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'GND' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR04 [GND]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 0.5715
+                            },
+                            "uuid": "25646294-9a65-4267-b65c-e504307c635f"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol '+5V' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR05 [+5V]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 0.9017
+                            },
+                            "uuid": "35b82271-cbc2-42b3-aa51-16ade751c0ce"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'C' doesn't match copy in library 'Device'",
+                    "items": [
+                        {
+                            "description": "Symbol C2 [C]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 0.9398
+                            },
+                            "uuid": "27f8445a-0ce7-4a76-aaab-2fb254f09344"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'GND' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR06 [GND]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 0.9779
+                            },
+                            "uuid": "f092e37e-c6ac-4f56-a696-e51bba5904c9"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol '+5V' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR07 [+5V]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 1.3081
+                            },
+                            "uuid": "ddc26458-a4cc-401f-bee5-b2ca3441a6da"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'C' doesn't match copy in library 'Device'",
+                    "items": [
+                        {
+                            "description": "Symbol C3 [C]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 1.3462
+                            },
+                            "uuid": "dc681fde-6fed-4dc1-98ae-4aa6a8235c3f"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'GND' doesn't match copy in library 'power'",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR08 [GND]",
+                            "pos": {
+                                "x": 1.0668,
+                                "y": 1.3843
+                            },
+                            "uuid": "56fa1c18-9f1c-4ae1-bc61-67db6d7d9d60"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                },
+                {
+                    "description": "Symbol 'SS411A' not found in symbol library 'Sensor_Magnetic'",
+                    "items": [
+                        {
+                            "description": "Symbol U1 [SS411A]",
+                            "pos": {
+                                "x": 1.27,
+                                "y": 0.508
+                            },
+                            "uuid": "44f5d941-a796-44d6-810d-f9569e6e4358"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_issues"
+                },
+                {
+                    "description": "Symbol 'SS411A' not found in symbol library 'Sensor_Magnetic'",
+                    "items": [
+                        {
+                            "description": "Symbol U2 [SS411A]",
+                            "pos": {
+                                "x": 1.27,
+                                "y": 0.9144
+                            },
+                            "uuid": "fe954d75-5935-48f3-a8ce-ed8409d1a980"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_issues"
+                },
+                {
+                    "description": "Symbol 'SS411A' not found in symbol library 'Sensor_Magnetic'",
+                    "items": [
+                        {
+                            "description": "Symbol U3 [SS411A]",
+                            "pos": {
+                                "x": 1.27,
+                                "y": 1.3208
+                            },
+                            "uuid": "7a237ea5-66a3-405d-b8e9-eed4b9f5b1a6"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_issues"
+                }
+            ]
+        }
+    ],
+    "source": "sf hall ai pcb.kicad_sch"
+}
