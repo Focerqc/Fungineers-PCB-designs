@@ -302,7 +302,7 @@
       "netlist": "",
       "plot": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "../../../../Desktop/qVFBMS32.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""

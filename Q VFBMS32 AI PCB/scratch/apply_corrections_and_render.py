@@ -1,344 +1,628 @@
 import os
 import re
+import shutil
 import subprocess
 from PIL import Image
-import pcbnew
 
-project_dir = r"c:\Users\quinn\Desktop\AI PCB CAD\Q VFBMS32 AI PCB"
-custom_lib = os.path.join(project_dir, "vfbms.pretty")
-pcb_path = os.path.join(project_dir, "VFBMS32.kicad_pcb")
-sch_path = os.path.join(project_dir, "VFBMS32.kicad_sch")
-kicad_cli = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
+PROJECT_DIR = r"c:\Users\quinn\Documents\GitHub\Fungineers PCB designs\Q VFBMS32 AI PCB"
+KICAD_CLI = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
+SCH_PATH = os.path.join(PROJECT_DIR, "VFBMS32.kicad_sch")
+PCB_PATH = os.path.join(PROJECT_DIR, "VFBMS32.kicad_pcb")
 
-brain_dir = r"C:\Users\quinn\.gemini\antigravity-ide\brain\3983d48b-3039-4490-8203-875b5320f863"
-os.makedirs(brain_dir, exist_ok=True)
+print("=== 1. UPDATING SCHEMATIC (VFBMS32.kicad_sch) ===")
+with open(SCH_PATH, "r", encoding="utf-8") as f:
+    sch_content = f.read()
 
-print("=== STEP 1: SCHEMATIC CORRECTIONS ===")
-with open(sch_path, "r", encoding="utf-8") as f:
-    sch_txt = f.read()
+# 1a. Remove any L2 symbol if present
+sch_content = re.sub(r'\(symbol\s+\(lib_id\s+"[^"]*"\)[\s\S]*?\(property\s+"Reference"\s+"L2"[\s\S]*?\n\t\)', '', sch_content)
 
-# Remove U4 (TPS62130) symbol instance from schematic
-# Find symbol block with Reference U4
-sch_new = re.sub(
-    r'\t\(symbol\s*\n\t\t\(lib_id "Regulator_Switching:TPS62130"\)[\s\S]*?\(property "Reference" "U4"[\s\S]*?\n\t\)\n',
-    '',
-    sch_txt
-)
+# 1b. Replace SN65HVD230 / CH340 / U5 with U7 (ISO1050DUB)
+# Let's ensure ISO1050DUB is in lib_symbols
+iso_lib_symbol = """		(symbol "Interface_CAN_LIN:ISO1050DUB"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -6.35 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "ISO1050DUB"
+				(at 2.54 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Package_SO:SOIC-8_7.5x5.85mm_P1.27mm"
+				(at 0 -8.89 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(italic yes)
+					)
+				)
+			)
+			(property "Datasheet" "http://www.ti.com/lit/ds/symlink/iso1050.pdf"
+				(at 0 -1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Isolated CAN Transceiver, SOIC-8 Wide"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "CAN Isolated Transceiver"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "ISO1050DUB_0_1"
+				(rectangle
+					(start -7.62 5.08)
+					(end 7.62 -7.62)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 5.08) (xy 0 -7.62)
+					)
+					(stroke
+						(width 0.2)
+						(type dash)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "ISO1050DUB_1_1"
+				(pin power_in line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "VCC1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -10.16 0 0)
+					(length 2.54)
+					(name "RXD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "TXD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -10.16 -5.08 0)
+					(length 2.54)
+					(name "GND1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 -5.08 180)
+					(length 2.54)
+					(name "GND2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 10.16 -2.54 180)
+					(length 2.54)
+					(name "CANL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 10.16 0 180)
+					(length 2.54)
+					(name "CANH"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 2.54 180)
+					(length 2.54)
+					(name "VCC2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)"""
 
-# Remove TPS62130 from lib_symbols if present
-sch_new = re.sub(
-    r'\t\t\(symbol "Regulator_Switching:TPS62130"[\s\S]*?\n\t\t\)\n',
-    '',
-    sch_new
-)
+if "symbol \"Interface_CAN_LIN:ISO1050DUB\"" not in sch_content:
+    # Insert before the end of lib_symbols
+    sch_content = sch_content.replace('\t(lib_symbols', f'\t(lib_symbols\n{iso_lib_symbol}')
 
-with open(sch_path, "w", encoding="utf-8") as f:
-    f.write(sch_new)
-print("Removed U4 (TPS62130) from schematic.")
+# Remove old U5 / SN65HVD230 symbol instance
+sch_content = re.sub(r'\(symbol\s+\(lib_id\s+"Interface_CAN_LIN:SN65HVD230"\)[\s\S]*?\n\t\)', '', sch_content)
 
-print("\n=== STEP 2: LOAD BOARD WITH PCBNEW ===")
-board = pcbnew.LoadBoard(pcb_path)
+# Add U7 (ISO1050) symbol instance
+u7_instance = """\t(symbol
+		(lib_id "Interface_CAN_LIN:ISO1050DUB")
+		(at 59.69 229.87 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "62122533-64a6-46b3-9e24-7da6511c76f2")
+		(property "Reference" "U7"
+			(at 57.15 240.03 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "ISO1050 (Isolated CAN Transceiver)"
+			(at 57.15 237.49 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Package_SO:SOIC-8_7.5x5.85mm_P1.27mm"
+			(at 59.69 217.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/iso1050.pdf"
+			(at 57.15 240.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Isolated 5V CAN Transceiver, SOIC-8 Wide"
+			(at 59.69 229.87 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1" (uuid "u7-pin-1"))
+		(pin "2" (uuid "u7-pin-2"))
+		(pin "3" (uuid "u7-pin-3"))
+		(pin "4" (uuid "u7-pin-4"))
+		(pin "5" (uuid "u7-pin-5"))
+		(pin "6" (uuid "u7-pin-6"))
+		(pin "7" (uuid "u7-pin-7"))
+		(pin "8" (uuid "u7-pin-8"))
+		(instances
+			(project "VFBMS32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236"
+					(reference "U7")
+					(unit 1)
+				)
+			)
+		)
+	)"""
 
-# Delete Ghost ICs: U_BOOST1 and U_BUCK1
-for ghost_ref in ["U_BOOST1", "U_BUCK1"]:
-    fp = board.FindFootprintByReference(ghost_ref)
-    if fp:
-        board.Delete(fp)
-        print(f"Deleted ghost IC {ghost_ref} from board.")
+# Append U7 instance if not present
+if '(property "Reference" "U7"' not in sch_content:
+    # Insert before final closing parenthesis
+    last_paren = sch_content.rfind(')')
+    sch_content = sch_content[:last_paren] + u7_instance + "\n)\n"
 
-# Replace XT30 connectors with updated footprints containing PTH drill pads and mounting tabs
-connectors = [
-    ("J_CHG1", "XT30PW-F_Lugs"),
-    ("J_BAT1", "XT30PW-M_Lugs")
+# Ensure USB labels exist for ESP32 and USB connector
+labels_to_add = [
+    '(label "USB_D-" (at 36.83 107.95 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "usb-dm-label"))',
+    '(label "USB_D+" (at 36.83 105.41 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "usb-dp-label"))',
+    '(label "5VExt" (at 69.85 232.41 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5vext-label"))',
+    '(label "ISO_GND" (at 69.85 224.79 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "isognd-label"))',
+    '(label "CANH" (at 69.85 229.87 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "canh-label"))',
+    '(label "CANL" (at 69.85 227.33 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "canl-label"))',
+    '(label "+3V3" (at 49.53 232.41 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "vcc1-label"))',
+    '(label "GND" (at 49.53 224.79 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "gnd1-label"))',
 ]
-for ref, lib_item in connectors:
-    old_fp = board.FindFootprintByReference(ref)
-    if old_fp:
-        pos = pcbnew.VECTOR2I(old_fp.GetPosition().x, old_fp.GetPosition().y)
-        rot = old_fp.GetOrientation()
-        val = old_fp.GetValue()
-        board.Delete(old_fp)
-        
-        new_fp = pcbnew.FootprintLoad(custom_lib, lib_item)
-        new_fp.SetPosition(pos)
-        new_fp.SetOrientation(rot)
-        new_fp.SetReference(ref)
-        new_fp.SetValue(val)
-        new_fp.Reference().SetVisible(False)
-        new_fp.Value().SetVisible(False)
-        board.Add(new_fp)
-        print(f"Replaced {ref} with updated {lib_item} (PTH pins + mounting tabs).")
 
-# Update Power Stage Placements:
-# Shift Q1 and Q2 to X = 21.50 mm (providing safe >2.5mm clearance to XT30 pins)
-# Align R_SH2 between them at X = 21.50 mm
-# Shift F1 to X = 14.80 mm (between J_BAT1 pins and Q2)
-# Shift gate drive passives and U_SSR1 right to clear Q1
-relocations = {
-    "Q1":     (21.50,  6.40,   0.0),
-    "Q2":     (21.50, 25.60, 180.0),
-    "R_SH2":  (21.50, 13.80,   0.0),
-    "F1":     (14.80, 27.05,  90.0),
-    "C_DISC": (27.50, 13.80,  90.0),
-    "C_DRV1": (27.50,  6.80,   0.0),
-    "R_DRV1": (27.50,  4.50,   0.0),
-    "U_SSR1": (31.50,  5.80,   0.0),
-    "R_DRV2": (35.00,  4.00,   0.0),
-    "C_DRV2": (35.00,  6.00,   0.0),
-    "R_DRV3": (31.50, 11.50,   0.0),
-    "D_TVS1": (31.50,  9.50,   0.0),
-    "D_SEC1": (27.50, 17.50,  90.0),
-    "D_SEC2": (29.80, 17.50,  90.0),
-}
+for lab in labels_to_add:
+    lab_name = re.search(r'label "([^"]+)"', lab).group(1)
+    if f'label "{lab_name}"' not in sch_content:
+        last_paren = sch_content.rfind(')')
+        sch_content = sch_content[:last_paren] + "\t" + lab + "\n)\n"
 
-for ref, (nx, ny, nrot) in relocations.items():
-    fp = board.FindFootprintByReference(ref)
-    if fp:
-        fp.SetPosition(pcbnew.VECTOR2I(pcbnew.FromMM(nx), pcbnew.FromMM(ny)))
-        fp.SetOrientation(pcbnew.EDA_ANGLE(nrot, pcbnew.DEGREES_T))
-        print(f"Shifted {ref:8s} to ({nx:6.2f}, {ny:6.2f}), rot={nrot:5.1f} deg")
+with open(SCH_PATH, "w", encoding="utf-8") as f:
+    f.write(sch_content)
+print("Updated VFBMS32.kicad_sch successfully!")
 
-# Remove existing power stage copper shapes (PCB_SHAPE on F.Cu/B.Cu with X < 35) and heavy tracks
-drawings_to_remove = []
-for d in board.GetDrawings():
-    if isinstance(d, pcbnew.PCB_SHAPE) and d.GetLayer() in [pcbnew.F_Cu, pcbnew.B_Cu]:
-        bb = d.GetBoundingBox()
-        if pcbnew.ToMM(bb.GetX()) < 35.0:
-            drawings_to_remove.append(d)
+print("\n=== 2. UPDATING PCB (VFBMS32.kicad_pcb) ===")
+with open(PCB_PATH, "r", encoding="utf-8") as f:
+    pcb_lines = f.readlines()
 
-for d in drawings_to_remove:
-    board.Delete(d)
-print(f"Removed {len(drawings_to_remove)} old power stage copper shapes.")
+# Parse footprints out
+new_pcb_lines = []
+depth = 0
+in_fp = False
+curr_fp_lines = []
 
-tracks_to_remove = []
-for t in board.GetTracks():
-    if not isinstance(t, pcbnew.PCB_VIA) and t.GetWidth() >= pcbnew.FromMM(2.0):
-        sp = t.GetStart()
-        if pcbnew.ToMM(sp.x) < 35.0:
-            tracks_to_remove.append(t)
+for line in pcb_lines:
+    if '(footprint ' in line and depth == 0:
+        in_fp = True
+        depth = 1
+        curr_fp_lines = [line]
+    elif in_fp:
+        curr_fp_lines.append(line)
+        depth += line.count('(') - line.count(')')
+        if depth == 0:
+            in_fp = False
+            fp_text = "".join(curr_fp_lines)
+            ref_m = re.search(r'\(property "Reference" "([^"]+)"', fp_text)
+            ref = ref_m.group(1) if ref_m else ""
+            
+            if ref == "L2":
+                print("-> Removed Ghost Inductor L2 from PCB!")
+                continue
+            elif ref == "L1":
+                # Fix L1 3D model path to valid KiCad 10 step model
+                print("-> Updating L1 3D model to L_SXN_SMDRI73.step")
+                # Replace model block
+                fp_text = re.sub(r'\(model\s+"[^"]*"[\s\S]*?\n\t\t\)', 
+                    """(model "${KICAD10_3DMODEL_DIR}/Inductor_SMD.3dshapes/L_SXN_SMDRI73.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)""", fp_text)
+                new_pcb_lines.append(fp_text)
+            elif ref == "U7":
+                print("-> Updating U7 to ISO1050 SOIC-8 Wide footprint & horizontal orientation")
+                # Create updated U7 footprint block with proper pads and 3D model
+                # U7 horizontal adjacent to J_USB1 (x=125, y=3.2) and ESP32 (x=106.5, y=8.5)
+                # Let's place at x=124.0, y=11.5 with rot=90
+                u7_fp = """\t(footprint "SOIC-8_7.5x5.85mm_P1.27mm"
+		(layer "F.Cu")
+		(uuid "28929e53-d3ff-4d4a-8621-05c659c8e34f")
+		(at 124 11.5 90)
+		(descr "SOIC-8 Wide (TI ISO1050 Isolated CAN Transceiver)")
+		(tags "SOIC SOP Isolated CAN")
+		(property "Reference" "U7"
+			(at 0 -4.2 90)
+			(layer "F.SilkS")
+			(uuid "7e64e7bd-ca78-40c3-9376-73a236b32b1c")
+			(effects
+				(font
+					(size 0.7 0.7)
+					(thickness 0.13)
+				)
+			)
+		)
+		(property "Value" "ISO1050"
+			(at 0 4.2 90)
+			(layer "F.Fab")
+			(uuid "f0fb3e80-21d5-474a-bdfa-d3e775dad1ad")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.14)
+				)
+			)
+		)
+		(property "Footprint" "Package_SO:SOIC-8_7.5x5.85mm_P1.27mm"
+			(at 0 0 90)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "006851a4-0ac9-4de4-a2c9-51dbc38fa669")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/iso1050.pdf"
+			(at 0 0 90)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "303a4714-c220-40e6-90ae-a13b0da6c8b0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr smd)
+		(fp_rect
+			(start -3.86 -3.035)
+			(end 3.86 3.035)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.SilkS")
+		)
+		(pad "1" smd rect
+			(at -3.65 -1.905 90)
+			(size 1.95 0.6)
+			(layers "F.Cu" "F.Paste" "F.Mask")
+			(net 1 "+3V3")
+			(uuid "u7-p1")
+		)
+		(pad "2" smd rect
+			(at -3.65 -0.635 90)
+			(size 1.95 0.6)
+			(layers "F.Cu" "F.Paste" "F.Mask")
+			(net 2 "CAN_RX")
+			(uuid "u7-p2")
+		)
+		(pad "3" smd rect
+			(at -3.65 0.635 90)
+			(size 1.95 0.6)
+			(layers "F.Cu" "F.Paste" "F.Mask")
+			(net 3 "CAN_TX")
+			(uuid "u7-p3")
+		)
+		(pad "4" smd rect
+			(at -3.65 1.905 90)
+			(size 1.95 0.6)
+			(layers "F.Cu" "F.Paste" "F.Mask")
+			(net 4 "GND")
+			(uuid "u7-p4")
+		)
+		(pad "5" smd rect
+			(at 3.65 1.905 90)
+			(size 1.95 0.6)
+			(layers "F.Cu" "F.Paste" "F.Mask")
+			(net 5 "ISO_GND")
+			(uuid "u7-p5")
+		)
+		(pad "6" smd rect
+			(at 3.65 0.635 90)
+			(size 1.95 0.6)
+			(layers "F.Cu" "F.Paste" "F.Mask")
+			(net 6 "CANL")
+			(uuid "u7-p6")
+		)
+		(pad "7" smd rect
+			(at 3.65 -0.635 90)
+			(size 1.95 0.6)
+			(layers "F.Cu" "F.Paste" "F.Mask")
+			(net 7 "CANH")
+			(uuid "u7-p7")
+		)
+		(pad "8" smd rect
+			(at 3.65 -1.905 90)
+			(size 1.95 0.6)
+			(layers "F.Cu" "F.Paste" "F.Mask")
+			(net 7 "5VExt")
+			(uuid "u7-p8")
+		)
+		(model "${KICAD10_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-8_7.5x5.85mm_P1.27mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)\n"""
+                new_pcb_lines.append(u7_fp)
+            else:
+                new_pcb_lines.append(fp_text)
+    else:
+        new_pcb_lines.append(line)
 
-for t in tracks_to_remove:
-    board.Delete(t)
-print(f"Removed {len(tracks_to_remove)} old heavy copper tracks.")
+with open(PCB_PATH, "w", encoding="utf-8") as f:
+    f.writelines(new_pcb_lines)
+print("Updated VFBMS32.kicad_pcb successfully!")
 
-# Helpers for adding heavy copper fills and tracks
-def add_copper_fill(pts_mm, layer=pcbnew.F_Cu):
-    s = pcbnew.PCB_SHAPE(board)
-    s.SetShape(pcbnew.SHAPE_T_POLY)
-    s.SetLayer(layer)
-    s.SetFilled(True)
-    poly = pcbnew.SHAPE_LINE_CHAIN()
-    for x, y in pts_mm:
-        poly.Append(pcbnew.FromMM(x), pcbnew.FromMM(y))
-    poly.SetClosed(True)
-    s.SetPolyShape(pcbnew.SHAPE_POLY_SET(poly))
-    board.Add(s)
-    return s
-
-def add_heavy_track(x1, y1, x2, y2, width_mm=3.5, layer=pcbnew.F_Cu):
-    t = pcbnew.PCB_TRACK(board)
-    t.SetLayer(layer)
-    t.SetStart(pcbnew.VECTOR2I(pcbnew.FromMM(x1), pcbnew.FromMM(y1)))
-    t.SetEnd(pcbnew.VECTOR2I(pcbnew.FromMM(x2), pcbnew.FromMM(y2)))
-    t.SetWidth(pcbnew.FromMM(width_mm))
-    board.Add(t)
-    return t
-
-# 1. CHG+ Heavy Copper Pour: From J_CHG1 pin 1 (13.94, 4.95) to shifted Q1 Drain tab (21.50, 4.80)
-# F.Cu pour
-add_copper_fill([
-    (12.0, 1.0),
-    (26.5, 1.0),
-    (26.5, 8.5),
-    (15.5, 8.5),
-    (15.5, 6.5),
-    (12.0, 6.5)
-], layer=pcbnew.F_Cu)
-
-# B.Cu pour (mirroring CHG+ plane for massive current capacity)
-add_copper_fill([
-    (12.0, 1.0),
-    (26.5, 1.0),
-    (26.5, 8.5),
-    (12.0, 8.5)
-], layer=pcbnew.B_Cu)
-
-add_heavy_track(13.94, 4.95, 21.50, 4.80, width_mm=3.5, layer=pcbnew.F_Cu)
-add_heavy_track(13.94, 4.95, 21.50, 4.80, width_mm=3.5, layer=pcbnew.B_Cu)
-
-# 2. BAT+ / FUSE / Q2 Drain Heavy Copper Pour: From J_BAT1 pin 1 (12.10, 27.05) through F1 (14.80, 27.05) to Q2 Drain tab (21.50, 27.20)
-# F.Cu pour: J_BAT1 pin 1 to F1
-add_copper_fill([
-    (10.5, 25.0),
-    (14.0, 25.0),
-    (14.0, 29.5),
-    (10.5, 29.5)
-], layer=pcbnew.F_Cu)
-
-# F.Cu pour: F1 to Q2 Drain tab
-add_copper_fill([
-    (15.5, 23.5),
-    (26.5, 23.5),
-    (26.5, 31.0),
-    (15.5, 31.0)
-], layer=pcbnew.F_Cu)
-
-# B.Cu pour: heavy continuous BAT+ plane across bottom
-add_copper_fill([
-    (10.5, 24.0),
-    (26.5, 24.0),
-    (26.5, 31.0),
-    (10.5, 31.0)
-], layer=pcbnew.B_Cu)
-
-add_heavy_track(12.10, 27.05, 14.80, 27.05, width_mm=3.5, layer=pcbnew.F_Cu)
-add_heavy_track(15.80, 27.05, 21.50, 27.20, width_mm=3.5, layer=pcbnew.F_Cu)
-add_heavy_track(12.10, 27.05, 21.50, 27.20, width_mm=3.5, layer=pcbnew.B_Cu)
-
-# 3. PACK Rail: Q1 Source (Y=11.05) through horizontal R_SH2 (21.50, 13.80) to Q2 Source (Y=20.95)
-add_copper_fill([
-    (18.0,  9.5),
-    (25.0,  9.5),
-    (25.0, 13.0),
-    (18.0, 13.0)
-], layer=pcbnew.F_Cu)
-
-add_copper_fill([
-    (18.0, 14.6),
-    (25.0, 14.6),
-    (25.0, 22.5),
-    (18.0, 22.5)
-], layer=pcbnew.F_Cu)
-
-add_heavy_track(21.50, 10.0, 21.50, 13.0, width_mm=4.0, layer=pcbnew.F_Cu)
-add_heavy_track(21.50, 14.6, 21.50, 22.0, width_mm=4.0, layer=pcbnew.F_Cu)
-
-# 4. Central GND Plane between XT30s around vertical R_SH1 (10.60, 16.00)
-add_copper_fill([
-    (3.5,  8.5),
-    (15.5,  8.5),
-    (15.5, 23.5),
-    (3.5, 23.5)
-], layer=pcbnew.F_Cu)
-
-add_copper_fill([
-    (3.5,  8.5),
-    (15.5,  8.5),
-    (15.5, 23.5),
-    (3.5, 23.5)
-], layer=pcbnew.B_Cu)
-
-add_heavy_track(13.94,  9.95, 10.60, 13.00, width_mm=2.5, layer=pcbnew.F_Cu)
-add_heavy_track(12.10, 22.05, 10.60, 19.00, width_mm=2.5, layer=pcbnew.F_Cu)
-
-# Save updated board
-pcbnew.SaveBoard(pcb_path, board)
-print("\nSuccessfully updated and saved VFBMS32.kicad_pcb!")
-
-print("\n=== STEP 3: GENERATE VERIFICATION RENDERS ===")
-
-# 1. Side Profile 3D Render
-side_render_path = os.path.join(project_dir, "VFBMS32_render_side_profile.png")
-brain_side_path = os.path.join(brain_dir, "VFBMS32_render_side_profile.png")
-
-print("Rendering side profile...")
+print("\n=== 3. RENDERING TOP-DOWN 2D & 3D VIEWS ===")
+# 2D Top Render
+render_top = os.path.join(PROJECT_DIR, "VFBMS32_layout_top_hi_raw.png")
 subprocess.run([
-    kicad_cli, "pcb", "render",
-    "--side", "left",
-    "--width", "2400", "--height", "1200",
-    "--background", "transparent",
-    "-o", side_render_path,
-    pcb_path
-], check=True)
-
-im_s = Image.open(side_render_path)
-bbox_s = im_s.getbbox()
-if bbox_s:
-    pad = 40
-    crop_s = im_s.crop((max(0, bbox_s[0]-pad), max(0, bbox_s[1]-pad), min(im_s.width, bbox_s[2]+pad), min(im_s.height, bbox_s[3]+pad)))
-    crop_s.save(side_render_path)
-    crop_s.save(brain_side_path)
-    print("Saved cropped side profile render:", side_render_path)
-
-# Also render an angled 3D side profile view so pins underneath and flush housing are visible in perspective!
-angle_render_path = os.path.join(project_dir, "VFBMS32_render_side_angle.png")
-brain_angle_path = os.path.join(brain_dir, "VFBMS32_render_side_angle.png")
-
-subprocess.run([
-    kicad_cli, "pcb", "render",
-    "--perspective",
-    "--rotate", "-20,-65,15",
-    "--floor",
-    "--width", "2800", "--height", "1400",
-    "--background", "transparent",
-    "-o", angle_render_path,
-    pcb_path
-], check=True)
-
-im_a = Image.open(angle_render_path)
-bbox_a = im_a.getbbox()
-if bbox_a:
-    pad = 40
-    crop_a = im_a.crop((max(0, bbox_a[0]-pad), max(0, bbox_a[1]-pad), min(im_a.width, bbox_a[2]+pad), min(im_a.height, bbox_a[3]+pad)))
-    crop_a.save(angle_render_path)
-    crop_a.save(brain_angle_path)
-    print("Saved cropped angled 3D side profile render:", angle_render_path)
-
-# 2. Top-Down 2D Render
-top_render_path = os.path.join(project_dir, "VFBMS32_layout_top_hi_raw.png")
-brain_top_path = os.path.join(brain_dir, "VFBMS32_layout_top_hi_raw.png")
-
-print("Rendering top-down view...")
-subprocess.run([
-    kicad_cli, "pcb", "render",
-    "--side", "top",
+    KICAD_CLI, "pcb", "render",
+    "--rotate", "0,0,0",
+    "--zoom", "1",
     "--width", "3600", "--height", "1200",
     "--background", "transparent",
-    "-o", top_render_path,
-    pcb_path
+    "-o", render_top, PCB_PATH
 ], check=True)
+print(f"Generated 2D top render: {render_top}")
 
-im_t = Image.open(top_render_path)
-bbox_t = im_t.getbbox()
-if bbox_t:
-    pad = 40
-    crop_t = im_t.crop((max(0, bbox_t[0]-pad), max(0, bbox_t[1]-pad), min(im_t.width, bbox_t[2]+pad), min(im_t.height, bbox_t[3]+pad)))
-    crop_t.save(top_render_path)
-    crop_t.save(brain_top_path)
-    print("Saved cropped top-down render:", top_render_path)
-
-# 3. Main 3D isometric render
-iso_render_path = os.path.join(project_dir, "VFBMS32_render_3d.png")
-brain_iso_path = os.path.join(brain_dir, "VFBMS32_render_3d.png")
-
-print("Rendering full isometric 3D view...")
+# 3D Perspective Render
+render_3d = os.path.join(PROJECT_DIR, "VFBMS32_render_3d.png")
 subprocess.run([
-    kicad_cli, "pcb", "render",
+    KICAD_CLI, "pcb", "render",
     "--perspective",
     "--rotate", "-25,0,25",
     "--floor",
     "--width", "3600", "--height", "1600",
     "--background", "transparent",
-    "-o", iso_render_path,
-    pcb_path
+    "-o", render_3d, PCB_PATH
 ], check=True)
+print(f"Generated 3D render: {render_3d}")
 
-im_i = Image.open(iso_render_path)
-bbox_i = im_i.getbbox()
-if bbox_i:
-    pad = 40
-    crop_i = im_i.crop((max(0, bbox_i[0]-pad), max(0, bbox_i[1]-pad), min(im_i.width, bbox_i[2]+pad), min(im_i.height, bbox_i[3]+pad)))
-    crop_i.save(iso_render_path)
-    crop_i.save(brain_iso_path)
-    print("Saved cropped full 3D isometric render:", iso_render_path)
+# Crop zoom on ESP32 / USB / U7 section
+im_top = Image.open(render_top)
+bbox = im_top.getbbox()
+if bbox:
+    w = bbox[2] - bbox[0]
+    h = bbox[3] - bbox[1]
+    # Crop the right 35% of the PCB
+    crop_x1 = bbox[0] + int(w * 0.65)
+    crop_x2 = bbox[2] + 20
+    crop_y1 = max(0, bbox[1] - 20)
+    crop_y2 = min(im_top.height, bbox[3] + 20)
+    esp_zoom = im_top.crop((crop_x1, crop_y1, crop_x2, crop_y2))
+    esp_zoom_path = os.path.join(PROJECT_DIR, "VFBMS32_esp_usb_u7_verified.png")
+    esp_zoom.save(esp_zoom_path)
+    print(f"Saved verified USB/ESP/U7 section: {esp_zoom_path}")
 
-# Also generate a power stage zoom crop of top view
-power_zoom_path = os.path.join(project_dir, "VFBMS32_power_stage_verified.png")
-brain_power_path = os.path.join(brain_dir, "VFBMS32_power_stage_verified.png")
-w, h = crop_t.size
-crop_power = crop_t.crop((0, 0, int(w * 0.35), h))
-crop_power.save(power_zoom_path)
-crop_power.save(brain_power_path)
-print("Saved power stage zoom crop:", power_zoom_path)
+    # Also crop L1 power delivery section
+    crop_l1_x1 = bbox[0] + int(w * 0.40)
+    crop_l1_x2 = bbox[0] + int(w * 0.70)
+    l1_zoom = im_top.crop((crop_l1_x1, crop_y1, crop_l1_x2, crop_y2))
+    l1_zoom_path = os.path.join(PROJECT_DIR, "VFBMS32_l1_boost_verified.png")
+    l1_zoom.save(l1_zoom_path)
+    print(f"Saved verified L1 section: {l1_zoom_path}")
 
-print("\nALL TASKS COMPLETED SUCCESSFULLY!")
+# Export schematic PDF and SVG
+sch_pdf = os.path.join(PROJECT_DIR, "VFBMS32_schematic.pdf")
+subprocess.run([KICAD_CLI, "sch", "export", "pdf", "-o", sch_pdf, SCH_PATH], check=True)
+sch_svg = os.path.join(PROJECT_DIR, "VFBMS32_schematic.svg")
+subprocess.run([KICAD_CLI, "sch", "export", "svg", "-o", sch_svg, SCH_PATH], check=True)
+print("Exported updated schematic PDF & SVG!")
