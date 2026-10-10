@@ -23,6 +23,8 @@ rescue-backup/
 test_*.png
 crop_*.png
 find_*.png
+test_*.kicad_pcb
+test_*.step
 *_test.kicad_pcb
 *_test.kicad_sch
 

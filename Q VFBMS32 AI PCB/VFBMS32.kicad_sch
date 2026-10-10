@@ -2029,7 +2029,7 @@
 					(justify right)
 				)
 			)
-			(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
+			(property "Footprint" "Package_SO:SOIC-8_7.5x5.85mm_P1.27mm"
 				(at 0 -12.7 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2382,7 +2382,7 @@
 					)
 				)
 			)
-			(property "Value" "H2440_SSR"
+			(property "Value" "GSRELAY"
 				(at 0 7.62 0)
 				(effects
 					(font
@@ -2390,7 +2390,7 @@
 					)
 				)
 			)
-			(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
+			(property "Footprint" "Package_SO:SOIC-8_7.5x5.85mm_P1.27mm"
 				(at 0 5.08 0)
 				(hide yes)
 				(effects
@@ -3204,8 +3204,8 @@
 		(dnp no)
 		(uuid "5b60b5f2-658b-486b-8e30-b08bc1de4e65")
 		(property "Reference" "U_SSR1" (at 155.0 15.0 0) (effects (font (size 1.27 1.27))))
-		(property "Value" "H2440_SSR" (at 155.0 17.5 0) (effects (font (size 1.27 1.27))))
-		(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" (at 155.0 13.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(property "Value" "GSRELAY" (at 155.0 17.5 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Package_SO:SOIC-8_7.5x5.85mm_P1.27mm" (at 155.0 13.0 0) (hide yes) (effects (font (size 1.27 1.27))))
 		(pin "1" (uuid "e734ba76-1abf-438e-b659-af99425b581b"))
 		(pin "2" (uuid "b39737c9-3dfd-4369-89cf-2d86cb0d34c2"))
 		(pin "3" (uuid "940c18fd-1dd0-432b-872d-6f3301ce0842"))
