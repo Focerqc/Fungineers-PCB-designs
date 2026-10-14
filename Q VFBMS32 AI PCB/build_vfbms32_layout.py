@@ -210,9 +210,10 @@ def build_layout():
     ]
 
     # === 10. RESISTOR ROW: UPPER ROW BLEED RESISTORS (VERTICAL 90°) & BOTTOM ROW FILTER CAPS (HORIZONTAL 0°) ===
-    res_x_start = 40.0
-    res_pitch = 2.45
-    for i in range(32):
+    # 33 cell lines (Cell 32 down to Cell 0 = 33 lines) spanning exactly under cell connectors J_CELL4 to J_CELL1
+    res_x_start = 37.15
+    res_pitch = 1.89
+    for i in range(33):
         rx = res_x_start + i * res_pitch
         components.append({
             "dir": kicad_fp_dir,
@@ -221,7 +222,7 @@ def build_layout():
             "ref": f"R_B{i+1}",
             "val": "27R0",
             "x": rx,
-            "y": 26.8,
+            "y": 26.5,
             "rot": 90.0
         })
         components.append({
@@ -231,7 +232,7 @@ def build_layout():
             "ref": f"R_F{i+1}",
             "val": "100R",
             "x": rx,
-            "y": 29.5,
+            "y": 29.3,
             "rot": 0.0
         })
 
@@ -288,6 +289,18 @@ def build_layout():
     add_text(pcbnew.F_SilkS, "Mini32", 125.0, 28.0, size=0.75, thickness=0.13)
     add_text(pcbnew.F_SilkS, "V1.0", 125.0, 29.5, size=0.7, thickness=0.12)
     add_text(pcbnew.F_SilkS, "EN", 128.5, 27.5, size=0.6, thickness=0.10, angle_deg=90.0)
+
+    # Top CAN connector pin labels
+    add_text(pcbnew.F_SilkS, "CANH", 31.2, 27.2, size=0.55, thickness=0.09, angle_deg=90.0)
+    add_text(pcbnew.F_SilkS, "CANL", 32.4, 27.2, size=0.55, thickness=0.09, angle_deg=90.0)
+    add_text(pcbnew.F_SilkS, "ISO_G", 33.6, 27.2, size=0.55, thickness=0.09, angle_deg=90.0)
+    add_text(pcbnew.F_SilkS, "5V_ESC", 34.8, 27.2, size=0.55, thickness=0.09, angle_deg=90.0)
+
+    # Top Temp connector labels
+    add_text(pcbnew.F_SilkS, "T4", 100.5, 26.5, size=0.55, thickness=0.09, angle_deg=90.0)
+    add_text(pcbnew.F_SilkS, "T3", 107.0, 26.5, size=0.55, thickness=0.09, angle_deg=90.0)
+    add_text(pcbnew.F_SilkS, "T2", 113.5, 26.5, size=0.55, thickness=0.09, angle_deg=90.0)
+    add_text(pcbnew.F_SilkS, "T1", 120.0, 26.5, size=0.55, thickness=0.09, angle_deg=90.0)
 
     # === BOTTOM SILKSCREEN (VESC-X LOGO & INSTRUCTIONS) ===
     # Mirrored text for bottom layer
