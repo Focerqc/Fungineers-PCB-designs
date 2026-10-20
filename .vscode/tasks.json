@@ -14,7 +14,7 @@
     {
       "label": "Start Dashboard Server",
       "type": "shell",
-      "command": "node dashboard/server.js",
+      "command": "python '${workspaceFolder}/_tools/pcb_dashboard/server.py'",
       "isBackground": true,
       "problemMatcher": []
     }

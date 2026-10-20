@@ -2,24 +2,24 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "🚀 Start PCB Studio Dashboard Server",
-      "type": "node",
+      "name": "Start PCB Dashboard (Board Boxes)",
+      "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/dashboard/server.js",
+      "program": "${workspaceFolder}/_tools/pcb_dashboard/server.py",
       "console": "integratedTerminal",
-      "restart": true
+      "justMyCode": true
     },
     {
-      "name": "🌐 Open PCB Dashboard in Edge",
+      "name": "Open PCB Dashboard in Edge",
       "type": "msedge",
       "request": "launch",
-      "file": "${workspaceFolder}/dashboard/index.html"
+      "url": "http://localhost:5180"
     },
     {
-      "name": "🌐 Open PCB Dashboard in Chrome",
+      "name": "Open PCB Dashboard in Chrome",
       "type": "chrome",
       "request": "launch",
-      "file": "${workspaceFolder}/dashboard/index.html"
+      "url": "http://localhost:5180"
     }
   ]
 }

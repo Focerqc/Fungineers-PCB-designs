@@ -3301,6 +3301,249 @@
 		(effects (font (size 1.27 1.27)) (justify left bottom))
 		(uuid "69d96c65-2348-48dd-b36e-8fcaf7197ee8")
 	)
+		(symbol "Device:D_Schottky"
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 1.016)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "D"
+			(at 0 2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "D_Schottky"
+			(at 0 -2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Schottky diode"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "diode Schottky"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "D_Schottky_0_1"
+			(polyline
+				(pts
+					(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.27 0) (xy -1.27 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "D_Schottky_1_1"
+			(pin passive line
+				(at -3.81 0 0)
+				(length 2.54)
+				(name "K"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 3.81 0 180)
+				(length 2.54)
+				(name "A"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+
+	(symbol (lib_id "Device:R")
+		(at 175.0 105.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b55ac218-adc4-4876-8db2-30fdae085705")
+		(property "Reference" "R_CHG1" (at 175.0 101.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "100k" (at 175.0 109.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric" (at 175.0 105.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "d2efe82f-3fcc-41a8-a973-e74e6bfd29d1"))
+		(pin "2" (uuid "e6f9fe37-c049-4087-aca1-50ac01d88203"))
+		(instances
+			(project "VFBMS32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "R_CHG1") (unit 1))
+			)
+		)
+	)
+	(symbol (lib_id "Device:D_Schottky")
+		(at 195.0 105.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8dab2e84-4bc1-4f82-9354-dc4f8b6aff6a")
+		(property "Reference" "D_CHG1" (at 195.0 101.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "DSK320" (at 195.0 109.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Diode_SMD:D_SOD-123F" (at 195.0 105.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "356283f4-b747-433a-b60f-c7849014c0f9"))
+		(pin "2" (uuid "4826a497-a895-4156-ac98-f97a21a6386a"))
+		(instances
+			(project "VFBMS32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "D_CHG1") (unit 1))
+			)
+		)
+	)
+	(symbol (lib_id "Device:D_Schottky")
+		(at 205.0 105.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "981f2320-708b-4971-a220-04733aef6e90")
+		(property "Reference" "D_CHG2" (at 205.0 101.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "DSK320" (at 205.0 109.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Diode_SMD:D_SOD-123F" (at 205.0 105.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "1816cf2a-5f13-42bf-bff6-cbfdc371aa9f"))
+		(pin "2" (uuid "aeb9d020-da26-43bc-9cbb-6e0d276b8396"))
+		(instances
+			(project "VFBMS32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "D_CHG2") (unit 1))
+			)
+		)
+	)
+	(symbol (lib_id "Device:D_Schottky")
+		(at 215.0 105.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "583e7029-162f-4acc-9b17-185c48d79ed8")
+		(property "Reference" "D_CHG3" (at 215.0 101.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "DSK320" (at 215.0 109.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Diode_SMD:D_SOD-123F" (at 215.0 105.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "4f264f22-6550-49bb-b52c-faf725f0ffb2"))
+		(pin "2" (uuid "6ae0bad6-c9e9-4355-9148-5e560a67bb18"))
+		(instances
+			(project "VFBMS32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "D_CHG3") (unit 1))
+			)
+		)
+	)
 
 	(sheet_instances
 		(path "/"
