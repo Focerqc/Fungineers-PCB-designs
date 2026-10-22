@@ -5,6 +5,161 @@
 	(uuid a2322edc-ff52-449c-92df-24faffac0236)
 	(paper "A4")
 	(lib_symbols
+		(symbol "Device:C"
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 0.254)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "C"
+			(at 0.635 2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "C"
+			(at 0.635 -2.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 0.9652 -3.81 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "cap capacitor"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "C_*"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "C_0_1"
+			(polyline
+				(pts
+					(xy -2.032 0.762) (xy 2.032 0.762)
+				)
+				(stroke
+					(width 0.508)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -2.032 -0.762) (xy 2.032 -0.762)
+				)
+				(stroke
+					(width 0.508)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "C_1_1"
+			(pin passive line
+				(at 0 3.81 270)
+				(length 2.794)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 -3.81 90)
+				(length 2.794)
+				(name ""
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
 		(symbol "Device:Buzzer"
 			(pin_numbers hide)
 			(pin_names
@@ -3205,7 +3360,7 @@
 		(uuid "5b60b5f2-658b-486b-8e30-b08bc1de4e65")
 		(property "Reference" "U_SSR1" (at 155.0 15.0 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "GSRELAY" (at 155.0 17.5 0) (effects (font (size 1.27 1.27))))
-		(property "Footprint" "Package_SO:SOIC-8_7.5x5.85mm_P1.27mm" (at 155.0 13.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "vfbms:H2440_SSR" (at 155.0 13.0 0) (hide yes) (effects (font (size 1.27 1.27))))
 		(pin "1" (uuid "e734ba76-1abf-438e-b659-af99425b581b"))
 		(pin "2" (uuid "b39737c9-3dfd-4369-89cf-2d86cb0d34c2"))
 		(pin "3" (uuid "940c18fd-1dd0-432b-872d-6f3301ce0842"))
@@ -3545,6 +3700,44 @@
 		)
 	)
 
+	(symbol (lib_id "Device:C")
+		(at 225.0 105.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6f1c2d4e-8a3b-4c5d-9e0f-1a2b3c4d5e01")
+		(property "Reference" "C_FLT1" (at 225.0 101.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "10uF_100V" (at 225.0 109.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Capacitor_SMD:C_1812_4532Metric" (at 225.0 105.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "6f1c2d4e-8a3b-4c5d-9e0f-1a2b3c4d5ea1"))
+		(pin "2" (uuid "6f1c2d4e-8a3b-4c5d-9e0f-1a2b3c4d5ea2"))
+		(instances
+			(project "VFBMS32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "C_FLT1") (unit 1))
+			)
+		)
+	)
+	(symbol (lib_id "Device:R")
+		(at 235.0 105.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6f1c2d4e-8a3b-4c5d-9e0f-1a2b3c4d5e02")
+		(property "Reference" "R_B33" (at 235.0 101.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "27R0" (at 235.0 109.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 235.0 105.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "6f1c2d4e-8a3b-4c5d-9e0f-1a2b3c4d5ea1"))
+		(pin "2" (uuid "6f1c2d4e-8a3b-4c5d-9e0f-1a2b3c4d5ea2"))
+		(instances
+			(project "VFBMS32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "R_B33") (unit 1))
+			)
+		)
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")

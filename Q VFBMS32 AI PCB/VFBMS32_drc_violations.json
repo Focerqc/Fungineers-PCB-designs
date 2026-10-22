@@ -1,0 +1,4108 @@
+{
+  "board": "C:\\Users\\quinn\\Documents\\GitHub\\Fungineers PCB designs\\Q VFBMS32 AI PCB\\VFBMS32.kicad_pcb",
+  "timestamp": "2026-10-21T21:57:08",
+  "total_violations": 408,
+  "violation_counts": {
+    "shorting_items": 39,
+    "hole_clearance": 4,
+    "clearance": 9,
+    "copper_edge_clearance": 2,
+    "drill_out_of_range": 50,
+    "solder_mask_bridge": 149,
+    "track_dangling": 67,
+    "via_dangling": 10,
+    "courtyards_overlap": 5,
+    "silk_edge_clearance": 5,
+    "lib_footprint_mismatch": 3,
+    "text_height": 26,
+    "silk_over_copper": 18,
+    "silk_overlap": 21
+  },
+  "severity_counts": {
+    "error": 253,
+    "warning": 155,
+    "info": 0
+  },
+  "violations": [
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and PIN_BUZZER)",
+      "location": {
+        "x": 85.125,
+        "y": 9.7125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "hole_clearance",
+      "severity": "error",
+      "message": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1944 mm)",
+      "location": {
+        "x": 127.8,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "hole_clearance",
+      "severity": "error",
+      "message": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1944 mm)",
+      "location": {
+        "x": 127.8,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "hole_clearance",
+      "severity": "error",
+      "message": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1944 mm)",
+      "location": {
+        "x": 121.4,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "hole_clearance",
+      "severity": "error",
+      "message": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1944 mm)",
+      "location": {
+        "x": 121.4,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.0000 mm)",
+      "location": {
+        "x": 127.8,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.0000 mm)",
+      "location": {
+        "x": 121.4,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.0000 mm)",
+      "location": {
+        "x": 122.2,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.0000 mm)",
+      "location": {
+        "x": 127.0,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 10.5,
+        "y": 25.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 14.0,
+        "y": 19.1625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 18.0,
+        "y": 11.85,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 12.0,
+        "y": 1.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 25.2,
+        "y": 11.85,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 6.9,
+        "y": 14.3,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 22.8,
+        "y": 11.85,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 6.9,
+        "y": 17.1,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 20.4,
+        "y": 11.85,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.0800 mm)",
+      "location": {
+        "x": 12.0,
+        "y": 1.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 21.6,
+        "y": 11.85,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 22.2,
+        "y": 5.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.1000 mm)",
+      "location": {
+        "x": 2.8,
+        "y": 14.3,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.1000 mm)",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 3.4,
+        "y": 19.3,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 9.9,
+        "y": 18.275,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 24.4,
+        "y": 26.4,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 12.0,
+        "y": 1.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 14.342,
+        "y": 4.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 9.9,
+        "y": 15.325,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 9.342,
+        "y": 12.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 4.9,
+        "y": 17.1,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 9.342,
+        "y": 12.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 10.5,
+        "y": 24.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 3.4,
+        "y": 19.3,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.0250 mm)",
+      "location": {
+        "x": 17.7,
+        "y": 21.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 18.275,
+        "y": 17.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "Clearance violation ( clearance 0.1270 mm; actual 0.0250 mm)",
+      "location": {
+        "x": 17.7,
+        "y": 19.65,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 25.0,
+        "y": 20.15,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 23.8,
+        "y": 20.15,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 22.6,
+        "y": 20.15,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "Items shorting two nets (nets  and )",
+      "location": {
+        "x": 20.2,
+        "y": 20.15,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "copper_edge_clearance",
+      "severity": "error",
+      "message": "Board edge clearance violation (board setup constraints edge clearance 0.3500 mm; actual 0.3000 mm)",
+      "location": {
+        "x": 1.0,
+        "y": 0.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "copper_edge_clearance",
+      "severity": "error",
+      "message": "Board edge clearance violation (board setup constraints edge clearance 0.3500 mm; actual 0.3000 mm)",
+      "location": {
+        "x": 129.0,
+        "y": 32.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 42.525,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 42.525,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 42.525,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 42.525,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 42.525,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 43.65,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 43.65,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 43.65,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 43.65,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 43.65,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 44.775,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 44.775,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 44.775,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 44.775,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 44.775,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 45.9,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 45.9,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 45.9,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 45.9,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 45.9,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 47.025,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 47.025,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 47.025,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 47.025,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 47.025,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 85.625,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 85.625,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 85.625,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 85.625,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 85.625,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 86.75,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 86.75,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 86.75,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 86.75,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 86.75,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 87.875,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 87.875,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 87.875,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 87.875,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 87.875,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 89.0,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 89.0,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 89.0,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 89.0,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 89.0,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 90.125,
+        "y": 11.625,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 90.125,
+        "y": 12.75,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 90.125,
+        "y": 13.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 90.125,
+        "y": 15.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "drill_out_of_range",
+      "severity": "error",
+      "message": "Hole size out of range (board setup constraints min hole 0.3000 mm; actual 0.2000 mm)",
+      "location": {
+        "x": 90.125,
+        "y": 16.125,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 89.0,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 89.0,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 13.94,
+        "y": 4.95,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 96.35,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 13.94,
+        "y": 4.95,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 96.35,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 76.75,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 10.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 10.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 10.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 10.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 10.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 10.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 57.15,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 84.1,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 17.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 17.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 17.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 84.0,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 127.8,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 127.0,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 86.55,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 122.2,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 86.55,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 21.5,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 121.4,
+        "y": 7.79,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 57.2,
+        "y": 3.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 63.5,
+        "y": 6.4,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 57.2,
+        "y": 3.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 63.5,
+        "y": 6.4,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 46.8,
+        "y": 8.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 84.0,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 12.1,
+        "y": 22.05,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 12.1,
+        "y": 22.05,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 87.0,
+        "y": 8.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 13.94,
+        "y": 4.95,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.0,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 12.1,
+        "y": 27.05,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 84.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.45,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 84.0,
+        "y": 17.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 47.35,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 47.35,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 62.05,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 62.05,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 64.5,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 64.5,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 59.6,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 10.5,
+        "y": 25.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 13.94,
+        "y": 9.95,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 13.94,
+        "y": 9.95,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 15.5,
+        "y": 23.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 13.94,
+        "y": 9.95,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 93.9,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 93.9,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 52.25,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 52.25,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 89.2,
+        "y": 8.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 69.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 44.9,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 44.9,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 44.5,
+        "y": 8.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 69.4,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 69.4,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 74.3,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 15.8,
+        "y": 27.05,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 15.8,
+        "y": 27.05,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 18.0,
+        "y": 14.6,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 12.1,
+        "y": 27.05,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 12.0,
+        "y": 1.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 12.0,
+        "y": 1.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 3.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 10.5,
+        "y": 24.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 12.0,
+        "y": 1.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Rear solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 12.0,
+        "y": 1.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 71.85,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 71.85,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 81.65,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 84.0,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 75.5,
+        "y": 6.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 42.5,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 54.7,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 54.7,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 59.8,
+        "y": 3.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 79.2,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "Front solder mask aperture bridges items with different nets",
+      "location": {
+        "x": 79.2,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 91.4,
+        "y": 8.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 101.25,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 51.4,
+        "y": 8.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 113.5,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 76.75,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 97.0,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 94.0,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 49.8,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 57.15,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 84.1,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 84.0,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 55.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 94.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 46.8,
+        "y": 8.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 87.0,
+        "y": 8.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 49.1,
+        "y": 8.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 91.45,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 63.5,
+        "y": 13.2,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 40.0,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 42.45,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 84.0,
+        "y": 17.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 93.6,
+        "y": 8.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 64.5,
+        "y": 12.2,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 115.95,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 59.6,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 55.5,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 55.5,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 82.0,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 86.5,
+        "y": 4.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 83.5,
+        "y": 4.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 97.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 52.5,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 89.2,
+        "y": 8.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 69.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 82.0,
+        "y": 17.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 97.0,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 44.5,
+        "y": 8.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 52.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 74.3,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 108.6,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 98.8,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 78.5,
+        "y": 8.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 81.65,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 94.0,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 84.0,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 66.8,
+        "y": 6.4,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 52.5,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 59.8,
+        "y": 3.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 43.5,
+        "y": 6.4,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 40.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 111.05,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 97.0,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 40.5,
+        "y": 17.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 94.0,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 66.95,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 82.0,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 103.7,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 82.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 82.0,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 52.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 55.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 106.15,
+        "y": 27.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 84.0,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 56.5,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 56.5,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 98.0,
+        "y": 15.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 56.5,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 98.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 82.0,
+        "y": 18.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 40.5,
+        "y": 18.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 56.5,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 98.0,
+        "y": 11.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "via_dangling",
+      "severity": "warning",
+      "message": "Via is not connected or connected on only one layer",
+      "location": {
+        "x": 98.0,
+        "y": 13.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 13.94,
+        "y": 4.95,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 12.1,
+        "y": 27.05,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 86.0,
+        "y": 7.2,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "track_dangling",
+      "severity": "warning",
+      "message": "Track has unconnected end",
+      "location": {
+        "x": 84.0,
+        "y": 9.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "courtyards_overlap",
+      "severity": "warning",
+      "message": "Courtyards overlap",
+      "location": {
+        "x": 6.9,
+        "y": 15.7,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "courtyards_overlap",
+      "severity": "warning",
+      "message": "Courtyards overlap",
+      "location": {
+        "x": 57.4,
+        "y": 22.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "courtyards_overlap",
+      "severity": "warning",
+      "message": "Courtyards overlap",
+      "location": {
+        "x": 44.2,
+        "y": 22.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "courtyards_overlap",
+      "severity": "warning",
+      "message": "Courtyards overlap",
+      "location": {
+        "x": 2.8,
+        "y": 15.7,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "courtyards_overlap",
+      "severity": "warning",
+      "message": "Courtyards overlap",
+      "location": {
+        "x": 34.0,
+        "y": 22.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_edge_clearance",
+      "severity": "warning",
+      "message": "Silkscreen clipped by board edge",
+      "location": {
+        "x": 0.0,
+        "y": 31.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_edge_clearance",
+      "severity": "warning",
+      "message": "Silkscreen clipped by board edge",
+      "location": {
+        "x": 0.0,
+        "y": 31.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_edge_clearance",
+      "severity": "warning",
+      "message": "Silkscreen clipped by board edge",
+      "location": {
+        "x": 129.0,
+        "y": 32.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_edge_clearance",
+      "severity": "warning",
+      "message": "Silkscreen clipped by board edge",
+      "location": {
+        "x": 1.0,
+        "y": 0.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_edge_clearance",
+      "severity": "warning",
+      "message": "Silkscreen clipped by board edge",
+      "location": {
+        "x": 129.0,
+        "y": 32.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_mismatch",
+      "severity": "warning",
+      "message": "Footprint 'SMDIP-8_W9.53mm' does not match copy in library 'Package_DIP'",
+      "location": {
+        "x": 123.8,
+        "y": 14.2,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_mismatch",
+      "severity": "warning",
+      "message": "Footprint 'C_0603_1608Metric' does not match copy in library 'Capacitor_SMD'",
+      "location": {
+        "x": 96.3,
+        "y": 9.2,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_mismatch",
+      "severity": "warning",
+      "message": "Footprint 'D_SOD-123' does not match copy in library 'Diode_SMD'",
+      "location": {
+        "x": 97.8,
+        "y": 3.2,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+      "location": {
+        "x": 126.8,
+        "y": 24.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7500 mm)",
+      "location": {
+        "x": 9.8,
+        "y": 12.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7500 mm)",
+      "location": {
+        "x": 121.2,
+        "y": 12.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+      "location": {
+        "x": 33.0,
+        "y": 27.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+      "location": {
+        "x": 100.0,
+        "y": 27.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+      "location": {
+        "x": 106.5,
+        "y": 27.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+      "location": {
+        "x": 113.0,
+        "y": 27.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+      "location": {
+        "x": 119.5,
+        "y": 27.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 44.5,
+        "y": 29.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 59.0,
+        "y": 29.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 74.5,
+        "y": 29.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 90.0,
+        "y": 29.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+      "location": {
+        "x": 65.0,
+        "y": 17.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+      "location": {
+        "x": 65.0,
+        "y": 19.3,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+      "location": {
+        "x": 65.0,
+        "y": 21.1,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": -0.53,
+        "y": 15.7,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 44.775,
+        "y": 8.025,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+      "location": {
+        "x": 123.8,
+        "y": 8.4,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 73.35,
+        "y": 5.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 22.2,
+        "y": 0.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 91.375,
+        "y": 6.875,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+      "location": {
+        "x": 88.0,
+        "y": -0.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+      "location": {
+        "x": 94.8,
+        "y": 9.2,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+      "location": {
+        "x": 96.0,
+        "y": 3.2,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 68.8,
+        "y": 2.15,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "text_height",
+      "severity": "warning",
+      "message": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)",
+      "location": {
+        "x": 24.4,
+        "y": 32.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 0.0,
+        "y": 2.25,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 0.0,
+        "y": 19.35,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 9.8,
+        "y": 12.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 7.5,
+        "y": 1.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 15.0,
+        "y": 4.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 15.0,
+        "y": 10.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 15.0,
+        "y": 23.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 15.0,
+        "y": 28.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 123.8,
+        "y": 8.4,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 27.15,
+        "y": 13.04,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 85.5,
+        "y": 0.3,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 88.0,
+        "y": 2.8,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 0.4,
+        "y": 1.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 11.1,
+        "y": 12.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 1.2,
+        "y": 19.3,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 10.7,
+        "y": 30.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 40.95,
+        "y": 5.85,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 19.45,
+        "y": 18.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 121.2,
+        "y": 12.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.0,
+        "y": 19.35,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.0,
+        "y": 19.35,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.0,
+        "y": 19.35,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.4,
+        "y": 12.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.0,
+        "y": 2.25,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.0,
+        "y": 2.25,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 9.8,
+        "y": 12.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 11.1,
+        "y": 12.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.0,
+        "y": 2.25,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.4,
+        "y": 1.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 5.9,
+        "y": 13.49,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 7.9,
+        "y": 13.49,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 3.8,
+        "y": 13.49,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 3.8,
+        "y": 13.49,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 5.9,
+        "y": 13.49,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 7.9,
+        "y": 13.49,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 0.0,
+        "y": 19.35,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 10.7,
+        "y": 19.3,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 3.8,
+        "y": 13.49,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 3.8,
+        "y": 13.49,
+        "unit": "mm"
+      }
+    }
+  ]
+}
