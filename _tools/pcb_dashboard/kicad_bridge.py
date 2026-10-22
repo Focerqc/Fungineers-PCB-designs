@@ -180,6 +180,40 @@ def read_board(pcb_path):
         if isinstance(d, pcbnew.PCB_SHAPE) and d.GetLayer() == pcbnew.Edge_Cuts:
             edges.extend(shape_segments(d))
 
+    tracks = []
+    vias = []
+    for t in board.GetTracks():
+        sp = t.GetStart()
+        ep = t.GetEnd()
+        layer = board.GetLayerName(t.GetLayer())
+        if isinstance(t, pcbnew.PCB_VIA):
+            drill = mm(t.GetDrill())
+            try:
+                width = mm(t.GetWidth(pcbnew.F_Cu))
+            except TypeError:
+                width = mm(t.GetWidth())
+            vias.append({
+                "x": mm(sp.x),
+                "y": mm(sp.y),
+                "drill": drill,
+                "width": width,
+                "net": t.GetNetname()
+            })
+        else:
+            try:
+                w = mm(t.GetWidth())
+            except TypeError:
+                w = 0.2
+            tracks.append({
+                "layer": layer,
+                "x1": mm(sp.x),
+                "y1": mm(sp.y),
+                "x2": mm(ep.x),
+                "y2": mm(ep.y),
+                "w": w,
+                "net": t.GetNetname()
+            })
+
     bbox = board.GetBoardEdgesBoundingBox()
     return {
         "path": pcb_path,
@@ -187,6 +221,8 @@ def read_board(pcb_path):
         "edges": edges,
         "bbox": {"x": mm(bbox.GetX()), "y": mm(bbox.GetY()), "w": mm(bbox.GetWidth()), "h": mm(bbox.GetHeight())},
         "footprints": footprints,
+        "tracks": tracks,
+        "vias": vias,
     }
 
 

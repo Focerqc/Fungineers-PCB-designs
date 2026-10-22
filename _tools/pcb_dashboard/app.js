@@ -17,6 +17,11 @@
     showRef: true,
     show3D: false,
     showParts: true,
+    showTopCu: false,
+    showBotCu: false,
+    showVias: false,
+    activePreset: null,
+    mousePos: null,
     render3dImg: null,
     render3dPath: null,
     opacity: 0.75,
@@ -215,13 +220,20 @@
       ]);
       const bSel = $('boardSelect');
       bSel.innerHTML = boards.map(b => `<option value="${esc(b)}">${esc(b)}</option>`).join('');
-      bSel.value = boards.find(b => b.endsWith('VFBMS32.kicad_pcb')) || boards[0] || '';
+      const saved = localStorage.getItem('pcb_dashboard_last_board');
+      bSel.value = (saved && boards.includes(saved)) ? saved :
+                   (boards.find(b => /qfbms32\.kicad_pcb$/i.test(b)) ||
+                    boards.find(b => /qfbms/i.test(b)) ||
+                    boards[0] || '');
 
       const iSel = $('imageSelect');
       iSel.innerHTML = '<option value="">(none)</option>' +
         images.map(i => `<option value="${esc(i.path)}">${esc(i.path)} (${i.kb} KB)</option>`).join('');
 
-      bSel.addEventListener('change', () => loadBoard(bSel.value));
+      bSel.addEventListener('change', () => {
+        localStorage.setItem('pcb_dashboard_last_board', bSel.value);
+        loadBoard(bSel.value);
+      });
       iSel.addEventListener('change', () => { S.doc.ref = iSel.value; loadRef(iSel.value); scheduleSave(); });
 
       if (bSel.value) await loadBoard(bSel.value);
@@ -446,6 +458,61 @@
       ctx.restore();
     }
 
+    // Bottom copper traces (B.Cu)
+    if (S.showBotCu && S.board.tracks) {
+      ctx.save();
+      ctx.strokeStyle = '#4488ff';
+      ctx.lineCap = 'round';
+      for (const tr of S.board.tracks) {
+        if (tr.layer === 'B.Cu') {
+          const p1 = toScreen(tr.x1, tr.y1), p2 = toScreen(tr.x2, tr.y2);
+          ctx.lineWidth = Math.max(1, tr.w * sc);
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+
+    // Top copper traces (F.Cu)
+    if (S.showTopCu && S.board.tracks) {
+      ctx.save();
+      ctx.strokeStyle = '#ff4444';
+      ctx.lineCap = 'round';
+      for (const tr of S.board.tracks) {
+        if (tr.layer === 'F.Cu') {
+          const p1 = toScreen(tr.x1, tr.y1), p2 = toScreen(tr.x2, tr.y2);
+          ctx.lineWidth = Math.max(1, tr.w * sc);
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+
+    // Vias
+    if (S.showVias && S.board.vias) {
+      ctx.save();
+      for (const v of S.board.vias) {
+        const p = toScreen(v.x, v.y);
+        const rOuter = Math.max(1.5, (v.width / 2) * sc);
+        const rDrill = Math.max(0.75, (v.drill / 2) * sc);
+        ctx.fillStyle = '#ffc857';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, rOuter, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#07090e';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, rDrill, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
     // boxes
     const selBox = S.sel ? box(S.sel.id) : null;
     for (const b of S.doc.boxes) {
@@ -511,6 +578,27 @@
       ctx.fillStyle = '#fff';
       ctx.setLineDash([]);
       ctx.fillText(`${fmt(Math.abs(d.x1 - d.x0))} × ${fmt(Math.abs(d.y1 - d.y0))} mm`, x, y - 6);
+      ctx.restore();
+    }
+
+    // Ghost preview for active package preset
+    if (S.activePreset && S.mousePos && !S.drag && !S.pan && S.board) {
+      const cx = snap(S.mousePos.x), cy = snap(S.mousePos.y);
+      const pw = S.activePreset.w, ph = S.activePreset.h;
+      const p1 = toScreen(cx - pw / 2, cy - ph / 2);
+      const sw = pw * sc, sh = ph * sc;
+      const hex = color(S.activeColor)?.hex || '#3cf0d0';
+      ctx.save();
+      ctx.fillStyle = hex + '25';
+      ctx.strokeStyle = hex;
+      ctx.setLineDash([3, 3]);
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(p1.x, p1.y, sw, sh);
+      ctx.strokeRect(p1.x, p1.y, sw, sh);
+      ctx.font = '600 11px "JetBrains Mono"';
+      ctx.fillStyle = hex;
+      ctx.setLineDash([]);
+      ctx.fillText(`${S.activePreset.name} (${fmt(pw)}×${fmt(ph)})`, p1.x, p1.y - 5);
       ctx.restore();
     }
   }
@@ -598,6 +686,10 @@
     const m = mouseBoard(e);
     $('hudX').textContent = fmt(m.x);
     $('hudY').textContent = fmt(m.y);
+    S.mousePos = m;
+    if (S.activePreset && !S.drag && !S.pan) {
+      render();
+    }
 
     if (S.pan) {
       S.view.x -= (e.clientX - S.pan.x) / S.view.scale;
@@ -642,7 +734,33 @@
     if (!d) return;
     if (d.mode === 'draw') {
       const w = Math.abs(d.x1 - d.x0), h = Math.abs(d.y1 - d.y0);
-      if (w * S.view.scale < 4 || h * S.view.scale < 4) { render(); return; }   // just a click
+      if (w * S.view.scale < 4 || h * S.view.scale < 4) {
+        if (S.activePreset) {
+          ensureColor();
+          const cx = snap(d.x0), cy = snap(d.y0);
+          const b = {
+            id: uid('b'),
+            c: S.activeColor,
+            x: r2(cx),
+            y: r2(cy),
+            w: r2(S.activePreset.w),
+            h: r2(S.activePreset.h),
+            pat: null
+          };
+          const col = color(S.activeColor);
+          if (col && !col.note) {
+            col.note = S.activePreset.name;
+            renderLegend();
+          }
+          S.doc.boxes.push(b);
+          S.sel = { id: b.id, i: 0 };
+          commit();
+          toast(`Placed ${S.activePreset.name} at (${fmt(cx)}, ${fmt(cy)})`);
+          return;
+        }
+        render();
+        return;
+      }
       ensureColor();
       const b = { id: uid('b'), c: S.activeColor, x: r2((d.x0 + d.x1) / 2), y: r2((d.y0 + d.y1) / 2), w: r2(w), h: r2(h), pat: null };
       S.doc.boxes.push(b);
@@ -683,7 +801,17 @@
     }
     if (k === 'f') return fit();
     if (k === 'h') { S.showRef = !S.showRef; $('tglRef').classList.toggle('active', S.showRef); return render(); }
-    if (k === 'escape') { S.sel = null; return refreshUI(); }
+    if (k === 'r' && !e.ctrlKey && !e.metaKey) { flipPreset(); return; }
+    if (k === 'escape') {
+      if (S.activePreset) {
+        S.activePreset = null;
+        updatePresetChipsUI();
+        toast('Preset deactivated');
+        return render();
+      }
+      S.sel = null;
+      return refreshUI();
+    }
 
     const b = S.sel && box(S.sel.id);
     if (!b) return;
@@ -841,7 +969,7 @@
     lines.push(`Box file (same data, machine-readable): \`${boxesFile}\``);
     lines.push('');
     lines.push('X/Y = box center in KiCad board coordinates (mm). W×H = box size (approx. part body). ' +
-               'Add each part to the schematic first if new, then update PCB and move/align footprint to center. ' +
+               'Place/update footprints directly on the PCB and move/align footprint to center. ' +
                'Check color notes to add new parts or correct/align existing footprints. Ask me if a note is missing or unclear.');
 
     let patLetter = 0;
@@ -943,12 +1071,81 @@
     render();
   }
 
+  // ---------- PRESETS ----------
+  function updatePresetChipsUI() {
+    const pc = $('presetChips');
+    if (!pc) return;
+    pc.querySelectorAll('.chip').forEach(c => {
+      const active = S.activePreset && c.dataset.name === S.activePreset.name;
+      c.classList.toggle('active', !!active);
+    });
+  }
+
+  function onPresetClick(chip) {
+    const name = chip.dataset.name;
+    const w = parseFloat(chip.dataset.w);
+    const h = parseFloat(chip.dataset.h);
+
+    if (S.activePreset && S.activePreset.name === name) {
+      S.activePreset = null;
+      updatePresetChipsUI();
+      render();
+      toast('Preset cleared');
+      return;
+    }
+
+    S.activePreset = { name, w, h, flipped: false };
+    updatePresetChipsUI();
+
+    const b = S.sel && box(S.sel.id);
+    if (b) {
+      b.w = r2(S.activePreset.w);
+      b.h = r2(S.activePreset.h);
+      const col = color(b.c);
+      if (col && !col.note) {
+        col.note = name;
+        renderLegend();
+      }
+      commit();
+      fillSelbar();
+      toast(`Snapped box to ${name} (${fmt(b.w)} × ${fmt(b.h)} mm)`);
+    } else {
+      toast(`Preset ${name} active (${fmt(w)} × ${fmt(h)} mm) — click board to drop`);
+      render();
+    }
+  }
+
+  function flipPreset() {
+    if (S.activePreset) {
+      const tmp = S.activePreset.w;
+      S.activePreset.w = S.activePreset.h;
+      S.activePreset.h = tmp;
+      S.activePreset.flipped = !S.activePreset.flipped;
+      updatePresetChipsUI();
+      toast(`Flipped preset: ${fmt(S.activePreset.w)} × ${fmt(S.activePreset.h)} mm`);
+      render();
+    }
+    const b = S.sel && box(S.sel.id);
+    if (b) {
+      const tmp = b.w;
+      b.w = b.h;
+      b.h = tmp;
+      commit();
+      fillSelbar();
+      if (!S.activePreset) toast(`Flipped box: ${fmt(b.w)} × ${fmt(b.h)} mm`);
+    }
+  }
+
   // ---------- EVENTS ----------
   function hookEvents() {
     window.addEventListener('resize', resize);
     canvas.addEventListener('mousedown', onDown);
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onUp);
+    canvas.addEventListener('mouseleave', () => {
+      S.mousePos = null;
+      if (S.activePreset) render();
+    });
     canvas.addEventListener('wheel', onWheel, { passive: false });
     canvas.addEventListener('contextmenu', e => e.preventDefault());
     window.addEventListener('keydown', onKey);
@@ -968,6 +1165,41 @@
       };
     }
     $('tglParts').onclick = () => { S.showParts = !S.showParts; $('tglParts').classList.toggle('active', S.showParts); render(); };
+
+    const tglTopCu = $('tglTopCu');
+    if (tglTopCu) {
+      tglTopCu.onclick = () => {
+        S.showTopCu = !S.showTopCu;
+        tglTopCu.classList.toggle('active', S.showTopCu);
+        render();
+      };
+    }
+    const tglBotCu = $('tglBotCu');
+    if (tglBotCu) {
+      tglBotCu.onclick = () => {
+        S.showBotCu = !S.showBotCu;
+        tglBotCu.classList.toggle('active', S.showBotCu);
+        render();
+      };
+    }
+    const tglVias = $('tglVias');
+    if (tglVias) {
+      tglVias.onclick = () => {
+        S.showVias = !S.showVias;
+        tglVias.classList.toggle('active', S.showVias);
+        render();
+      };
+    }
+
+    const pChips = $('presetChips');
+    if (pChips) {
+      pChips.addEventListener('click', e => {
+        const chip = e.target.closest('.chip');
+        if (chip) onPresetClick(chip);
+      });
+    }
+    const btnFlipPreset = $('btnFlipPreset');
+    if (btnFlipPreset) btnFlipPreset.onclick = flipPreset;
     $('opacity').oninput = e => {
       if ($('cycleOpacity').checked) $('cycleOpacity').checked = false;
       stopOpacityCycle();

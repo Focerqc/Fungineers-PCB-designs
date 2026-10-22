@@ -1,4 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "vfbms")(type "KiCad")(uri "${KIPRJMOD}/vfbms.pretty")(options "")(descr "Project local footprint library"))
-)

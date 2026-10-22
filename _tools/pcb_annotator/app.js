@@ -138,7 +138,7 @@
     loadWorkspaceImages();
 
     // Default image
-    const defaultImg = "Q VFBMS32 AI PCB/_reference/vfbms32_cad_top_reference_rotated.png";
+    const defaultImg = "qfbms32 ai pcb/_reference/vfbms32_cad_top_reference_rotated.png";
     loadImageFromPath(defaultImg);
   }
 
@@ -996,7 +996,7 @@
   }
 
   function loadProjectAnnotations() {
-    const annotFile = "Q VFBMS32 AI PCB/pcb_annotations.json";
+    const annotFile = "qfbms32 ai pcb/pcb_annotations.json";
     fetch(`/api/load-annotations?file=${encodeURIComponent(annotFile)}`)
       .then(res => res.json())
       .then(res => {
@@ -1017,7 +1017,7 @@
 
   function saveAnnotationsToWorkspace() {
     const payload = {
-      target_path: "Q VFBMS32 AI PCB/pcb_annotations.json",
+      target_path: "qfbms32 ai pcb/pcb_annotations.json",
       data: {
         reference_image: state.imagePath,
         calibration: {
@@ -1096,7 +1096,7 @@
       '',
       'COMPONENTS = ' + JSON.stringify(state.components, null, 2),
       '',
-      'def place_all(board_path="VFBMS32.kicad_pcb"):',
+      'def place_all(board_path="qfbms32.kicad_pcb"):',
       '    board = pcbnew.LoadBoard(board_path)',
       '    for item in COMPONENTS:',
       '        fp = board.FindFootprintByReference(item["ref"])',

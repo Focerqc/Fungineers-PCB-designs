@@ -52,11 +52,11 @@ class AnnotatorHandler(http.server.SimpleHTTPRequestHandler):
                             "height": dim_h,
                             "folder": os.path.basename(os.path.dirname(full_path))
                         })
-            # Prioritize reference images and VFBMS32
+            # Prioritize reference images and qfbms32
             images.sort(key=lambda x: (
                 0 if "vfbms32_cad_top_reference_rotated" in x["name"] else
                 1 if "_reference" in x["rel_path"] else
-                2 if "Q VFBMS32" in x["rel_path"] else 3,
+                2 if ("qfbms32" in x["rel_path"].lower() or "vfbms32" in x["rel_path"].lower()) else 3,
                 x["rel_path"]
             ))
             self.wfile.write(json.dumps(images).encode("utf-8"))
@@ -113,7 +113,7 @@ class AnnotatorHandler(http.server.SimpleHTTPRequestHandler):
             content_length = int(self.headers.get("Content-Length", 0))
             body = self.rfile.read(content_length).decode("utf-8")
             payload = json.loads(body)
-            target_rel = payload.get("target_path", "Q VFBMS32 AI PCB/pcb_annotations.json").lstrip("/\\")
+            target_rel = payload.get("target_path", "qfbms32 ai pcb/pcb_annotations.json").lstrip("/\\")
             target_full = os.path.normpath(os.path.join(REPO_ROOT, target_rel))
 
             if not target_full.startswith(REPO_ROOT):
@@ -140,7 +140,7 @@ class AnnotatorHandler(http.server.SimpleHTTPRequestHandler):
             body = self.rfile.read(content_length).decode("utf-8")
             payload = json.loads(body)
             data = payload.get("data", {})
-            target_rel = payload.get("target_path", "Q VFBMS32 AI PCB/place_annotated_parts.py").lstrip("/\\")
+            target_rel = payload.get("target_path", "qfbms32 ai pcb/place_annotated_parts.py").lstrip("/\\")
             target_full = os.path.normpath(os.path.join(REPO_ROOT, target_rel))
 
             components = data.get("components", [])
@@ -163,7 +163,7 @@ class AnnotatorHandler(http.server.SimpleHTTPRequestHandler):
                 '',
                 'def place_parts(pcb_path=None):',
                 '    if pcb_path is None:',
-                '        pcb_path = r"VFBMS32.kicad_pcb"',
+                '        pcb_path = r"qfbms32.kicad_pcb"',
                 '    board = pcbnew.LoadBoard(pcb_path)',
                 '    for item in COMPONENTS:',
                 '        fp = board.FindFootprintByReference(item["ref"])',

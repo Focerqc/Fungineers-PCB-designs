@@ -141,12 +141,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if "/api/" in msg:
             super().log_message(fmt, *args)
 
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+        super().end_headers()
+
     def send_json(self, obj, code=200):
         body = json.dumps(obj).encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(body)
 
@@ -156,6 +161,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         try:
             if u.path == "/api/boards":
                 boards = sorted(rel(p) for p in walk_files({".kicad_pcb"}))
+                boards.sort(key=lambda b: (0 if "qfbms32" in b.lower() else 1, b))
                 return self.send_json(boards)
 
             if u.path == "/api/images":
