@@ -27,23 +27,35 @@ IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 _board_cache = {}  # abs_path -> (mtime, data)
 
 
-def render_3d_file(board_full):
-    return os.path.splitext(board_full)[0] + "_3d_top.png"
+def render_3d_file(board_full, kind="top"):
+    suffix = "_3d_iso.png" if kind == "iso" else "_3d_top.png"
+    return os.path.splitext(board_full)[0] + suffix
 
 
-def render_board_3d(board_full):
+def render_board_3d(board_full, kind="top"):
     if not os.path.isfile(board_full):
         raise FileNotFoundError(f"Board file not found: {board_full}")
-    out_png = render_3d_file(board_full)
-    cmd = [
-        KICAD_CLI, "pcb", "render",
-        "--side", "top",
-        "--width", "4000",
-        "--height", "2000",
-        "--background", "transparent",
-        "-o", out_png,
-        board_full
-    ]
+    out_png = render_3d_file(board_full, kind=kind)
+    if kind == "iso":
+        cmd = [
+            KICAD_CLI, "pcb", "render",
+            "--rotate", "-45,0,45",
+            "--width", "4000",
+            "--height", "2600",
+            "--background", "transparent",
+            "-o", out_png,
+            board_full
+        ]
+    else:
+        cmd = [
+            KICAD_CLI, "pcb", "render",
+            "--side", "top",
+            "--width", "4000",
+            "--height", "2000",
+            "--background", "transparent",
+            "-o", out_png,
+            board_full
+        ]
     res = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
     if res.returncode != 0 or not os.path.isfile(out_png):
         raise RuntimeError(f"kicad-cli render failed: {res.stderr or res.stdout}")
@@ -52,7 +64,15 @@ def render_board_3d(board_full):
         im = Image.open(out_png)
         bbox = im.getbbox()
         if bbox:
-            im.crop(bbox).save(out_png)
+            w, h = im.size
+            pad = 20 if kind == "iso" else 0
+            crop_box = (
+                max(0, bbox[0] - pad),
+                max(0, bbox[1] - pad),
+                min(w, bbox[2] + pad),
+                min(h, bbox[3] + pad)
+            )
+            im.crop(crop_box).save(out_png)
     except Exception as e:
         print(f"PIL crop warning: {e}")
 
@@ -61,25 +81,54 @@ def render_board_3d(board_full):
     timestamp_str = dt.strftime("%b %d, %I:%M:%S %p")
     return {
         "status": "ok",
+        "kind": kind,
         "image": rel(out_png),
         "timestamp": timestamp_str,
         "mtime": mtime
     }
 
 
-def get_render_3d_status(board_full):
-    out_png = render_3d_file(board_full)
-    if not os.path.isfile(out_png):
-        return {"exists": False}
-    mtime = os.path.getmtime(out_png)
-    dt = datetime.datetime.fromtimestamp(mtime)
-    timestamp_str = dt.strftime("%b %d, %I:%M:%S %p")
-    return {
-        "exists": True,
-        "image": rel(out_png),
-        "timestamp": timestamp_str,
-        "mtime": mtime
+def get_render_3d_status(board_full, kind=None):
+    if kind in ("top", "iso"):
+        out_png = render_3d_file(board_full, kind=kind)
+        if not os.path.isfile(out_png):
+            return {"exists": False, "kind": kind}
+        mtime = os.path.getmtime(out_png)
+        dt = datetime.datetime.fromtimestamp(mtime)
+        return {
+            "exists": True,
+            "kind": kind,
+            "image": rel(out_png),
+            "timestamp": dt.strftime("%b %d, %I:%M:%S %p"),
+            "mtime": mtime
+        }
+    top_png = render_3d_file(board_full, "top")
+    iso_png = render_3d_file(board_full, "iso")
+    res = {
+        "top": {"exists": False},
+        "iso": {"exists": False}
     }
+    if os.path.isfile(top_png):
+        mtime = os.path.getmtime(top_png)
+        res["top"] = {
+            "exists": True,
+            "image": rel(top_png),
+            "timestamp": datetime.datetime.fromtimestamp(mtime).strftime("%b %d, %I:%M:%S %p"),
+            "mtime": mtime
+        }
+    if os.path.isfile(iso_png):
+        mtime = os.path.getmtime(iso_png)
+        res["iso"] = {
+            "exists": True,
+            "image": rel(iso_png),
+            "timestamp": datetime.datetime.fromtimestamp(mtime).strftime("%b %d, %I:%M:%S %p"),
+            "mtime": mtime
+        }
+    res["exists"] = res["top"]["exists"]
+    res["image"] = res["top"].get("image")
+    res["timestamp"] = res["top"].get("timestamp")
+    res["mtime"] = res["top"].get("mtime")
+    return res
 
 
 def safe_path(rel):
@@ -168,7 +217,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 imgs = []
                 for p in walk_files(IMAGE_EXTS):
                     norm = rel(p).lower()
-                    if "_3d_top" in norm or "_3d_bottom" in norm or "/scratch/" in norm or norm.startswith("scratch/") or "test_" in norm or ".tempmediastorage" in norm:
+                    if "_3d_top" in norm or "_3d_iso" in norm or "_3d_bottom" in norm or "/scratch/" in norm or norm.startswith("scratch/") or "test_" in norm or ".tempmediastorage" in norm:
                         continue
                     imgs.append({"path": rel(p), "name": os.path.basename(p),
                                  "kb": round(os.path.getsize(p) / 1024)})
@@ -190,11 +239,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             if u.path == "/api/render_status":
                 full = safe_path(q.get("path", [""])[0])
-                return self.send_json(get_render_3d_status(full))
+                kind = q.get("kind", [None])[0]
+                return self.send_json(get_render_3d_status(full, kind=kind))
 
             if u.path == "/api/render_3d":
                 full = safe_path(q.get("path", [""])[0])
-                return self.send_json(render_board_3d(full))
+                kind = q.get("kind", ["top"])[0]
+                return self.send_json(render_board_3d(full, kind=kind))
 
             if u.path == "/api/image":
                 full = safe_path(q.get("path", [""])[0])
@@ -224,7 +275,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         try:
             if u.path == "/api/render_3d":
                 full = safe_path(q.get("path", [""])[0])
-                return self.send_json(render_board_3d(full))
+                kind = q.get("kind", ["top"])[0]
+                return self.send_json(render_board_3d(full, kind=kind))
 
             if u.path == "/api/boxes":
                 full = safe_path(q.get("path", [""])[0])

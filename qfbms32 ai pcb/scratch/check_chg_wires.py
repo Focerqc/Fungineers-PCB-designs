@@ -1,8 +1,9 @@
-with open("VFBMS32.kicad_sch", "r", encoding="utf-8") as f:
+import re
+
+with open('qfbms32.kicad_sch', 'r', encoding='utf-8') as f:
     text = f.read()
 
-import re
-wires = re.findall(r'\(wire\s+\(pts\s+\(xy\s+([0-9\.\-]+)\s+([0-9\.\-]+)\)\s+\(xy\s+([0-9\.\-]+)\s+([0-9\.\-]+)\)\)', text)
-for x1, y1, x2, y2 in wires:
-    if 160 <= float(x1) <= 230 and 90 <= float(y1) <= 130:
-        print(f"Wire ({x1}, {y1}) -> ({x2}, {y2})")
+# find wires and labels near (175, 105)
+for line in text.splitlines():
+    if any(k in line for k in ["175.0", "195.0", "205.0", "215.0", "CHG_EN", "PCHG", "DCHG"]):
+        print(line)

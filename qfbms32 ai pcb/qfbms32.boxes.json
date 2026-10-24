@@ -9,11 +9,41 @@
  },
  "colors": [
   {
-   "id": "ceovdipcn1",
+   "id": "cbfgyk1a67",
    "hex": "#4ea1ff",
-   "note": ""
+   "note": "C_SSR1 (0603, 100nF, smaller)"
+  },
+  {
+   "id": "c_0805_ssr2",
+   "hex": "#ff6b6b",
+   "note": "C_SSR2 (0805, 1uF, bigger/taller)"
   }
  ],
- "boxes": [],
+ "boxes": [
+  {
+   "id": "bl89h1j8ix",
+   "c": "cbfgyk1a67",
+   "x": 28.45,
+   "y": 1.75,
+   "w": 1.6,
+   "h": 0.8,
+   "ref": "C_SSR1",
+   "val": "100nF",
+   "fpid": "C_0603_1608Metric",
+   "pat": null
+  },
+  {
+   "id": "beak3lzgqe",
+   "c": "c_0805_ssr2",
+   "x": 30.0,
+   "y": 1.7,
+   "w": 2.0,
+   "h": 1.25,
+   "ref": "C_SSR2",
+   "val": "1uF",
+   "fpid": "C_0805_2012Metric",
+   "pat": null
+  }
+ ],
  "board": "qfbms32 ai pcb/qfbms32.kicad_pcb"
 }

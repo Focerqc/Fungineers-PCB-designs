@@ -1,25 +1,26 @@
-import re
-import os
+import os, re
 
-with open('VFBMS32.kicad_sch', 'r', encoding='utf-8') as f:
-    text_sch = f.read()
+filename = 'qfbms32.kicad_pcb' if os.path.exists('qfbms32.kicad_pcb') else 'qfbms32 ai pcb/qfbms32.kicad_pcb'
 
-refs_sch = re.findall(r'\(property "Reference" "([^"]+)"', text_sch)
-print("Schematic refs count:", len(refs_sch))
-print("Capacitors in sch:", [r for r in refs_sch if r.startswith('C')])
-print("Diodes in sch:", [r for r in refs_sch if r.startswith('D')])
-print("Power/Misc in sch:", [r for r in refs_sch if not r.startswith('R_B') and not r.startswith('R_F') and not r.startswith('C_B')])
+with open(filename, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-with open('VFBMS32.kicad_pcb', 'r', encoding='utf-8') as f:
-    text_pcb = f.read()
+pattern = re.compile(
+    r'\(footprint\s+"([^"]+)".*?'
+    r'\(at\s+([\d\.-]+)\s+([\d\.-]+)(?:\s+([\d\.-]+))?\).*?'
+    r'\(property\s+"Reference"\s+"([^"]+)".*?'
+    r'\(property\s+"Value"\s+"([^"]+)"',
+    re.DOTALL
+)
 
-# Let's inspect C_FLT1 footprint definition in kicad_pcb
-match = re.search(r'\((?:footprint|module)\s+"([^"]+)"[^\)]*?\(at\s+([0-9\.\-]+)\s+([0-9\.\-]+)(?:\s+([0-9\.\-]+))?\).*?\(property\s+"Reference"\s+"C_FLT1".*?\n\t\)', text_pcb, re.DOTALL)
-if not match:
-    # try another regex
-    pos = text_pcb.find('"C_FLT1"')
-    if pos != -1:
-        start = text_pcb.rfind('(footprint', 0, pos)
-        end = text_pcb.find('(footprint', pos)
-        print("C_FLT1 PCB section:")
-        print(text_pcb[start:start+1200])
+print(f"{'Ref':8} {'Value':15} {'X':>7} {'Y':>7} {'Rot':>6}  Footprint")
+print("-" * 65)
+for m in pattern.finditer(content):
+    fp = m.group(1)
+    x = float(m.group(2))
+    y = float(m.group(3))
+    rot = m.group(4) or "0"
+    ref = m.group(5)
+    val = m.group(6)
+    if 20 <= x <= 45 and 0 <= y <= 12:
+        print(f"{ref:8} {val:15} {x:7.2f} {y:7.2f} {rot:>6}  {fp}")

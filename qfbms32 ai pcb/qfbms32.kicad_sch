@@ -3572,6 +3572,47 @@
 			)
 		)
 	)
+	
+	(symbol (lib_id "Device:C")
+		(at 165.0 25.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "174840fd-5b61-466d-ac51-e93889abb0ad")
+		(property "Reference" "C_SSR1" (at 165.0 21.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "100nF" (at 165.0 29.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric" (at 165.0 25.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "43621f90-3f3c-463b-9cfb-2ccd27592c76"))
+		(pin "2" (uuid "a78b1775-4cbf-4d03-8080-4996d5af60c4"))
+		(instances
+			(project "qfbms32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "C_SSR1") (unit 1))
+			)
+		)
+	)
+
+	(symbol (lib_id "Device:C")
+		(at 175.0 25.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2dbb5032-027a-40b3-8736-82eb8d3c59b6")
+		(property "Reference" "C_SSR2" (at 175.0 21.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "1uF" (at 175.0 29.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (at 175.0 25.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "645ce23c-d405-4bf9-ac78-1a93838230ef"))
+		(pin "2" (uuid "bd45bdb9-5b49-41dc-a845-96d5b3e45f06"))
+		(instances
+			(project "qfbms32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "C_SSR2") (unit 1))
+			)
+		)
+	)
+
 	(sheet_instances
 		(path "/"
 			(page "1")

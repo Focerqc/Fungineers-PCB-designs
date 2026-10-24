@@ -20,10 +20,17 @@
     showTopCu: false,
     showBotCu: false,
     showVias: false,
+    selectMode: false,
+    infoMode: false,
+    hoverFp: null,
+    infoFp: null,
     activePreset: null,
     mousePos: null,
     render3dImg: null,
     render3dPath: null,
+    renderIsoPath: null,
+    isoView: { x: 0, y: 0, scale: 1 },
+    isoDrag: null,
     opacity: 0.75,
     snap: 0.05,
     activeColor: null,
@@ -129,6 +136,7 @@
     const c = { id: uid('c'), hex, note: '' };
     S.doc.colors.push(c);
     S.activeColor = c.id;
+    S.sel = null;
     if (commitIt) commit();
     renderLegend();
     return c;
@@ -184,8 +192,164 @@
     scheduleSave();
     refreshUI();
   }
-  function undo() { if (!S.undo.length) return; S.redo.push(lastSnap); restore(S.undo.pop()); }
-  function redo() { if (!S.redo.length) return; S.undo.push(lastSnap); restore(S.redo.pop()); }
+  function undo() {
+    if (!S.undo.length) return;
+    S.redo.push(lastSnap);
+    restore(S.undo.pop());
+    toast('Undo');
+  }
+  function redo() {
+    if (!S.redo.length) return;
+    S.undo.push(lastSnap);
+    restore(S.redo.pop());
+    toast('Redo');
+  }
+
+  function clearAllBoxes() {
+    const n = S.doc.boxes.length;
+    if (!n) return toast('No boxes or selections to clear', 'info');
+    if (!confirm(`Are you sure you want to clear all ${n} box(es) and component selection(s)?`)) return;
+    S.doc.boxes = [];
+    S.sel = null;
+    commit();
+    toast(`Cleared all ${n} box(es). Press Undo to restore.`);
+  }
+
+  function toggleSelectMode() {
+    S.selectMode = !S.selectMode;
+    if (S.selectMode) {
+      if (S.infoMode) toggleInfoMode(false);
+      if (!S.showParts) {
+        S.showParts = true;
+        if ($('tglParts')) $('tglParts').classList.add('active');
+      }
+      ensureColor();
+      toast('Select mode: click footprint parts on PCB to group them. Press Esc to exit.');
+    } else {
+      S.hoverFp = null;
+      toast('Select mode exited');
+    }
+    refreshUI();
+  }
+
+  function toggleInfoMode(forceState) {
+    S.infoMode = forceState !== undefined ? forceState : !S.infoMode;
+    if (S.infoMode) {
+      if (S.selectMode) {
+        S.selectMode = false;
+        if ($('btnSelectMode')) $('btnSelectMode').classList.remove('active');
+      }
+      if (!S.showParts) {
+        S.showParts = true;
+        if ($('tglParts')) $('tglParts').classList.add('active');
+      }
+      const card = $('partInfoCard');
+      if (card) {
+        card.classList.remove('hidden');
+        if (!S.infoFp) {
+          $('infoEmptyHint')?.classList.remove('hidden');
+          $('infoBody')?.classList.add('hidden');
+          $('infoRef').textContent = 'Select part';
+        }
+      }
+      toast('Info mode: click any component on PCB to view details. (Press Esc to exit)');
+    } else {
+      S.hoverFp = null;
+      if ($('partInfoCard')) $('partInfoCard').classList.add('hidden');
+      S.infoFp = null;
+      toast('Info mode exited');
+    }
+    refreshUI();
+  }
+
+  function showPartInfo(fp) {
+    if (!fp) return;
+    S.infoFp = fp;
+    const card = $('partInfoCard');
+    if (!card) return;
+    card.classList.remove('hidden');
+    $('infoEmptyHint')?.classList.add('hidden');
+    $('infoBody')?.classList.remove('hidden');
+
+    $('infoRef').textContent = fp.ref || '–';
+    $('infoVal').textContent = fp.value || '–';
+    $('infoFp').textContent = fp.fpid || '–';
+    $('infoFp').title = fp.fpid || '';
+    $('infoPos').textContent = `(${fmt(fp.x)}, ${fmt(fp.y)})`;
+    $('infoRot').textContent = `${fp.rot}°`;
+    $('infoSide').textContent = fp.side === 'B' ? 'Bottom (B.Cu)' : 'Top (F.Cu)';
+
+    const numPads = fp.pads?.length || 0;
+    $('infoPads').textContent = `${numPads} pad${numPads === 1 ? '' : 's'}`;
+
+    // Extract pad nets
+    const nets = [];
+    if (fp.pads && fp.pads.length) {
+      fp.pads.forEach(p => {
+        if (p.net && !nets.includes(p.net)) nets.push(p.net);
+      });
+    }
+    const netStr = nets.length ? nets.join(', ') : 'None / NC';
+    $('infoNets').textContent = netStr;
+    $('infoNets').title = nets.length ? nets.map((n, i) => `${i + 1}: ${n}`).join('\n') : '';
+
+    if (fp.lcsc) {
+      $('infoLcscRow')?.classList.remove('hidden');
+      $('infoLcsc').textContent = fp.lcsc;
+    } else {
+      $('infoLcscRow')?.classList.add('hidden');
+    }
+
+    if (fp.mpn) {
+      $('infoMpnRow')?.classList.remove('hidden');
+      $('infoMpn').textContent = fp.mpn;
+    } else {
+      $('infoMpnRow')?.classList.add('hidden');
+    }
+
+    render();
+    toast(`Inspecting <b>${fp.ref}</b> (${fp.value || fp.fpid || ''})`);
+  }
+
+  function copyPartInfo() {
+    if (!S.infoFp) return;
+    const fp = S.infoFp;
+    const nets = fp.pads ? [...new Set(fp.pads.map(p => p.net).filter(Boolean))].join(', ') : '';
+    const text = [
+      `Reference: ${fp.ref}`,
+      `Value: ${fp.value || '–'}`,
+      `Footprint: ${fp.fpid || '–'}`,
+      `Position: (${fmt(fp.x)}, ${fmt(fp.y)}) mm`,
+      `Rotation: ${fp.rot}°`,
+      `Side: ${fp.side === 'B' ? 'Bottom' : 'Top'}`,
+      `Pads: ${fp.pads?.length || 0}`,
+      nets ? `Nets: ${nets}` : '',
+      fp.lcsc ? `LCSC: ${fp.lcsc}` : '',
+      fp.mpn ? `MPN: ${fp.mpn}` : ''
+    ].filter(Boolean).join('\n');
+
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = $('btnCopyInfo');
+      if (btn) {
+        const old = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = old; }, 1500);
+      }
+      toast(`Copied <b>${fp.ref}</b> info to clipboard`);
+    });
+  }
+
+  function closePartInfo() {
+    S.infoFp = null;
+    if (S.infoMode) {
+      $('infoEmptyHint')?.classList.remove('hidden');
+      $('infoBody')?.classList.add('hidden');
+      $('infoRef').textContent = 'Select part';
+    } else {
+      $('partInfoCard')?.classList.add('hidden');
+    }
+    render();
+  }
 
   let saveTimer = null;
   function setSaveState(text, cls) { const el = $('saveState'); el.textContent = text; el.className = `save-state ${cls || ''}`; }
@@ -290,30 +454,61 @@
   }
 
   async function checkRenderStatus(boardPath) {
-    const badge = $('renderTimeBadge');
-    if (!badge || !boardPath) return;
+    const badgeTop = $('renderTimeBadge');
+    const badgeIso = $('renderIsoTimeBadge');
+    const btnViewIso = $('btnViewIso');
+    const dockIso = $('tglIsoView');
+    if (!boardPath) return;
     try {
       const res = await fetch(`/api/render_status?path=${encodeURIComponent(boardPath)}`).then(r => r.json());
-      if (res.exists) {
-        badge.textContent = `Render: ${res.timestamp}`;
-        badge.classList.add('fresh');
-        S.render3dPath = res.image;
-        await load3DRender(res.image);
+      // Top status
+      const topInfo = res.top || (res.kind === 'top' || !res.kind ? res : null);
+      if (topInfo && topInfo.exists) {
+        if (badgeTop) {
+          badgeTop.textContent = `Top: ${topInfo.timestamp}`;
+          badgeTop.classList.add('fresh');
+        }
+        S.render3dPath = topInfo.image;
+        await load3DRender(topInfo.image);
         S.show3D = true;
         if ($('tgl3D')) $('tgl3D').classList.add('active');
-        render();
       } else {
-        badge.textContent = 'Render: None';
-        badge.classList.remove('fresh');
+        if (badgeTop) {
+          badgeTop.textContent = 'Top: –';
+          badgeTop.classList.remove('fresh');
+        }
         S.render3dPath = null;
         S.render3dImg = null;
         S.show3D = false;
         if ($('tgl3D')) $('tgl3D').classList.remove('active');
-        render();
       }
+
+      // Iso status
+      const isoInfo = res.iso;
+      if (isoInfo && isoInfo.exists) {
+        if (badgeIso) {
+          badgeIso.textContent = `Iso: ${isoInfo.timestamp}`;
+          badgeIso.classList.remove('hidden');
+          badgeIso.classList.add('fresh');
+        }
+        if ($('isoTimeBadge')) $('isoTimeBadge').textContent = `Render: ${isoInfo.timestamp}`;
+        S.renderIsoPath = isoInfo.image;
+        if (btnViewIso) btnViewIso.classList.remove('hidden');
+        if (dockIso) dockIso.classList.add('active');
+      } else {
+        if (badgeIso) {
+          badgeIso.textContent = 'Iso: –';
+          badgeIso.classList.add('hidden');
+          badgeIso.classList.remove('fresh');
+        }
+        S.renderIsoPath = null;
+        if (btnViewIso) btnViewIso.classList.add('hidden');
+        if (dockIso) dockIso.classList.remove('active');
+      }
+      render();
     } catch {
-      badge.textContent = 'Render: –';
-      badge.classList.remove('fresh');
+      if (badgeTop) badgeTop.textContent = 'Top: –';
+      if (badgeIso) badgeIso.textContent = 'Iso: –';
     }
   }
 
@@ -327,47 +522,119 @@
     });
   }
 
-  async function triggerRender3D() {
+  async function triggerRender3D(kind = 'top') {
     if (!S.boardPath) return toast('No board selected', 'warn');
-    const btnTop = $('btnTopRender3D');
-    const badge = $('renderTimeBadge');
+    const isIso = kind === 'iso';
+    const btn = isIso ? $('btnIsoRender3D') : $('btnTopRender3D');
+    const badge = isIso ? $('renderIsoTimeBadge') : $('renderTimeBadge');
+    const oldHtml = btn ? btn.innerHTML : '';
 
-    const oldTopHtml = btnTop ? btnTop.innerHTML : '';
-    if (btnTop) {
-      btnTop.disabled = true;
-      btnTop.classList.add('btn-spinning');
-      btnTop.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Rendering 3D…';
+    if (btn) {
+      btn.disabled = true;
+      btn.classList.add('btn-spinning');
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Rendering ${isIso ? 'Iso' : 'Top'}…`;
     }
-    if (badge) badge.textContent = 'Rendering…';
+    if (badge) {
+      badge.textContent = 'Rendering…';
+      badge.classList.remove('hidden');
+    }
 
     try {
-      const res = await fetch(`/api/render_3d?path=${encodeURIComponent(S.boardPath)}`, { method: 'POST' }).then(r => r.json());
+      const res = await fetch(`/api/render_3d?path=${encodeURIComponent(S.boardPath)}&kind=${kind}`, { method: 'POST' }).then(r => r.json());
       if (res.error) throw new Error(res.error);
 
-      S.render3dPath = res.image;
-      await load3DRender(res.image);
-
-      // Turn on 3D layer toggle in dock
-      S.show3D = true;
-      if ($('tgl3D')) $('tgl3D').classList.add('active');
-
-      if (badge) {
-        badge.textContent = `Render: ${res.timestamp}`;
-        badge.classList.add('fresh');
+      if (isIso) {
+        S.renderIsoPath = res.image;
+        if (badge) {
+          badge.textContent = `Iso: ${res.timestamp}`;
+          badge.classList.remove('hidden');
+          badge.classList.add('fresh');
+        }
+        if ($('isoTimeBadge')) $('isoTimeBadge').textContent = `Render: ${res.timestamp}`;
+        if ($('btnViewIso')) $('btnViewIso').classList.remove('hidden');
+        if ($('tglIsoView')) $('tglIsoView').classList.add('active');
+        toast(`⚡ Isometric 3D render generated! (${res.timestamp})`);
+        openIsoViewer();
+      } else {
+        S.render3dPath = res.image;
+        await load3DRender(res.image);
+        S.show3D = true;
+        if ($('tgl3D')) $('tgl3D').classList.add('active');
+        if (badge) {
+          badge.textContent = `Top: ${res.timestamp}`;
+          badge.classList.add('fresh');
+        }
+        toast(`⚡ 3D Top-down render generated! (${res.timestamp})`);
+        render();
       }
-
-      toast(`⚡ 3D Top render generated! (${res.timestamp})`);
-      render();
     } catch (err) {
       toast(`3D Render failed: ${esc(err.message)}`, 'err');
-      if (badge) badge.textContent = 'Render: Failed';
+      if (badge) badge.textContent = `${isIso ? 'Iso' : 'Top'}: Failed`;
     } finally {
-      if (btnTop) {
-        btnTop.disabled = false;
-        btnTop.classList.remove('btn-spinning');
-        btnTop.innerHTML = oldTopHtml;
+      if (btn) {
+        btn.disabled = false;
+        btn.classList.remove('btn-spinning');
+        btn.innerHTML = oldHtml;
       }
     }
+  }
+
+  // ---------- ISOMETRIC 3D VIEWER ----------
+  function openIsoViewer() {
+    if (!S.renderIsoPath) {
+      toast('Generating Isometric 3D render…');
+      triggerRender3D('iso');
+      return;
+    }
+    const modal = $('isoModal');
+    const img = $('isoImg');
+    $('isoSubTitle').textContent = `Inspect component height, colors & 3D shapes on ${S.boardPath.split('/').pop()}`;
+    modal.classList.add('open');
+    const doFit = () => requestAnimationFrame(() => fitIso());
+    img.onload = doFit;
+    img.src = `/api/image?path=${encodeURIComponent(S.renderIsoPath)}&t=${Date.now()}`;
+    if (img.complete && img.naturalWidth) {
+      doFit();
+    }
+    setTimeout(doFit, 60);
+  }
+
+  function closeIsoViewer() {
+    $('isoModal').classList.remove('open');
+  }
+
+  function fitIso() {
+    const vp = $('isoViewport');
+    const img = $('isoImg');
+    if (!img.naturalWidth || !img.naturalHeight) return;
+    const pad = 40;
+    const vw = vp.clientWidth - pad * 2;
+    const vh = vp.clientHeight - pad * 2;
+    const sc = Math.min(vw / img.naturalWidth, vh / img.naturalHeight, 1.0);
+    S.isoView.scale = Math.max(0.1, sc);
+    S.isoView.x = (vp.clientWidth - img.naturalWidth * S.isoView.scale) / 2;
+    S.isoView.y = (vp.clientHeight - img.naturalHeight * S.isoView.scale) / 2;
+    applyIsoTransform();
+  }
+
+  function applyIsoTransform() {
+    const wrap = $('isoCanvasWrap');
+    wrap.style.transform = `translate(${S.isoView.x}px, ${S.isoView.y}px) scale(${S.isoView.scale})`;
+    $('isoZoomLevel').textContent = `${Math.round(S.isoView.scale * 100)}%`;
+  }
+
+  function zoomIso(factor, cx, cy) {
+    const vp = $('isoViewport');
+    const img = $('isoImg');
+    if (!img.naturalWidth) return;
+    if (cx === undefined) cx = vp.clientWidth / 2;
+    if (cy === undefined) cy = vp.clientHeight / 2;
+    const oldScale = S.isoView.scale;
+    const newScale = Math.min(6.0, Math.max(0.15, oldScale * factor));
+    S.isoView.x = cx - (cx - S.isoView.x) * (newScale / oldScale);
+    S.isoView.y = cy - (cy - S.isoView.y) * (newScale / oldScale);
+    S.isoView.scale = newScale;
+    applyIsoTransform();
   }
 
   function loadRef(path) {
@@ -431,12 +698,18 @@
     }
     ctx.restore();
 
-    // existing footprints (dimmed pads)
-    if (S.showParts) {
+    // existing footprints (dimmed pads or color-highlighted if selected)
+    if (S.showParts || S.selectMode || S.infoMode) {
       ctx.save();
       for (const fp of S.board.footprints) {
         if (fp.side === 'B') continue;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+        const selB = S.doc.boxes.find(b => b.ref === fp.ref);
+        const col = selB ? color(selB.c) : null;
+        const hex = col ? col.hex : null;
+        const isHover = (S.selectMode || S.infoMode) && S.hoverFp === fp;
+        const isInfoSel = S.infoFp === fp;
+
+        ctx.fillStyle = isInfoSel ? '#ffb347' : (hex ? hex + '88' : (isHover ? (S.infoMode ? 'rgba(255, 179, 71, 0.65)' : 'rgba(60, 240, 208, 0.55)') : 'rgba(255, 255, 255, 0.22)'));
         for (const pad of fp.pads) {
           const c = toScreen(pad.x, pad.y);
           ctx.save();
@@ -446,10 +719,10 @@
           ctx.fillRect(-w / 2, -h / 2, w, h);
           ctx.restore();
         }
-        if (sc > 14) {
+        if (sc > 14 || hex || isHover || isInfoSel) {
           const c = toScreen(fp.x, fp.y);
-          ctx.font = `500 ${Math.min(11, sc * 0.5)}px "JetBrains Mono"`;
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+          ctx.font = `600 ${Math.min(12, Math.max(9, sc * 0.52))}px "JetBrains Mono"`;
+          ctx.fillStyle = isInfoSel ? '#ffb347' : (hex ? '#ffffff' : (isHover ? (S.infoMode ? '#ffb347' : '#3cf0d0') : 'rgba(255, 255, 255, 0.45)'));
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(fp.ref, c.x, c.y);
@@ -547,14 +820,15 @@
           ctx.fillStyle = hex;
           ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + Math.min(8, w / 2), p.y); ctx.lineTo(p.x, p.y + Math.min(8, h / 2)); ctx.fill();
         }
-        // color number
+        // color number & component ref
         const ci = colorIndex(b.c) + 1;
-        if (w > 14 && h > 12) {
-          ctx.font = `700 ${Math.min(13, h * 0.6, w * 0.5)}px "JetBrains Mono"`;
+        const tagText = b.ref ? `${ci} · ${b.ref}` : String(ci);
+        if (w > 12 && h > 10) {
+          ctx.font = `700 ${Math.min(13, Math.max(9, h * 0.55, w * 0.35))}px "JetBrains Mono"`;
           ctx.fillStyle = '#fff';
-          ctx.globalAlpha = 0.85;
+          ctx.globalAlpha = 0.95;
           ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-          ctx.fillText(String(ci), p.x + w / 2, p.y + h / 2);
+          ctx.fillText(tagText, p.x + w / 2, p.y + h / 2);
         }
         ctx.restore();
         if (isSel) drawHandles(p.x, p.y, w, h);
@@ -601,6 +875,87 @@
       ctx.fillText(`${S.activePreset.name} (${fmt(pw)}×${fmt(ph)})`, p1.x, p1.y - 5);
       ctx.restore();
     }
+
+    // Select mode hover indicator over unselected footprint
+    if (S.selectMode && S.hoverFp && !S.doc.boxes.some(b => b.ref === S.hoverFp.ref)) {
+      const bb = getFpBBox(S.hoverFp);
+      const p = toScreen(bb.x - bb.w / 2, bb.y - bb.h / 2);
+      ctx.save();
+      ctx.strokeStyle = '#3cf0d0';
+      ctx.setLineDash([3, 2]);
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(p.x, p.y, bb.w * sc, bb.h * sc);
+      ctx.font = '600 11px "JetBrains Mono"';
+      ctx.fillStyle = '#3cf0d0';
+    // Info mode hover indicator
+    if (S.infoMode && S.hoverFp && S.hoverFp !== S.infoFp) {
+      const bb = getFpBBox(S.hoverFp);
+      const p = toScreen(bb.x - bb.w / 2, bb.y - bb.h / 2);
+      ctx.save();
+      ctx.strokeStyle = '#ffb347';
+      ctx.setLineDash([3, 2]);
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(p.x, p.y, bb.w * sc, bb.h * sc);
+      ctx.font = '600 11px "JetBrains Mono"';
+      ctx.fillStyle = '#ffb347';
+      ctx.fillText(`Inspect ${S.hoverFp.ref}`, p.x, p.y - 5);
+      ctx.restore();
+    }
+
+    // Info mode selected footprint persistent highlight & badge
+    if (S.infoFp) {
+      const bb = getFpBBox(S.infoFp);
+      const p = toScreen(bb.x - bb.w / 2, bb.y - bb.h / 2);
+      ctx.save();
+      ctx.strokeStyle = '#ffb347';
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([]);
+      ctx.shadowColor = 'rgba(255, 179, 71, 0.6)';
+      ctx.shadowBlur = 10;
+      ctx.strokeRect(p.x - 2, p.y - 2, bb.w * sc + 4, bb.h * sc + 4);
+
+      // Corner bracket accents
+      const cornerLen = Math.min(12, Math.max(5, bb.w * sc * 0.25));
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#ffffff';
+      ctx.beginPath();
+      // NW
+      ctx.moveTo(p.x - 4, p.y - 4 + cornerLen);
+      ctx.lineTo(p.x - 4, p.y - 4);
+      ctx.lineTo(p.x - 4 + cornerLen, p.y - 4);
+      // NE
+      ctx.moveTo(p.x + bb.w * sc + 4 - cornerLen, p.y - 4);
+      ctx.lineTo(p.x + bb.w * sc + 4, p.y - 4);
+      ctx.lineTo(p.x + bb.w * sc + 4, p.y - 4 + cornerLen);
+      // SW
+      ctx.moveTo(p.x - 4, p.y + bb.h * sc + 4 - cornerLen);
+      ctx.lineTo(p.x - 4, p.y + bb.h * sc + 4);
+      ctx.lineTo(p.x - 4 + cornerLen, p.y + bb.h * sc + 4);
+      // SE
+      ctx.moveTo(p.x + bb.w * sc + 4 - cornerLen, p.y + bb.h * sc + 4);
+      ctx.lineTo(p.x + bb.w * sc + 4, p.y + bb.h * sc + 4);
+      ctx.lineTo(p.x + bb.w * sc + 4, p.y + bb.h * sc + 4 - cornerLen);
+      ctx.stroke();
+
+      // Tooltip badge above component
+      const badgeText = `${S.infoFp.ref}: ${S.infoFp.value || S.infoFp.fpid || ''}`;
+      ctx.font = '700 11px "JetBrains Mono", monospace';
+      const tw = ctx.measureText(badgeText).width;
+      const bx = p.x + (bb.w * sc) / 2 - tw / 2 - 8;
+      const by = p.y - 24;
+      ctx.fillStyle = 'rgba(15, 20, 30, 0.92)';
+      ctx.strokeStyle = '#ffb347';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(bx, by, tw + 16, 20, 4);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#ffb347';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(badgeText, bx + 8, by + 10);
+      ctx.restore();
+    }
   }
 
   function firstLive(b) { return instances(b)[0]?.i ?? 0; }
@@ -617,6 +972,69 @@
   }
 
   // ---------- HIT TESTING ----------
+  function getFpBBox(fp) {
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    if (fp.pads && fp.pads.length) {
+      for (const p of fp.pads) {
+        const pw = (p.w || 0.6) / 2, ph = (p.h || 0.6) / 2;
+        minX = Math.min(minX, p.x - pw);
+        maxX = Math.max(maxX, p.x + pw);
+        minY = Math.min(minY, p.y - ph);
+        maxY = Math.max(maxY, p.y + ph);
+      }
+    }
+    if (fp.outline && fp.outline.length) {
+      for (const seg of fp.outline) {
+        for (const pt of seg) {
+          minX = Math.min(minX, pt[0]);
+          maxX = Math.max(maxX, pt[0]);
+          minY = Math.min(minY, pt[1]);
+          maxY = Math.max(maxY, pt[1]);
+        }
+      }
+    }
+    minX = Math.min(minX, fp.x - 0.4);
+    maxX = Math.max(maxX, fp.x + 0.4);
+    minY = Math.min(minY, fp.y - 0.4);
+    maxY = Math.max(maxY, fp.y + 0.4);
+
+    const pad = 0.2;
+    return {
+      x: (minX + maxX) / 2,
+      y: (minY + maxY) / 2,
+      w: Math.max(0.5, (maxX - minX) + pad * 2),
+      h: Math.max(0.5, (maxY - minY) + pad * 2),
+      minX: minX - pad,
+      maxX: maxX + pad,
+      minY: minY - pad,
+      maxY: maxY + pad
+    };
+  }
+
+  function hitFootprint(m) {
+    if (!S.board?.footprints) return null;
+    const tol = Math.max(0.5, 8 / S.view.scale); // mm
+    let best = null;
+    let bestScore = Infinity;
+    for (const fp of S.board.footprints) {
+      if (fp.side === 'B') continue;
+      const bb = getFpBBox(fp);
+      const centerDist = Math.hypot(m.x - fp.x, m.y - fp.y);
+      const inBBox = (m.x >= bb.minX - tol && m.x <= bb.maxX + tol && m.y >= bb.minY - tol && m.y <= bb.maxY + tol);
+      const nearCenter = centerDist <= Math.max(1.2, 12 / S.view.scale);
+      if (inBBox || nearCenter) {
+        const dist = Math.hypot(m.x - bb.x, m.y - bb.y);
+        const area = bb.w * bb.h;
+        const score = area * 4 + dist;
+        if (score < bestScore) {
+          bestScore = score;
+          best = fp;
+        }
+      }
+    }
+    return best;
+  }
+
   function hitHandle(m) {
     const it = instanceOf(S.sel);
     if (!it) return null;
@@ -652,6 +1070,64 @@
       return;
     }
     if (e.button !== 0) return;
+
+    // Component info inspection mode: click any component to inspect details
+    if (S.infoMode) {
+      const hitFp = hitFootprint(m);
+      if (hitFp) {
+        showPartInfo(hitFp);
+        return;
+      }
+    }
+
+    // Component selection mode: click existing footprint to group it
+    if (S.selectMode) {
+      const hitFp = hitFootprint(m);
+      if (hitFp) {
+        ensureColor();
+        const existing = S.doc.boxes.find(b => b.ref === hitFp.ref);
+        if (existing) {
+          if (existing.c === S.activeColor) {
+            // Deselect / remove from group
+            S.doc.boxes = S.doc.boxes.filter(b => b !== existing);
+            if (S.sel?.id === existing.id) S.sel = null;
+            commit();
+            toast(`Deselected <b>${hitFp.ref}</b>`);
+            return;
+          } else {
+            // Move into active color group
+            existing.c = S.activeColor;
+            S.sel = { id: existing.id, i: 0 };
+            commit();
+            toast(`Moved <b>${hitFp.ref}</b> to active group`);
+            return;
+          }
+        } else {
+          // Add footprint as a box in the active color group
+          const bb = getFpBBox(hitFp);
+          const nb = {
+            id: uid('b'),
+            c: S.activeColor,
+            x: r2(bb.x),
+            y: r2(bb.y),
+            w: r2(bb.w),
+            h: r2(bb.h),
+            ref: hitFp.ref,
+            val: hitFp.value || '',
+            fpid: hitFp.fpid || '',
+            pat: null
+          };
+          S.doc.boxes.push(nb);
+          S.sel = { id: nb.id, i: 0 };
+          commit();
+          toast(`Selected <b>${hitFp.ref}</b> into group`);
+          return;
+        }
+      }
+      S.sel = null;
+      refreshUI();
+      return;
+    }
 
     const handle = hitHandle(m);
     if (handle) {
@@ -698,6 +1174,17 @@
       render();
       return;
     }
+
+    if ((S.selectMode || S.infoMode) && !S.drag) {
+      const prevHover = S.hoverFp;
+      S.hoverFp = hitFootprint(m);
+      if (S.hoverFp !== prevHover) {
+        canvas.className = S.hoverFp ? 'over-box' : '';
+        render();
+      }
+      return;
+    }
+
     const d = S.drag;
     if (d?.mode === 'draw') {
       d.x1 = snap(m.x); d.y1 = snap(m.y);
@@ -753,8 +1240,9 @@
             renderLegend();
           }
           S.doc.boxes.push(b);
-          S.sel = { id: b.id, i: 0 };
+          S.sel = null;
           commit();
+          refreshUI();
           toast(`Placed ${S.activePreset.name} at (${fmt(cx)}, ${fmt(cy)})`);
           return;
         }
@@ -802,7 +1290,30 @@
     if (k === 'f') return fit();
     if (k === 'h') { S.showRef = !S.showRef; $('tglRef').classList.toggle('active', S.showRef); return render(); }
     if (k === 'r' && !e.ctrlKey && !e.metaKey) { flipPreset(); return; }
+    if (k === 's' && !e.ctrlKey && !e.metaKey) { toggleSelectMode(); return; }
+    if (k === 'x' && !e.ctrlKey && !e.metaKey) { toggleInfoMode(); return; }
+    if (k === 'i' && !e.ctrlKey && !e.metaKey) { openIsoViewer(); return; }
     if (k === 'escape') {
+      if ($('isoModal')?.classList.contains('open')) {
+        closeIsoViewer();
+        return;
+      }
+      if ($('modal')?.classList.contains('open')) {
+        $('modal').classList.remove('open');
+        return;
+      }
+      if (S.infoMode || S.infoFp) {
+        closePartInfo();
+        if (S.infoMode) toggleInfoMode(false);
+        return render();
+      }
+      if (S.selectMode) {
+        S.selectMode = false;
+        S.hoverFp = null;
+        refreshUI();
+        toast('Select mode exited');
+        return;
+      }
       if (S.activePreset) {
         S.activePreset = null;
         updatePresetChipsUI();
@@ -927,33 +1438,72 @@
     const ul = $('colorList');
     const counts = {};
     S.doc.boxes.forEach(b => { counts[b.c] = (counts[b.c] || 0) + liveCount(b); });
-    ul.innerHTML = S.doc.colors.map((c, k) => `
-      <li class="color-row ${c.id === S.activeColor ? 'active' : ''}" data-c="${c.id}" style="--row-color:${c.hex}">
-        <span class="key">${k < 9 ? k + 1 : ''}</span>
-        <span class="swatch" style="background:${c.hex}" title="Change color"><input type="color" value="${c.hex}" data-c="${c.id}"></span>
-        <input class="note" data-c="${c.id}" value="${esc(c.note)}" placeholder="what part is this?">
-        <span class="cnt">${counts[c.id] || 0}</span>
-        <button class="del" data-c="${c.id}" title="Delete color and its boxes">×</button>
-      </li>`).join('');
+    ul.innerHTML = S.doc.colors.map((c, k) => {
+      const compBoxes = S.doc.boxes.filter(b => b.c === c.id && b.ref);
+      const chips = compBoxes.map(b => `
+        <span class="fp-tag ${S.sel?.id === b.id ? 'active' : ''}" data-id="${b.id}" title="${b.ref} (${b.val || b.fpid || ''})">
+          ${b.ref}
+          <span class="del-fp" data-del-fp="${b.id}" title="Remove ${b.ref}">×</span>
+        </span>
+      `).join('');
+
+      return `
+      <li class="color-item" data-c="${c.id}">
+        <div class="color-row ${c.id === S.activeColor ? 'active' : ''}" data-c="${c.id}" style="--row-color:${c.hex}">
+          <span class="key">${k < 9 ? k + 1 : ''}</span>
+          <span class="swatch" style="background:${c.hex}" title="Change color"><input type="color" value="${c.hex}" data-c="${c.id}"></span>
+          <input class="note" data-c="${c.id}" value="${esc(c.note)}" placeholder="${compBoxes.length ? compBoxes.map(b => b.ref).join(', ') : 'what part is this?'}">
+          <span class="cnt">${counts[c.id] || 0}</span>
+          <button class="del" data-c="${c.id}" title="Delete color and its boxes">×</button>
+        </div>
+        ${chips ? `<div class="color-fps">${chips}</div>` : ''}
+      </li>`;
+    }).join('');
   }
 
   function onLegendClick(e) {
+    const delFp = e.target.closest('[data-del-fp]');
+    if (delFp) {
+      const bid = delFp.dataset.delFp;
+      const b = box(bid);
+      const refName = b?.ref || 'component';
+      S.doc.boxes = S.doc.boxes.filter(x => x.id !== bid);
+      if (S.sel?.id === bid) S.sel = null;
+      commit();
+      toast(`Removed <b>${refName}</b> from group`);
+      return;
+    }
+
+    const fpTag = e.target.closest('.fp-tag');
+    if (fpTag) {
+      const bid = fpTag.dataset.id;
+      const b = box(bid);
+      if (b) {
+        S.sel = { id: bid, i: 0 };
+        S.activeColor = b.c;
+        refreshUI();
+      }
+      return;
+    }
+
     const del = e.target.closest('.del');
     const row = e.target.closest('.color-row');
     if (!row) return;
     const id = row.dataset.c;
     if (del) {
       const n = S.doc.boxes.filter(b => b.c === id).reduce((a, b) => a + liveCount(b), 0);
-      if (n && !confirm(`Delete this color and its ${n} box(es)?`)) return;
+      // Regular X does NOT ask to confirm (user can use Undo button)
       S.doc.colors = S.doc.colors.filter(c => c.id !== id);
       S.doc.boxes = S.doc.boxes.filter(b => b.c !== id);
       if (S.sel && !instanceOf(S.sel)) S.sel = null;
       ensureColor();
       commit();
+      toast(`Deleted color group (${n} item${n === 1 ? '' : 's'}). Undo available.`, 'info');
       return;
     }
     S.activeColor = id;
-    $('colorList').querySelectorAll('.color-row').forEach(li => li.classList.toggle('active', li.dataset.c === id));
+    S.sel = null;
+    refreshUI();
   }
 
   // ---------- EXPORT ----------
@@ -964,11 +1514,14 @@
     lines.push('');
     lines.push(`Reference image: \`${S.doc.ref || '(none)'}\``);
     if (S.render3dPath) {
-      lines.push(`3D CAD render: \`${S.render3dPath}\``);
+      lines.push(`Top-Down 3D CAD render: \`${S.render3dPath}\``);
+    }
+    if (S.renderIsoPath) {
+      lines.push(`Isometric 3D CAD render: \`${S.renderIsoPath}\``);
     }
     lines.push(`Box file (same data, machine-readable): \`${boxesFile}\``);
     lines.push('');
-    lines.push('X/Y = box center in KiCad board coordinates (mm). W×H = box size (approx. part body). ' +
+    lines.push('X/Y = center in KiCad board coordinates (mm). W×H = part/box size. ' +
                'Place/update footprints directly on the PCB and move/align footprint to center. ' +
                'Check color notes to add new parts or correct/align existing footprints. Ask me if a note is missing or unclear.');
 
@@ -980,19 +1533,23 @@
       const bs = S.doc.boxes.filter(b => b.c === c.id);
       const its = bs.flatMap(b => instances(b).map(it => ({ ...it, b })));
       if (!its.length) return;
+      const compRefs = bs.filter(b => b.ref).map(b => b.ref);
+      const titleExtra = compRefs.length ? ` · Selected: ${compRefs.join(', ')}` : '';
       lines.push('');
-      lines.push(`#### Color ${k + 1} (${c.hex}): ${c.note ? c.note : '**(no note, ask me)**'} · ${its.length} part${its.length > 1 ? 's' : ''}`);
+      lines.push(`#### Color ${k + 1} (${c.hex}): ${c.note ? c.note : '**(no note, ask me)**'} · ${its.length} item${its.length > 1 ? 's' : ''}${titleExtra}`);
       lines.push('');
-      lines.push('| # | X (mm) | Y (mm) | W×H (mm) | Pattern |');
-      lines.push('|---|---|---|---|---|');
+      lines.push('| # | Ref / Item | Value / Footprint | X (mm) | Y (mm) | W×H (mm) | Details / Pattern |');
+      lines.push('|---|---|---|---|---|---|---|');
       let n = 0;
       for (const b of bs) {
         const list = instances(b);
         const name = patName.get(b.id);
         list.forEach((it, j) => {
           n++;
-          const pat = name ? `${name} ${j + 1}/${list.length} · ${fmt(b.pat.pitch)} mm ${DIR_ARROW[b.pat.dir]}` : '–';
-          lines.push(`| ${n} | ${fmt(it.x)} | ${fmt(it.y)} | ${fmt(it.w)}×${fmt(it.h)} | ${pat} |`);
+          const pat = name ? `${name} ${j + 1}/${list.length} · ${fmt(b.pat.pitch)} mm ${DIR_ARROW[b.pat.dir]}` : (b.ref ? 'Component on PCB' : '–');
+          const refStr = b.ref ? `**${b.ref}**` : `Box ${n}`;
+          const valStr = b.ref ? `${b.val || '–'} / ${b.fpid || '–'}` : '–';
+          lines.push(`| ${n} | ${refStr} | ${valStr} | ${fmt(it.x)} | ${fmt(it.y)} | ${fmt(it.w)}×${fmt(it.h)} | ${pat} |`);
         });
       }
     });
@@ -1068,6 +1625,10 @@
     renderLegend();
     fillSelbar();
     $('boxCount').textContent = totalCount();
+    if ($('btnUndo')) $('btnUndo').disabled = S.undo.length === 0;
+    if ($('btnRedo')) $('btnRedo').disabled = S.redo.length === 0;
+    if ($('btnSelectMode')) $('btnSelectMode').classList.toggle('active', !!S.selectMode);
+    if ($('btnInfoMode')) $('btnInfoMode').classList.toggle('active', !!S.infoMode);
     render();
   }
 
@@ -1094,25 +1655,21 @@
       return;
     }
 
-    S.activePreset = { name, w, h, flipped: false };
+    // Preserve flipped orientation if user already flipped preset
+    const keepFlipped = S.activePreset ? S.activePreset.flipped : false;
+    S.activePreset = {
+      name,
+      w: keepFlipped ? h : w,
+      h: keepFlipped ? w : h,
+      flipped: keepFlipped
+    };
     updatePresetChipsUI();
 
-    const b = S.sel && box(S.sel.id);
-    if (b) {
-      b.w = r2(S.activePreset.w);
-      b.h = r2(S.activePreset.h);
-      const col = color(b.c);
-      if (col && !col.note) {
-        col.note = name;
-        renderLegend();
-      }
-      commit();
-      fillSelbar();
-      toast(`Snapped box to ${name} (${fmt(b.w)} × ${fmt(b.h)} mm)`);
-    } else {
-      toast(`Preset ${name} active (${fmt(w)} × ${fmt(h)} mm) — click board to drop`);
-      render();
-    }
+    // Deselect any box so quick sizes acts purely as a stamp tool to drop new parts
+    // and never accidentally resizes or resets orientation of existing boxes!
+    S.sel = null;
+    refreshUI();
+    toast(`Preset ${name} active (${fmt(S.activePreset.w)} × ${fmt(S.activePreset.h)} mm) — click board to drop`);
   }
 
   function flipPreset() {
@@ -1124,6 +1681,7 @@
       updatePresetChipsUI();
       toast(`Flipped preset: ${fmt(S.activePreset.w)} × ${fmt(S.activePreset.h)} mm`);
       render();
+      return;
     }
     const b = S.sel && box(S.sel.id);
     if (b) {
@@ -1132,13 +1690,18 @@
       b.h = tmp;
       commit();
       fillSelbar();
-      if (!S.activePreset) toast(`Flipped box: ${fmt(b.w)} × ${fmt(b.h)} mm`);
+      toast(`Flipped box: ${fmt(b.w)} × ${fmt(b.h)} mm`);
     }
   }
 
   // ---------- EVENTS ----------
   function hookEvents() {
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', () => {
+      resize();
+      if ($('isoModal')?.classList.contains('open')) {
+        fitIso();
+      }
+    });
     canvas.addEventListener('mousedown', onDown);
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onUp);
@@ -1213,7 +1776,91 @@
     $('btnFit').onclick = fit;
 
     const btnTop = $('btnTopRender3D');
-    if (btnTop) btnTop.onclick = triggerRender3D;
+    if (btnTop) btnTop.onclick = () => triggerRender3D('top');
+    const btnIso = $('btnIsoRender3D');
+    if (btnIso) btnIso.onclick = () => triggerRender3D('iso');
+    const btnViewIso = $('btnViewIso');
+    if (btnViewIso) btnViewIso.onclick = openIsoViewer;
+    const tglIsoView = $('tglIsoView');
+    if (tglIsoView) tglIsoView.onclick = openIsoViewer;
+
+    const btnUndo = $('btnUndo');
+    if (btnUndo) btnUndo.onclick = undo;
+    const btnRedo = $('btnRedo');
+    if (btnRedo) btnRedo.onclick = redo;
+
+    const btnSelectMode = $('btnSelectMode');
+    if (btnSelectMode) btnSelectMode.onclick = toggleSelectMode;
+    const btnInfoMode = $('btnInfoMode');
+    if (btnInfoMode) btnInfoMode.onclick = () => toggleInfoMode();
+    const btnCopyInfo = $('btnCopyInfo');
+    if (btnCopyInfo) btnCopyInfo.onclick = copyPartInfo;
+    const btnCloseInfo = $('btnCloseInfo');
+    if (btnCloseInfo) btnCloseInfo.onclick = closePartInfo;
+    const btnClearAll = $('btnClearAll');
+    if (btnClearAll) btnClearAll.onclick = clearAllBoxes;
+
+    // Isometric Viewer modal controls
+    const btnIsoZoomIn = $('btnIsoZoomIn');
+    if (btnIsoZoomIn) btnIsoZoomIn.onclick = () => zoomIso(1.25);
+    const btnIsoZoomOut = $('btnIsoZoomOut');
+    if (btnIsoZoomOut) btnIsoZoomOut.onclick = () => zoomIso(0.8);
+    const btnIsoFit = $('btnIsoFit');
+    if (btnIsoFit) btnIsoFit.onclick = fitIso;
+    const btnIso100 = $('btnIso100');
+    if (btnIso100) btnIso100.onclick = () => {
+      const vp = $('isoViewport');
+      const img = $('isoImg');
+      if (!img.naturalWidth) return;
+      S.isoView.scale = 1.0;
+      S.isoView.x = (vp.clientWidth - img.naturalWidth) / 2;
+      S.isoView.y = (vp.clientHeight - img.naturalHeight) / 2;
+      applyIsoTransform();
+    };
+    const btnIsoRerender = $('btnIsoRerender');
+    if (btnIsoRerender) btnIsoRerender.onclick = () => triggerRender3D('iso');
+    const btnIsoClose = $('btnIsoClose');
+    if (btnIsoClose) btnIsoClose.onclick = closeIsoViewer;
+    $('isoModal')?.addEventListener('click', e => { if (e.target === $('isoModal')) closeIsoViewer(); });
+
+    const isoVp = $('isoViewport');
+    if (isoVp) {
+      isoVp.addEventListener('wheel', e => {
+        e.preventDefault();
+        const r = isoVp.getBoundingClientRect();
+        zoomIso(e.deltaY < 0 ? 1.15 : 0.87, e.clientX - r.left, e.clientY - r.top);
+      }, { passive: false });
+      isoVp.addEventListener('mousedown', e => {
+        if (e.button === 0) {
+          S.isoDrag = { x: e.clientX, y: e.clientY, ox: S.isoView.x, oy: S.isoView.y };
+          isoVp.classList.add('grabbing');
+        }
+      });
+      isoVp.addEventListener('dblclick', () => {
+        if (Math.abs(S.isoView.scale - 1.0) < 0.15) fitIso();
+        else {
+          const img = $('isoImg');
+          if (!img.naturalWidth) return;
+          S.isoView.scale = 1.0;
+          S.isoView.x = (isoVp.clientWidth - img.naturalWidth) / 2;
+          S.isoView.y = (isoVp.clientHeight - img.naturalHeight) / 2;
+          applyIsoTransform();
+        }
+      });
+    }
+    window.addEventListener('mousemove', e => {
+      if (S.isoDrag) {
+        S.isoView.x = S.isoDrag.ox + (e.clientX - S.isoDrag.x);
+        S.isoView.y = S.isoDrag.oy + (e.clientY - S.isoDrag.y);
+        applyIsoTransform();
+      }
+    });
+    window.addEventListener('mouseup', () => {
+      if (S.isoDrag) {
+        S.isoDrag = null;
+        $('isoViewport')?.classList.remove('grabbing');
+      }
+    });
 
     $('btnAddColor').onclick = () => addColor();
     $('colorList').addEventListener('click', onLegendClick);

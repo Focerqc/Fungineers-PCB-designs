@@ -1,18 +1,31 @@
-import subprocess, re
+import subprocess
+import os
 from PIL import Image
 
-pcb_path = r'c:\Users\quinn\Desktop\AI PCB CAD\Q VFBMS32 AI PCB\VFBMS32.kicad_pcb'
-kicad_cli = r'C:\Program Files\KiCad\10.0\bin\kicad-cli.exe'
+kicad_cli = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
+pcb_path = "qfbms32.kicad_pcb"
+test_render = "scratch/test_render_parts.png"
 
-# Let's inspect the current VFBMS32.kicad_pcb render:
-out = r'c:\Users\quinn\Desktop\AI PCB CAD\test_current.png'
-subprocess.run([kicad_cli, 'pcb', 'render', '--side', 'top', '--width', '2400', '--height', '800', '--background', 'transparent', '-o', out, pcb_path], check=True)
+subprocess.run([
+    kicad_cli, "pcb", "render",
+    "--side", "top",
+    "--width", "4000",
+    "--height", "1200",
+    "--background", "transparent",
+    "-o", test_render,
+    pcb_path
+], check=True)
 
-im = Image.open(out)
+im = Image.open(test_render)
 bbox = im.getbbox()
-print("Full render bbox:", bbox)
-
-# Crop left 500 pixels around the connectors
-crop = im.crop((bbox[0]-10, bbox[1]-10, bbox[0]+450, bbox[3]+10))
-crop.save(r'c:\Users\quinn\Desktop\AI PCB CAD\test_crop.png')
-print("Saved test_crop.png, size:", crop.size)
+if bbox:
+    cropped = im.crop(bbox)
+    w, h = cropped.size
+    print(f"Cropped board size: {w}x{h}")
+    # X=30.85 / 130 = 0.237, Y=28.2 / 32 = 0.881
+    cx = int(30.85 / 130.0 * w)
+    cy = int(28.2 / 32.0 * h)
+    
+    crop = cropped.crop((cx - 150, cy - 120, cx + 150, cy + 120))
+    crop.save("scratch/crop_rendered_new_parts.png")
+    print("Saved crop_rendered_new_parts.png")

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=iso3">
 </head>
 <body>
   <header class="topbar">
@@ -25,14 +25,33 @@
       <label class="picker"><span>Reference</span><select id="imageSelect"><option value="">(none)</option></select></label>
       <div class="render-3d-group">
         <button id="btnTopRender3D" class="btn btn-ghost btn-sm" title="Generate fresh 3D top-down render from KiCad">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          Render 3D
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Top-Down Render
         </button>
-        <span id="renderTimeBadge" class="render-badge" title="Timestamp of last 3D render">Render: –</span>
+        <button id="btnIsoRender3D" class="btn btn-ghost btn-sm btn-iso" title="Generate fresh isometric 3D render from KiCad">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Isometric Render
+        </button>
+        <button id="btnViewIso" class="btn btn-ghost btn-sm btn-view-iso hidden" title="Open Interactive Isometric 3D Viewer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+          View Iso
+        </button>
+        <span id="renderTimeBadge" class="render-badge" title="Timestamp of top-down 3D render">Top: –</span>
+        <span id="renderIsoTimeBadge" class="render-badge hidden" title="Timestamp of isometric 3D render">Iso: –</span>
       </div>
     </div>
 
     <div class="actions">
+      <div class="history-btns">
+        <button id="btnUndo" class="btn btn-ghost btn-sm" title="Undo (Ctrl+Z)" disabled>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 7"/></svg>
+          Undo
+        </button>
+        <button id="btnRedo" class="btn btn-ghost btn-sm" title="Redo (Ctrl+Y)" disabled>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 1-3-7.7L21 7"/></svg>
+          Redo
+        </button>
+      </div>
       <span id="saveState" class="save-state">–</span>
       <button id="btnExport" class="btn btn-primary" title="Copy prompt for agent (Ctrl+S)">
         Copy Prompt <em id="boxCount">0</em>
@@ -45,7 +64,12 @@
     <aside class="legend">
       <div class="legend-head">
         <h2>Colors</h2>
-        <button id="btnAddColor" class="btn btn-ghost btn-sm" title="Add a color">+ Add</button>
+        <div class="legend-actions">
+          <button id="btnSelectMode" class="btn btn-ghost btn-sm" title="Select existing footprint parts on PCB into the active color group (S)">Select</button>
+          <button id="btnInfoMode" class="btn btn-ghost btn-sm" title="Toggle Part Info mode: click any component on PCB to inspect its properties (X)">Info</button>
+          <button id="btnAddColor" class="btn btn-ghost btn-sm" title="Add a color">+ Add</button>
+          <button id="btnClearAll" class="btn btn-ghost btn-sm btn-del" title="Clear all boxes and selections">Clear</button>
+        </div>
       </div>
 
       <!-- Quick package size presets -->
@@ -68,6 +92,59 @@
       <p class="hint">Each color = one part type. Write what it is in the note.</p>
       <ul id="colorList" class="color-list"></ul>
 
+      <!-- Component Info Card (Lower Sidebar) -->
+      <div id="partInfoCard" class="part-info-card hidden">
+        <div class="info-head">
+          <div class="info-title-group">
+            <span class="info-badge">Part Info</span>
+            <span id="infoRef" class="info-ref">–</span>
+          </div>
+          <div class="info-actions">
+            <button id="btnCopyInfo" class="btn btn-ghost btn-xs" title="Copy component details to clipboard">Copy</button>
+            <button id="btnCloseInfo" class="btn btn-ghost btn-xs" title="Close info box">✕</button>
+          </div>
+        </div>
+        <div id="infoEmptyHint" class="info-empty hidden">Click any component on the board to view its info</div>
+        <div id="infoBody" class="info-body">
+          <div class="info-row">
+            <span class="info-k">Value</span>
+            <span id="infoVal" class="info-v highlight">–</span>
+          </div>
+          <div class="info-row">
+            <span class="info-k">Footprint</span>
+            <span id="infoFp" class="info-v mono truncate" title="–">–</span>
+          </div>
+          <div class="info-row">
+            <span class="info-k">Center</span>
+            <span id="infoPos" class="info-v mono">–</span>
+          </div>
+          <div class="info-row">
+            <span class="info-k">Rotation</span>
+            <span id="infoRot" class="info-v mono">–</span>
+          </div>
+          <div class="info-row">
+            <span class="info-k">Side</span>
+            <span id="infoSide" class="info-v">–</span>
+          </div>
+          <div class="info-row" id="infoPadsRow">
+            <span class="info-k">Pads</span>
+            <span id="infoPads" class="info-v">–</span>
+          </div>
+          <div class="info-row" id="infoNetsRow">
+            <span class="info-k">Nets</span>
+            <span id="infoNets" class="info-v mono truncate" title="–">–</span>
+          </div>
+          <div class="info-row hidden" id="infoLcscRow">
+            <span class="info-k">LCSC</span>
+            <span id="infoLcsc" class="info-v mono">–</span>
+          </div>
+          <div class="info-row hidden" id="infoMpnRow">
+            <span class="info-k">MPN</span>
+            <span id="infoMpn" class="info-v mono">–</span>
+          </div>
+        </div>
+      </div>
+
       <details class="ref-fit">
         <summary>Reference fit</summary>
         <p class="hint">Image is stretched over the board outline. Nudge if the render had a border.</p>
@@ -88,7 +165,8 @@
         <div><kbd>Alt</kbd>+<kbd>Drag</kbd> = break out &amp; move one</div>
         <div><kbd>1-9</kbd> pick color · <kbd>Ctrl D</kbd> duplicate</div>
         <div><kbd>Del</kbd> remove one · <kbd>Shift Del</kbd> whole pattern</div>
-        <div><kbd>F</kbd> fit · <kbd>H</kbd> hide ref · <kbd>Ctrl Z</kbd>/<kbd>Y</kbd></div>
+        <div><kbd>X</kbd> info · <kbd>S</kbd> select · <kbd>F</kbd> fit · <kbd>I</kbd> iso · <kbd>H</kbd> ref</div>
+        <div><kbd>Ctrl Z</kbd>/<kbd>Y</kbd> undo/redo</div>
       </div>
     </aside>
 
@@ -109,7 +187,8 @@
 
       <div class="dock">
         <button class="dock-btn active" id="tglRef" title="Toggle reference photo/image (H)">Ref</button>
-        <button class="dock-btn btn-3d" id="tgl3D" title="Toggle 3D CAD render layer on/off">3D</button>
+        <button class="dock-btn btn-3d" id="tgl3D" title="Toggle 3D CAD top render layer on/off">3D Top</button>
+        <button class="dock-btn btn-iso-dock" id="tglIsoView" title="Open Interactive Isometric 3D Viewer (I)">Iso 3D</button>
         <button class="dock-btn active" id="tglParts" title="Toggle existing footprint pads">Parts</button>
         <button class="dock-btn btn-cu-top" id="tglTopCu" title="Toggle Top Copper Traces (F.Cu)">F.Cu</button>
         <button class="dock-btn btn-cu-bot" id="tglBotCu" title="Toggle Bottom Copper Traces (B.Cu)">B.Cu</button>
@@ -182,6 +261,43 @@
     </div>
   </div>
 
-  <script src="app.js?v=qfbms32"></script>
+  <!-- ISOMETRIC 3D VIEWER MODAL -->
+  <div id="isoModal" class="modal iso-modal">
+    <div class="iso-window">
+      <div class="iso-header">
+        <div class="iso-title-group">
+          <div class="iso-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div>
+            <h3>Isometric 3D CAD Render</h3>
+            <small id="isoSubTitle">Inspect component height, colors &amp; 3D shapes</small>
+          </div>
+        </div>
+        <div class="iso-toolbar">
+          <span id="isoTimeBadge" class="render-badge">Render: –</span>
+          <div class="iso-zoom-controls">
+            <button id="btnIsoZoomOut" class="btn btn-ghost btn-xs" title="Zoom Out (-)">−</button>
+            <span id="isoZoomLevel" class="iso-zoom-badge">100%</span>
+            <button id="btnIsoZoomIn" class="btn btn-ghost btn-xs" title="Zoom In (+)">+</button>
+            <button id="btnIsoFit" class="btn btn-ghost btn-xs" title="Fit to window (F)">Fit</button>
+            <button id="btnIso100" class="btn btn-ghost btn-xs" title="100% Actual size">100%</button>
+          </div>
+          <button id="btnIsoRerender" class="btn btn-ghost btn-sm" title="Re-generate fresh isometric 3D render">↻ Re-render</button>
+          <button id="btnIsoClose" class="btn btn-ghost btn-sm" title="Close (Esc)">✕</button>
+        </div>
+      </div>
+      <div class="iso-viewport" id="isoViewport">
+        <div class="iso-canvas-wrap" id="isoCanvasWrap">
+          <img id="isoImg" class="iso-img" alt="Isometric 3D PCB render">
+        </div>
+        <div class="iso-hint">
+          <span>Scroll wheel to zoom · Drag to pan · Double-click to toggle 100%/Fit · Esc to close</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=iso5"></script>
 </body>
 </html>
