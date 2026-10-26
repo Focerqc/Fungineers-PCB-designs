@@ -3,11 +3,10 @@
   "configurations": [
     {
       "name": "Start PCB Dashboard (Board Boxes)",
-      "type": "debugpy",
+      "type": "node-terminal",
       "request": "launch",
-      "program": "${workspaceFolder}/_tools/pcb_dashboard/server.py",
-      "console": "integratedTerminal",
-      "justMyCode": true
+      "command": "python '${workspaceFolder}/_tools/pcb_dashboard/server.py'",
+      "cwd": "${workspaceFolder}"
     },
     {
       "name": "Open PCB Dashboard in Edge",

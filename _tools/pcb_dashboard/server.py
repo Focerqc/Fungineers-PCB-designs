@@ -32,6 +32,58 @@ def render_3d_file(board_full, kind="top"):
     return os.path.splitext(board_full)[0] + suffix
 
 
+def crop_render_png(out_png, kind="top", force=False):
+    """Trim transparent margins so the board fills the image.
+    Old kicad-cli renders often keep huge empty borders; stretching those
+    to the board outline makes the PCB look tiny / off-center in the UI."""
+    try:
+        im = Image.open(out_png)
+        if im.mode != "RGBA":
+            im = im.convert("RGBA")
+        bbox = im.getbbox()
+        if not bbox:
+            return False
+        w, h = im.size
+        pad = 20 if kind == "iso" else 0
+        margins = (bbox[0], bbox[1], w - bbox[2], h - bbox[3])
+        # Skip rewrite when already tight (top) or already padded (iso).
+        if not force:
+            if kind == "top" and max(margins) <= 1:
+                return False
+            if kind == "iso" and max(margins) <= pad + 1 and min(margins) >= max(0, pad - 2):
+                return False
+        crop_box = (
+            max(0, bbox[0] - pad),
+            max(0, bbox[1] - pad),
+            min(w, bbox[2] + pad),
+            min(h, bbox[3] + pad),
+        )
+        if crop_box == (0, 0, w, h):
+            return False
+        im.crop(crop_box).save(out_png)
+        return True
+    except Exception as e:
+        print(f"PIL crop warning: {e}")
+        return False
+
+
+def render_status_entry(out_png, kind):
+    if not os.path.isfile(out_png):
+        return {"exists": False, "kind": kind} if kind else {"exists": False}
+    # Normalize legacy uncropped renders the first time they're opened.
+    crop_render_png(out_png, kind=kind)
+    mtime = os.path.getmtime(out_png)
+    entry = {
+        "exists": True,
+        "image": rel(out_png),
+        "timestamp": datetime.datetime.fromtimestamp(mtime).strftime("%b %d, %I:%M:%S %p"),
+        "mtime": mtime,
+    }
+    if kind:
+        entry["kind"] = kind
+    return entry
+
+
 def render_board_3d(board_full, kind="top"):
     if not os.path.isfile(board_full):
         raise FileNotFoundError(f"Board file not found: {board_full}")
@@ -60,21 +112,7 @@ def render_board_3d(board_full, kind="top"):
     if res.returncode != 0 or not os.path.isfile(out_png):
         raise RuntimeError(f"kicad-cli render failed: {res.stderr or res.stdout}")
 
-    try:
-        im = Image.open(out_png)
-        bbox = im.getbbox()
-        if bbox:
-            w, h = im.size
-            pad = 20 if kind == "iso" else 0
-            crop_box = (
-                max(0, bbox[0] - pad),
-                max(0, bbox[1] - pad),
-                min(w, bbox[2] + pad),
-                min(h, bbox[3] + pad)
-            )
-            im.crop(crop_box).save(out_png)
-    except Exception as e:
-        print(f"PIL crop warning: {e}")
+    crop_render_png(out_png, kind=kind, force=True)
 
     mtime = os.path.getmtime(out_png)
     dt = datetime.datetime.fromtimestamp(mtime)
@@ -90,40 +128,16 @@ def render_board_3d(board_full, kind="top"):
 
 def get_render_3d_status(board_full, kind=None):
     if kind in ("top", "iso"):
-        out_png = render_3d_file(board_full, kind=kind)
-        if not os.path.isfile(out_png):
-            return {"exists": False, "kind": kind}
-        mtime = os.path.getmtime(out_png)
-        dt = datetime.datetime.fromtimestamp(mtime)
-        return {
-            "exists": True,
-            "kind": kind,
-            "image": rel(out_png),
-            "timestamp": dt.strftime("%b %d, %I:%M:%S %p"),
-            "mtime": mtime
-        }
+        return render_status_entry(render_3d_file(board_full, kind=kind), kind)
     top_png = render_3d_file(board_full, "top")
     iso_png = render_3d_file(board_full, "iso")
     res = {
-        "top": {"exists": False},
-        "iso": {"exists": False}
+        "top": render_status_entry(top_png, "top"),
+        "iso": render_status_entry(iso_png, "iso"),
     }
-    if os.path.isfile(top_png):
-        mtime = os.path.getmtime(top_png)
-        res["top"] = {
-            "exists": True,
-            "image": rel(top_png),
-            "timestamp": datetime.datetime.fromtimestamp(mtime).strftime("%b %d, %I:%M:%S %p"),
-            "mtime": mtime
-        }
-    if os.path.isfile(iso_png):
-        mtime = os.path.getmtime(iso_png)
-        res["iso"] = {
-            "exists": True,
-            "image": rel(iso_png),
-            "timestamp": datetime.datetime.fromtimestamp(mtime).strftime("%b %d, %I:%M:%S %p"),
-            "mtime": mtime
-        }
+    # Nested entries historically omit kind; keep that shape for the UI.
+    res["top"].pop("kind", None)
+    res["iso"].pop("kind", None)
     res["exists"] = res["top"]["exists"]
     res["image"] = res["top"].get("image")
     res["timestamp"] = res["top"].get("timestamp")

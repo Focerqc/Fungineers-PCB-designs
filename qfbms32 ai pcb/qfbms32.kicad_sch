@@ -3613,6 +3613,48 @@
 		)
 	)
 
+	
+	(symbol (lib_id "Device:D_Zener")
+		(at 185.0 25.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1a950147-3ec5-4598-bc70-07da8594e796")
+		(property "Reference" "D_GS1" (at 185.0 21.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "PDZ16B" (at 185.0 29.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Diode_SMD:D_SOD-323" (at 185.0 25.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "56423786-de65-4fa8-bb6a-250d5d659c7b"))
+		(pin "2" (uuid "da3987c2-0c01-4b6f-9b8b-011d9c85c42e"))
+		(instances
+			(project "qfbms32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "D_GS1") (unit 1))
+			)
+		)
+	)
+
+	
+	(symbol (lib_id "Device:R")
+		(at 185.0 35.0 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "31fc2c00-6c94-4bae-98fa-a9eadb924e7b")
+		(property "Reference" "R_SSR2" (at 185.0 31.0 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "10k" (at 185.0 39.0 0) (effects (font (size 1.27 1.27))))
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric" (at 185.0 35.0 0) (hide yes) (effects (font (size 1.27 1.27))))
+		(pin "1" (uuid "96dbd0c8-bf19-49a1-ab23-528d810d6662"))
+		(pin "2" (uuid "b497808c-d460-49c1-943f-b1b475c25f34"))
+		(instances
+			(project "qfbms32"
+				(path "/a2322edc-ff52-449c-92df-24faffac0236" (reference "R_SSR2") (unit 1))
+			)
+		)
+	)
+
 	(sheet_instances
 		(path "/"
 			(page "1")

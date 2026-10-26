@@ -20,6 +20,7 @@
     showTopCu: false,
     showBotCu: false,
     showVias: false,
+    showSides: false,
     selectMode: false,
     infoMode: false,
     hoverFp: null,
@@ -27,6 +28,7 @@
     activePreset: null,
     mousePos: null,
     render3dImg: null,
+    render3dBounds: null,   // opaque content rect inside render3dImg (handles legacy padded PNGs)
     render3dPath: null,
     renderIsoPath: null,
     isoView: { x: 0, y: 0, scale: 1 },
@@ -125,8 +127,31 @@
   const liveCount = b => instances(b).length;
   const totalCount = () => S.doc.boxes.reduce((n, b) => n + liveCount(b), 0);
 
-  function ensureColor() {
-    if (!S.doc.colors.length) addColor(false);
+  function ensureColorExists() {
+    // Keep at least one color group in the doc, but do not arm it for drawing.
+    if (S.doc.colors.length) return S.doc.colors[0];
+    const c = { id: uid('c'), hex: PALETTE[0], note: '' };
+    S.doc.colors.push(c);
+    return c;
+  }
+
+  function armColor(id, { toastMsg } = {}) {
+    if (!color(id)) return false;
+    S.activeColor = id;
+    if (S.infoMode) toggleInfoMode(false);
+    if (toastMsg) toast(toastMsg);
+    return true;
+  }
+
+  function disarmDraw() {
+    S.activeColor = null;
+    S.activePreset = null;
+    updatePresetChipsUI();
+  }
+
+  function ensureArmedColor() {
+    // Used when an action truly needs a color (Select mode, finishing a draw).
+    ensureColorExists();
     if (!color(S.activeColor)) S.activeColor = S.doc.colors[0].id;
   }
 
@@ -135,10 +160,11 @@
     const hex = PALETTE.find(p => !used.has(p)) || PALETTE[S.doc.colors.length % PALETTE.length];
     const c = { id: uid('c'), hex, note: '' };
     S.doc.colors.push(c);
-    S.activeColor = c.id;
     S.sel = null;
+    armColor(c.id);
     if (commitIt) commit();
-    renderLegend();
+    else renderLegend();
+    toast('Color armed — drag on the board to draw, or click a Quick Size to stamp');
     return c;
   }
 
@@ -188,7 +214,8 @@
     S.doc.boxes = d.boxes;
     lastSnap = s;
     if (S.sel && !instanceOf(S.sel)) S.sel = null;
-    ensureColor();
+    ensureColorExists();
+    if (S.activeColor && !color(S.activeColor)) S.activeColor = null;
     scheduleSave();
     refreshUI();
   }
@@ -223,8 +250,8 @@
         S.showParts = true;
         if ($('tglParts')) $('tglParts').classList.add('active');
       }
-      ensureColor();
-      toast('Select mode: click footprint parts on PCB to group them. Press Esc to exit.');
+      ensureArmedColor();
+      toast('Select mode: click footprint parts on PCB to group them.');
     } else {
       S.hoverFp = null;
       toast('Select mode exited');
@@ -239,6 +266,9 @@
         S.selectMode = false;
         if ($('btnSelectMode')) $('btnSelectMode').classList.remove('active');
       }
+      // Info is inspect-only — don't leave a color armed for drawing underneath.
+      disarmDraw();
+      S.sel = null;
       if (!S.showParts) {
         S.showParts = true;
         if ($('tglParts')) $('tglParts').classList.add('active');
@@ -252,7 +282,7 @@
           $('infoRef').textContent = 'Select part';
         }
       }
-      toast('Info mode: click any component on PCB to view details. (Press Esc to exit)');
+      toast('Info mode: click any component on PCB to view details.');
     } else {
       S.hoverFp = null;
       if ($('partInfoCard')) $('partInfoCard').classList.add('hidden');
@@ -260,6 +290,247 @@
       toast('Info mode exited');
     }
     refreshUI();
+  }
+
+  // ---------- PART INFO HELPERS ----------
+  const REF_TYPES = {
+    R: 'Resistor', RN: 'Resistor network', RT: 'Thermistor', RV: 'Varistor',
+    C: 'Capacitor',
+    L: 'Inductor', FB: 'Ferrite bead',
+    D: 'Diode', LED: 'LED', ZD: 'Zener diode',
+    Q: 'Transistor', U: 'IC', IC: 'IC',
+    J: 'Connector', P: 'Connector', CON: 'Connector',
+    SW: 'Switch', BT: 'Button',
+    F: 'Fuse',
+    Y: 'Crystal', X: 'Crystal', XTAL: 'Crystal',
+    TP: 'Test point', MH: 'Mounting hole', H: 'Hole',
+    K: 'Relay', SSR: 'Solid-state relay',
+    ANT: 'Antenna', BAT: 'Battery',
+  };
+
+  // EIA-96 2-digit indices → 3 significant digits (01–96)
+  const EIA96 = [
+    100,102,105,107,110,113,115,118,121,124,127,130,133,137,140,143,
+    147,150,154,158,162,165,169,174,178,182,187,191,196,200,205,210,
+    215,221,226,232,237,243,249,255,261,267,274,280,287,294,301,309,
+    316,324,332,340,348,357,365,374,383,392,402,412,422,432,442,453,
+    464,475,487,499,511,523,536,549,562,576,590,604,619,634,649,665,
+    681,698,715,732,750,768,787,806,825,845,866,887,909,931,953,976
+  ];
+  const EIA96_MULT = {
+    Z: 0.001, Y: 0.01, R: 0.01, X: 0.1, S: 0.1,
+    A: 1, B: 10, H: 10, C: 100, D: 1000, E: 10000, F: 100000
+  };
+
+  // Common imperial SMD codes → mm (when metric code missing from footprint name)
+  const IMPERIAL_MM = {
+    '01005': [0.4, 0.2], '0201': [0.6, 0.3], '0402': [1.0, 0.5],
+    '0603': [1.6, 0.8], '0805': [2.0, 1.25], '1206': [3.2, 1.6],
+    '1210': [3.2, 2.5], '2010': [5.0, 2.5], '2512': [6.3, 3.2]
+  };
+
+  function partTypeFromRef(ref) {
+    if (!ref) return 'Unknown';
+    // Designator letters before '_' or digits: R_SSR1 → R, LED12 → LED
+    const m = String(ref).trim().toUpperCase().match(/^([A-Z]+)/);
+    if (!m) return 'Unknown';
+    return REF_TYPES[m[1]] || 'Component';
+  }
+
+  function formatOhms(ohms) {
+    if (!Number.isFinite(ohms) || ohms < 0) return null;
+    if (ohms === 0) return '0 Ω';
+    if (ohms >= 1e6) {
+      const v = ohms / 1e6;
+      return `${Number.isInteger(v) ? v : +v.toFixed(2)} MΩ`;
+    }
+    if (ohms >= 1000) {
+      const v = ohms / 1000;
+      return `${Number.isInteger(v) ? v : +v.toFixed(2)} kΩ`;
+    }
+    if (ohms >= 1) return `${Number.isInteger(ohms) ? ohms : +ohms.toFixed(2)} Ω`;
+    if (ohms >= 0.001) return `${+(ohms * 1000).toFixed(2)} mΩ`;
+    return `${ohms} Ω`;
+  }
+
+  function formatFarads(farads) {
+    if (!Number.isFinite(farads) || farads <= 0) return null;
+    if (farads >= 1e-3) return `${+((farads * 1e3).toFixed(3))} mF`;
+    if (farads >= 1e-6) return `${+((farads * 1e6).toFixed(3))} µF`;
+    if (farads >= 1e-9) return `${+((farads * 1e9).toFixed(3))} nF`;
+    return `${+((farads * 1e12).toFixed(3))} pF`;
+  }
+
+  function formatHenries(h) {
+    if (!Number.isFinite(h) || h <= 0) return null;
+    if (h >= 1) return `${+h.toFixed(3)} H`;
+    if (h >= 1e-3) return `${+((h * 1e3).toFixed(3))} mH`;
+    if (h >= 1e-6) return `${+((h * 1e6).toFixed(3))} µH`;
+    return `${+((h * 1e9).toFixed(3))} nH`;
+  }
+
+  function decodePartValue(raw, typeHint) {
+    if (!raw || raw === '–') return { display: '–', hint: null, raw: raw || '' };
+    const s = String(raw).trim();
+    if (!s) return { display: '–', hint: null, raw: '' };
+
+    // Already human-friendly with unit letter
+    const withUnit = s.match(/^([\d.]+)\s*([kKmMuUnNpP]?)\s*([ΩΩohrRfFhH]|ohm|ohms)?$/i);
+    if (withUnit && withUnit[3]) {
+      return { display: s, hint: null, raw: s };
+    }
+
+    // Explicit k/M/R resistor shorthand: 10k, 4.7k, 100R, 1M
+    const rShort = s.match(/^([\d.]+)\s*([rRkKmM])$/);
+    if (rShort) {
+      let ohms = parseFloat(rShort[1]);
+      const u = rShort[2].toLowerCase();
+      if (u === 'k') ohms *= 1e3;
+      else if (u === 'm') ohms *= 1e6;
+      const nice = formatOhms(ohms);
+      if (nice) return { display: nice, hint: `schematic: ${s}`, raw: s };
+    }
+
+    // Capacitor shorthand: 100n, 0.1u, 10p, 4.7uF, 100nF
+    const cShort = s.match(/^([\d.]+)\s*([pPnNuUµuUmM])\s*[fF]?$/);
+    if (cShort && /cap/i.test(typeHint || '')) {
+      let f = parseFloat(cShort[1]);
+      const u = cShort[2].toLowerCase();
+      if (u === 'p') f *= 1e-12;
+      else if (u === 'n') f *= 1e-9;
+      else if (u === 'u' || u === 'µ') f *= 1e-6;
+      else if (u === 'm') f *= 1e-3;
+      const nice = formatFarads(f);
+      if (nice) return { display: nice, hint: s !== nice ? `schematic: ${s}` : null, raw: s };
+    }
+
+    // EIA-96 marking: 2 digits + letter (e.g. 01X → 10 Ω)
+    const eia = s.match(/^(\d{2})([A-Z])$/i);
+    if (eia) {
+      const idx = parseInt(eia[1], 10);
+      const mult = EIA96_MULT[eia[2].toUpperCase()];
+      if (idx >= 1 && idx <= 96 && mult != null) {
+        const ohms = EIA96[idx - 1] * mult;
+        const nice = formatOhms(ohms);
+        if (nice) {
+          return {
+            display: nice,
+            hint: `marking code ${s} (EIA-96)`,
+            raw: s
+          };
+        }
+      }
+    }
+
+    // 3-digit / 4-digit SMD resistor codes: 103 → 10 kΩ, 1001 → 1 kΩ
+    const smd3 = s.match(/^(\d{2})(\d)$/);
+    const smd4 = s.match(/^(\d{3})(\d)$/);
+    if ((smd3 || smd4) && /resistor/i.test(typeHint || '')) {
+      const m = smd4 || smd3;
+      const base = parseInt(m[1], 10);
+      const exp = parseInt(m[2], 10);
+      const ohms = base * Math.pow(10, exp);
+      const nice = formatOhms(ohms);
+      if (nice && ohms > 0) {
+        return { display: nice, hint: `code ${s}`, raw: s };
+      }
+    }
+
+    // Inductor shorthand when type is inductor: 10u, 100nH
+    const lShort = s.match(/^([\d.]+)\s*([nNuUmM])\s*[hH]?$/);
+    if (lShort && /inductor|ferrite/i.test(typeHint || '')) {
+      let h = parseFloat(lShort[1]);
+      const u = lShort[2].toLowerCase();
+      if (u === 'n') h *= 1e-9;
+      else if (u === 'u') h *= 1e-6;
+      else if (u === 'm') h *= 1e-3;
+      const nice = formatHenries(h);
+      if (nice) return { display: nice, hint: s !== nice ? `schematic: ${s}` : null, raw: s };
+    }
+
+    return { display: s, hint: null, raw: s };
+  }
+
+  function metricCodeToMm(code) {
+    if (!/^\d{4}$/.test(code)) return null;
+    const w = Math.round(parseInt(code.slice(0, 2), 10) / 10 * 10) / 10;
+    const h = Math.round(parseInt(code.slice(2, 4), 10) / 10 * 100) / 100;
+    const fw = Number.isInteger(w) ? String(w) : w.toFixed(1);
+    const fh = Number.isInteger(h) ? String(h) : String(+h.toFixed(2));
+    return `${fw} × ${fh} mm`;
+  }
+
+  function parseFootprintId(fpid) {
+    if (!fpid) return { package: '–', hint: null, libId: '–', shortName: '–' };
+    const full = String(fpid);
+    const shortName = full.includes(':') ? full.split(':').pop() : full;
+
+    // KiCad chip style: R_0603_1608Metric / C_0402_1005Metric
+    let m = shortName.match(/^(?:[A-Za-z]+_)?(\d{4})_(\d{4})Metric$/i);
+    if (m) {
+      const imperial = m[1];
+      const metric = m[2];
+      const mm = metricCodeToMm(metric) || (IMPERIAL_MM[imperial] &&
+        `${IMPERIAL_MM[imperial][0]} × ${IMPERIAL_MM[imperial][1]} mm`);
+      return {
+        package: mm ? `${imperial} · ${mm}` : imperial,
+        hint: `${imperial} (inch code) = ${metric} (metric code) — same size`,
+        libId: full,
+        shortName
+      };
+    }
+
+    // Metric-only: Something_1608Metric
+    m = shortName.match(/_(\d{4})Metric$/i);
+    if (m) {
+      const metric = m[1];
+      const mm = metricCodeToMm(metric);
+      return {
+        package: mm ? `${metric} metric · ${mm}` : `${metric} metric`,
+        hint: null,
+        libId: full,
+        shortName
+      };
+    }
+
+    // Imperial-only common: R_0603 / LED_0805
+    m = shortName.match(/_(\d{4})$/);
+    if (m && IMPERIAL_MM[m[1]]) {
+      const imp = m[1];
+      const [w, h] = IMPERIAL_MM[imp];
+      return {
+        package: `${imp} · ${w} × ${h} mm`,
+        hint: null,
+        libId: full,
+        shortName
+      };
+    }
+
+    // SOIC / QFN / SOT style — use short name as package
+    return {
+      package: shortName.replace(/_/g, ' '),
+      hint: null,
+      libId: full,
+      shortName
+    };
+  }
+
+  function setInfoHint(el, text) {
+    if (!el) return;
+    if (text) {
+      el.textContent = text;
+      el.classList.remove('hidden');
+    } else {
+      el.textContent = '';
+      el.classList.add('hidden');
+    }
+  }
+
+  function describePart(fp) {
+    const type = partTypeFromRef(fp.ref);
+    const val = decodePartValue(fp.value, type);
+    const pkg = parseFootprintId(fp.fpid);
+    return { type, val, pkg };
   }
 
   function showPartInfo(fp) {
@@ -271,27 +542,45 @@
     $('infoEmptyHint')?.classList.add('hidden');
     $('infoBody')?.classList.remove('hidden');
 
+    const { type, val, pkg } = describePart(fp);
+
     $('infoRef').textContent = fp.ref || '–';
-    $('infoVal').textContent = fp.value || '–';
-    $('infoFp').textContent = fp.fpid || '–';
-    $('infoFp').title = fp.fpid || '';
-    $('infoPos').textContent = `(${fmt(fp.x)}, ${fmt(fp.y)})`;
+    $('infoType').textContent = type;
+
+    $('infoVal').textContent = val.display;
+    setInfoHint($('infoValHint'), val.hint);
+
+    $('infoPkg').textContent = pkg.package;
+    setInfoHint($('infoPkgHint'), pkg.hint);
+
+    $('infoFp').textContent = pkg.shortName || '–';
+    $('infoFp').title = pkg.libId || '';
+
+    $('infoPos').textContent = `(${fmt(fp.x)}, ${fmt(fp.y)}) mm`;
     $('infoRot').textContent = `${fp.rot}°`;
-    $('infoSide').textContent = fp.side === 'B' ? 'Bottom (B.Cu)' : 'Top (F.Cu)';
+    const sideEl = $('infoSide');
+    if (fp.side === 'B') {
+      sideEl.textContent = 'Bottom of board';
+      sideEl.title = 'B.Cu';
+    } else {
+      sideEl.textContent = 'Top of board';
+      sideEl.title = 'F.Cu';
+    }
 
     const numPads = fp.pads?.length || 0;
     $('infoPads').textContent = `${numPads} pad${numPads === 1 ? '' : 's'}`;
 
-    // Extract pad nets
     const nets = [];
     if (fp.pads && fp.pads.length) {
       fp.pads.forEach(p => {
         if (p.net && !nets.includes(p.net)) nets.push(p.net);
       });
     }
-    const netStr = nets.length ? nets.join(', ') : 'None / NC';
+    const netStr = nets.length ? nets.join(', ') : 'Not connected';
     $('infoNets').textContent = netStr;
-    $('infoNets').title = nets.length ? nets.map((n, i) => `${i + 1}: ${n}`).join('\n') : '';
+    $('infoNets').title = nets.length
+      ? nets.map((n, i) => `${i + 1}: ${n}`).join('\n')
+      : 'No copper nets on this part (NC)';
 
     if (fp.lcsc) {
       $('infoLcscRow')?.classList.remove('hidden');
@@ -308,22 +597,26 @@
     }
 
     render();
-    toast(`Inspecting <b>${fp.ref}</b> (${fp.value || fp.fpid || ''})`);
+    const toastVal = val.display !== '–' ? val.display : (pkg.package || '');
+    toast(`Inspecting <b>${fp.ref}</b>${toastVal ? ` (${toastVal})` : ''}`);
   }
 
   function copyPartInfo() {
     if (!S.infoFp) return;
     const fp = S.infoFp;
+    const { type, val, pkg } = describePart(fp);
     const nets = fp.pads ? [...new Set(fp.pads.map(p => p.net).filter(Boolean))].join(', ') : '';
     const text = [
       `Reference: ${fp.ref}`,
-      `Value: ${fp.value || '–'}`,
-      `Footprint: ${fp.fpid || '–'}`,
+      `Type: ${type}`,
+      `Value: ${val.display}${val.hint ? ` (${val.hint})` : ''}`,
+      `Package: ${pkg.package}`,
+      `Library: ${pkg.libId || '–'}`,
       `Position: (${fmt(fp.x)}, ${fmt(fp.y)}) mm`,
       `Rotation: ${fp.rot}°`,
-      `Side: ${fp.side === 'B' ? 'Bottom' : 'Top'}`,
+      `Side: ${fp.side === 'B' ? 'Bottom of board' : 'Top of board'}`,
       `Pads: ${fp.pads?.length || 0}`,
-      nets ? `Nets: ${nets}` : '',
+      nets ? `Nets: ${nets}` : 'Nets: Not connected',
       fp.lcsc ? `LCSC: ${fp.lcsc}` : '',
       fp.mpn ? `MPN: ${fp.mpn}` : ''
     ].filter(Boolean).join('\n');
@@ -352,7 +645,12 @@
   }
 
   let saveTimer = null;
-  function setSaveState(text, cls) { const el = $('saveState'); el.textContent = text; el.className = `save-state ${cls || ''}`; }
+  function setSaveState(text, cls) {
+    const el = $('saveState');
+    el.textContent = text;
+    el.title = text && text !== '–' ? text : '';
+    el.className = `save-state ${cls || ''}`;
+  }
   function scheduleSave() {
     if (!S.boardPath) return;
     setSaveState('unsaved', 'busy');
@@ -427,7 +725,9 @@
       S.board = board;
       S.doc = Object.assign(emptyDoc(), doc && !doc.error ? doc : {});
       S.doc.refFit = Object.assign({ ox: 0, oy: 0, sx: 100, sy: 100 }, S.doc.refFit);
-      ensureColor();
+      ensureColorExists();
+      // Don't auto-arm the first color — user clicks a color / + Add to draw.
+      S.activeColor = null;
       lastSnap = snapshot();
 
       // reference image: saved one, else best guess in the board's _reference folder
@@ -479,6 +779,7 @@
         }
         S.render3dPath = null;
         S.render3dImg = null;
+        S.render3dBounds = null;
         S.show3D = false;
         if ($('tgl3D')) $('tgl3D').classList.remove('active');
       }
@@ -512,12 +813,65 @@
     }
   }
 
+  function opaqueImageBounds(img) {
+    // Find non-transparent content. Legacy top renders often keep large empty margins;
+    // drawing the full PNG stretched to the board outline makes the PCB look tiny.
+    try {
+      const w = img.naturalWidth, h = img.naturalHeight;
+      if (!w || !h) return null;
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const g = c.getContext('2d', { willReadFrequently: true });
+      g.drawImage(img, 0, 0);
+      const { data } = g.getImageData(0, 0, w, h);
+      const step = Math.max(1, Math.floor(Math.min(w, h) / 500));
+      let minX = w, minY = h, maxX = -1, maxY = -1;
+      for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < w; x += step) {
+          if (data[(y * w + x) * 4 + 3] > 10) {
+            if (x < minX) minX = x;
+            if (y < minY) minY = y;
+            if (x > maxX) maxX = x;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+      if (maxX < 0) return null;
+      // Expand by one sample step so we don't clip the real edge.
+      minX = Math.max(0, minX - step);
+      minY = Math.max(0, minY - step);
+      maxX = Math.min(w - 1, maxX + step);
+      maxY = Math.min(h - 1, maxY + step);
+      const bounds = { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 };
+      if (bounds.w >= w - 2 && bounds.h >= h - 2) {
+        return { x: 0, y: 0, w, h };
+      }
+      return bounds;
+    } catch {
+      return null;
+    }
+  }
+
   function load3DRender(path) {
     return new Promise(resolve => {
-      if (!path) { S.render3dImg = null; render(); return resolve(); }
+      if (!path) {
+        S.render3dImg = null;
+        S.render3dBounds = null;
+        render();
+        return resolve();
+      }
       const img = new Image();
-      img.onload = () => { S.render3dImg = img; render(); resolve(); };
-      img.onerror = () => { S.render3dImg = null; resolve(); };
+      img.onload = () => {
+        S.render3dImg = img;
+        S.render3dBounds = opaqueImageBounds(img) || { x: 0, y: 0, w: img.naturalWidth, h: img.naturalHeight };
+        render();
+        resolve();
+      };
+      img.onerror = () => {
+        S.render3dImg = null;
+        S.render3dBounds = null;
+        resolve();
+      };
       img.src = `/api/image?path=${encodeURIComponent(path)}&t=${Date.now()}`;
     });
   }
@@ -679,10 +1033,15 @@
     // Layer 2: 3D CAD render (KiCad 3D model)
     if (has3D) {
       const p = toScreen(bb.x, bb.y);
+      const src = S.render3dBounds || { x: 0, y: 0, w: S.render3dImg.naturalWidth, h: S.render3dImg.naturalHeight };
       ctx.save();
       ctx.globalAlpha = S.opacity;
       ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(S.render3dImg, p.x, p.y, bb.w * sc, bb.h * sc);
+      ctx.drawImage(
+        S.render3dImg,
+        src.x, src.y, src.w, src.h,
+        p.x, p.y, bb.w * sc, bb.h * sc
+      );
       ctx.restore();
     }
 
@@ -697,6 +1056,8 @@
       ctx.stroke();
     }
     ctx.restore();
+
+    if (S.showSides) drawSideLabels(bb, sc);
 
     // existing footprints (dimmed pads or color-highlighted if selected)
     if (S.showParts || S.selectMode || S.infoMode) {
@@ -887,6 +1248,10 @@
       ctx.strokeRect(p.x, p.y, bb.w * sc, bb.h * sc);
       ctx.font = '600 11px "JetBrains Mono"';
       ctx.fillStyle = '#3cf0d0';
+      ctx.fillText(`Select ${S.hoverFp.ref}`, p.x, p.y - 5);
+      ctx.restore();
+    }
+
     // Info mode hover indicator
     if (S.infoMode && S.hoverFp && S.hoverFp !== S.infoFp) {
       const bb = getFpBBox(S.hoverFp);
@@ -938,7 +1303,11 @@
       ctx.stroke();
 
       // Tooltip badge above component
-      const badgeText = `${S.infoFp.ref}: ${S.infoFp.value || S.infoFp.fpid || ''}`;
+      const infoDesc = describePart(S.infoFp);
+      const badgeVal = infoDesc.val.display !== '–'
+        ? infoDesc.val.display
+        : (infoDesc.pkg.package !== '–' ? infoDesc.pkg.package : '');
+      const badgeText = badgeVal ? `${S.infoFp.ref}: ${badgeVal}` : (S.infoFp.ref || '');
       ctx.font = '700 11px "JetBrains Mono", monospace';
       const tw = ctx.measureText(badgeText).width;
       const bx = p.x + (bb.w * sc) / 2 - tw / 2 - 8;
@@ -959,6 +1328,48 @@
   }
 
   function firstLive(b) { return instances(b)[0]?.i ?? 0; }
+
+  // Screen-edge labels for board LEFT / RIGHT / TOP / BOTTOM (KiCad mm: +X right, +Y down).
+  function drawSideLabels(bb, sc) {
+    const pad = Math.max(14, Math.min(28, sc * 1.1));
+    const tl = toScreen(bb.x, bb.y);
+    const br = toScreen(bb.x + bb.w, bb.y + bb.h);
+    const cx = (tl.x + br.x) / 2;
+    const cy = (tl.y + br.y) / 2;
+    const fontSize = Math.max(11, Math.min(16, sc * 0.7));
+
+    ctx.save();
+    ctx.font = `700 ${fontSize}px "Space Grotesk", "JetBrains Mono", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.letterSpacing = '0.08em';
+
+    const labels = [
+      { text: 'TOP',    x: cx,           y: tl.y - pad, rot: 0 },
+      { text: 'BOTTOM', x: cx,           y: br.y + pad, rot: 0 },
+      { text: 'LEFT',   x: tl.x - pad,   y: cy,         rot: -Math.PI / 2 },
+      { text: 'RIGHT',  x: br.x + pad,   y: cy,         rot: Math.PI / 2 },
+    ];
+
+    for (const L of labels) {
+      ctx.save();
+      ctx.translate(L.x, L.y);
+      ctx.rotate(L.rot);
+      const tw = ctx.measureText(L.text).width;
+      const bw = tw + 14, bh = fontSize + 8;
+      ctx.fillStyle = 'rgba(7, 9, 14, 0.82)';
+      ctx.strokeStyle = 'rgba(60, 240, 208, 0.55)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 4);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#3cf0d0';
+      ctx.fillText(L.text, 0, 0.5);
+      ctx.restore();
+    }
+    ctx.restore();
+  }
 
   function drawHandles(x, y, w, h) {
     ctx.save();
@@ -1071,20 +1482,19 @@
     }
     if (e.button !== 0) return;
 
-    // Component info inspection mode: click any component to inspect details
+    // Component info inspection mode: click any component to inspect details.
+    // Never fall through into draw/move — that was fighting Info mode.
     if (S.infoMode) {
       const hitFp = hitFootprint(m);
-      if (hitFp) {
-        showPartInfo(hitFp);
-        return;
-      }
+      if (hitFp) showPartInfo(hitFp);
+      return;
     }
 
     // Component selection mode: click existing footprint to group it
     if (S.selectMode) {
       const hitFp = hitFootprint(m);
       if (hitFp) {
-        ensureColor();
+        ensureArmedColor();
         const existing = S.doc.boxes.find(b => b.ref === hitFp.ref);
         if (existing) {
           if (existing.c === S.activeColor) {
@@ -1153,6 +1563,11 @@
     }
 
     S.sel = null;
+    if (!S.activeColor || !color(S.activeColor)) {
+      refreshUI();
+      toast('Click a color (or + Add) to start drawing boxes', 'info');
+      return;
+    }
     const x = snap(m.x), y = snap(m.y);
     S.drag = { mode: 'draw', x0: x, y0: y, x1: x, y1: y };
     refreshUI();
@@ -1223,7 +1638,11 @@
       const w = Math.abs(d.x1 - d.x0), h = Math.abs(d.y1 - d.y0);
       if (w * S.view.scale < 4 || h * S.view.scale < 4) {
         if (S.activePreset) {
-          ensureColor();
+          if (!S.activeColor || !color(S.activeColor)) {
+            toast('Click a color (or + Add) before stamping a Quick Size', 'info');
+            render();
+            return;
+          }
           const cx = snap(d.x0), cy = snap(d.y0);
           const b = {
             id: uid('b'),
@@ -1249,7 +1668,10 @@
         render();
         return;
       }
-      ensureColor();
+      if (!S.activeColor || !color(S.activeColor)) {
+        render();
+        return;
+      }
       const b = { id: uid('b'), c: S.activeColor, x: r2((d.x0 + d.x1) / 2), y: r2((d.y0 + d.y1) / 2), w: r2(w), h: r2(h), pat: null };
       S.doc.boxes.push(b);
       S.sel = { id: b.id, i: 0 };
@@ -1272,78 +1694,8 @@
   }
 
   // ---------- KEYBOARD ----------
-  function onKey(e) {
-    const typing = ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName);
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); openPrompt(); return; }
-    if (typing) { if (e.key === 'Escape') document.activeElement.blur(); return; }
-
-    const k = e.key.toLowerCase();
-    if (e.code === 'Space') { S.space = true; e.preventDefault(); return; }
-    if ((e.ctrlKey || e.metaKey) && k === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
-    if ((e.ctrlKey || e.metaKey) && k === 'y') { e.preventDefault(); redo(); return; }
-    if ((e.ctrlKey || e.metaKey) && k === 'd') { e.preventDefault(); duplicate(); return; }
-    if (/^[1-9]$/.test(e.key)) {
-      const c = S.doc.colors[+e.key - 1];
-      if (c) { S.activeColor = c.id; renderLegend(); }
-      return;
-    }
-    if (k === 'f') return fit();
-    if (k === 'h') { S.showRef = !S.showRef; $('tglRef').classList.toggle('active', S.showRef); return render(); }
-    if (k === 'r' && !e.ctrlKey && !e.metaKey) { flipPreset(); return; }
-    if (k === 's' && !e.ctrlKey && !e.metaKey) { toggleSelectMode(); return; }
-    if (k === 'x' && !e.ctrlKey && !e.metaKey) { toggleInfoMode(); return; }
-    if (k === 'i' && !e.ctrlKey && !e.metaKey) { openIsoViewer(); return; }
-    if (k === 'escape') {
-      if ($('isoModal')?.classList.contains('open')) {
-        closeIsoViewer();
-        return;
-      }
-      if ($('modal')?.classList.contains('open')) {
-        $('modal').classList.remove('open');
-        return;
-      }
-      if (S.infoMode || S.infoFp) {
-        closePartInfo();
-        if (S.infoMode) toggleInfoMode(false);
-        return render();
-      }
-      if (S.selectMode) {
-        S.selectMode = false;
-        S.hoverFp = null;
-        refreshUI();
-        toast('Select mode exited');
-        return;
-      }
-      if (S.activePreset) {
-        S.activePreset = null;
-        updatePresetChipsUI();
-        toast('Preset deactivated');
-        return render();
-      }
-      S.sel = null;
-      return refreshUI();
-    }
-
-    const b = S.sel && box(S.sel.id);
-    if (!b) return;
-    if (k === 'delete' || k === 'backspace') {
-      e.preventDefault();
-      if (e.shiftKey) S.doc.boxes = S.doc.boxes.filter(x => x !== b);
-      else removeInstance(b, S.sel.i);
-      S.sel = null;
-      commit();
-    } else if (k === 'b') {
-      breakSelected();
-    } else if (k.startsWith('arrow')) {
-      e.preventDefault();
-      const step = (S.snap || 0.05) * (e.shiftKey ? 10 : 1);
-      if (k === 'arrowleft') b.x = r2(b.x - step);
-      if (k === 'arrowright') b.x = r2(b.x + step);
-      if (k === 'arrowup') b.y = r2(b.y - step);
-      if (k === 'arrowdown') b.y = r2(b.y + step);
-      commit();
-    }
-  }
+  // Keyboard shortcuts disabled — do not attach keydown/keyup handlers.
+  // (Previously: undo/redo, fit, modes, delete, arrows, space-pan, etc.)
 
   function duplicate() {
     const b = S.sel && box(S.sel.id);
@@ -1436,6 +1788,22 @@
   // ---------- LEGEND ----------
   function renderLegend() {
     const ul = $('colorList');
+    // Never wipe the list while a note/color field is focused — that drops caret mid-type.
+    const focused = document.activeElement;
+    if (focused && ul.contains(focused) && focused.matches('input, textarea, select')) {
+      const counts = {};
+      S.doc.boxes.forEach(b => { counts[b.c] = (counts[b.c] || 0) + liveCount(b); });
+      ul.querySelectorAll('.color-row').forEach(row => {
+        const id = row.dataset.c;
+        row.classList.toggle('active', id === S.activeColor);
+        const cnt = row.querySelector('.cnt');
+        if (cnt) cnt.textContent = String(counts[id] || 0);
+        const swatch = row.querySelector('.swatch');
+        const c = color(id);
+        if (swatch && c) swatch.style.background = c.hex;
+      });
+      return;
+    }
     const counts = {};
     S.doc.boxes.forEach(b => { counts[b.c] = (counts[b.c] || 0) + liveCount(b); });
     ul.innerHTML = S.doc.colors.map((c, k) => {
@@ -1496,14 +1864,19 @@
       S.doc.colors = S.doc.colors.filter(c => c.id !== id);
       S.doc.boxes = S.doc.boxes.filter(b => b.c !== id);
       if (S.sel && !instanceOf(S.sel)) S.sel = null;
-      ensureColor();
+      if (S.activeColor === id) S.activeColor = null;
+      ensureColorExists();
       commit();
       toast(`Deleted color group (${n} item${n === 1 ? '' : 's'}). Undo available.`, 'info');
       return;
     }
-    S.activeColor = id;
+    // Clicking the note / color picker must not rebuild the list (that steals focus mid-type).
+    if (e.target.closest('input, textarea, select')) return;
+    // Clicking a color arms it for drawing (and leaves Info mode).
+    armColor(id);
     S.sel = null;
     refreshUI();
+    toast('Color armed — drag on the board to draw');
   }
 
   // ---------- EXPORT ----------
@@ -1668,8 +2041,14 @@
     // Deselect any box so quick sizes acts purely as a stamp tool to drop new parts
     // and never accidentally resizes or resets orientation of existing boxes!
     S.sel = null;
+    if (S.infoMode) toggleInfoMode(false);
+    if (!S.activeColor || !color(S.activeColor)) {
+      ensureArmedColor();
+      toast(`Preset ${name} ready — color armed. Click board to stamp (${fmt(S.activePreset.w)} × ${fmt(S.activePreset.h)} mm)`);
+    } else {
+      toast(`Preset ${name} active (${fmt(S.activePreset.w)} × ${fmt(S.activePreset.h)} mm) — click board to drop`);
+    }
     refreshUI();
-    toast(`Preset ${name} active (${fmt(S.activePreset.w)} × ${fmt(S.activePreset.h)} mm) — click board to drop`);
   }
 
   function flipPreset() {
@@ -1696,11 +2075,15 @@
 
   // ---------- EVENTS ----------
   function hookEvents() {
+    let resizeFitTimer = 0;
     window.addEventListener('resize', () => {
       resize();
       if ($('isoModal')?.classList.contains('open')) {
         fitIso();
       }
+      // Re-fit after the topbar/legend reflow so the board doesn't stay tiny/off-screen.
+      clearTimeout(resizeFitTimer);
+      resizeFitTimer = setTimeout(() => { if (S.board) fit(); }, 120);
     });
     canvas.addEventListener('mousedown', onDown);
     window.addEventListener('mousemove', onMove);
@@ -1711,8 +2094,7 @@
     });
     canvas.addEventListener('wheel', onWheel, { passive: false });
     canvas.addEventListener('contextmenu', e => e.preventDefault());
-    window.addEventListener('keydown', onKey);
-    window.addEventListener('keyup', e => { if (e.code === 'Space') S.space = false; });
+    // Keyboard shortcuts intentionally disabled (no keydown/keyup listeners).
 
     $('tglRef').onclick = () => { S.showRef = !S.showRef; $('tglRef').classList.toggle('active', S.showRef); render(); };
     const tgl3D = $('tgl3D');
@@ -1750,6 +2132,15 @@
       tglVias.onclick = () => {
         S.showVias = !S.showVias;
         tglVias.classList.toggle('active', S.showVias);
+        render();
+      };
+    }
+    const tglSides = $('tglSides');
+    if (tglSides) {
+      tglSides.classList.toggle('active', !!S.showSides);
+      tglSides.onclick = () => {
+        S.showSides = !S.showSides;
+        tglSides.classList.toggle('active', S.showSides);
         render();
       };
     }
@@ -1871,7 +2262,13 @@
       if (e.target.classList.contains('note')) { c.note = e.target.value; scheduleSave(); fillSelbar(); }
       if (e.target.type === 'color') { c.hex = e.target.value; e.target.parentElement.style.background = c.hex; render(); }
     });
-    $('colorList').addEventListener('change', e => { if (e.target.dataset.c) commit(); });
+    // Color picker: commit on change. Note fields: save on input only — commit() rebuilds
+    // the legend and would fight with typing if fired from here on every blur.
+    $('colorList').addEventListener('change', e => {
+      if (!e.target.dataset.c) return;
+      if (e.target.classList.contains('note')) { scheduleSave(); return; }
+      commit();
+    });
 
     ['inX', 'inY', 'inW', 'inH', 'inCount', 'inPitch', 'inGap'].forEach(id => $(id).addEventListener('change', () => selbarInput(id)));
     $('dirBtns').addEventListener('click', e => { const d = e.target.dataset.dir; if (d) setDir(d); });
