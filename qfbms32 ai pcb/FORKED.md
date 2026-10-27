@@ -1,11 +1,17 @@
-# Archived / forked
+# Archived fork experiment (inactive)
 
-Active work for the two new approaches lives under:
+The lookalike / working **folder fork** workflow is abandoned.
+
+**Active work is here again:** `qfbms32 ai pcb/` on the single repo branch **`master`**.
+
+Frozen backups of that experiment live under:
 
 `../qfbms32 fork/`
 
-- `archive/` — frozen copy of this board at fork time
-- `lookalike/` — visual lookalike (fake values OK)
-- `working/` — functional BMS (same plugs/ICs, freer layout)
+| Subfolder | Role |
+|-----------|------|
+| `archive/` | Snapshot of this board at fork time |
+| `lookalike/` | Abandoned visual-lookalike path |
+| `working/` | Abandoned freer-layout BMS path |
 
-This folder can stay as a local copy; prefer editing inside the fork.
+Do **not** continue design in `qfbms32 fork/`. Edit this tree (`qfbms32 ai pcb/`) on `master` only.

@@ -1,11 +1,13 @@
-# qfbms32 fork
+# qfbms32 fork — archived (inactive)
 
-Frozen the placement-copy effort and split into two paths.
+This tree is a **frozen backup** of an abandoned experiment. It is **not** the active project.
 
-| Folder | Goal |
+| Folder | Role |
 |--------|------|
-| `archive/` | Snapshot of the current PCB as of the fork (do not treat as active work) |
-| `lookalike/` | Visual 100% lookalike — match the real board’s appearance; fake/placeholder values OK |
-| `working/` | Functional BMS — keep main plug locations + IC chips, freer placement and parts |
+| `archive/` | Snapshot of `qfbms32 ai pcb/` at fork time |
+| `lookalike/` | Abandoned visual lookalike path |
+| `working/` | Abandoned freer-layout BMS path |
 
-Original tree `qfbms32 ai pcb/` is unchanged on disk; this fork is the new home for the two approaches.
+**Active source of truth:** `../qfbms32 ai pcb/` on branch **`master`** only.
+
+Do not edit files here unless restoring a historical snapshot on purpose.

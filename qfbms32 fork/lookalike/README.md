@@ -1,10 +1,5 @@
-# qfbms32 lookalike
+# qfbms32 lookalike — archived
 
-**Mandate:** Make the board look identical to the real VFBMS32 / reference photos.
+This folder is part of the abandoned folder-fork experiment. **Do not edit.**
 
-- Prioritize placement, package sizes, silkscreen, and overall visual match
-- Component values may be fake / wrong if that helps the look
-- Electrical correctness is secondary — this is not the build-to-ride path
-- Seeded from the archived placement-clone board; refine toward visual parity from here
-
-Open `qfbms32.kicad_pro` in this folder.
+Active work: `../../qfbms32 ai pcb/` on branch `master`.

@@ -1,8 +1,22 @@
 # CURSOR_HANDOVER.md — qfbms32 BMS PCB Project
 
-> **Generated:** 2026-10-24  
-> **Source IDE:** Google Antigravity IDE  
-> **Target IDE:** Cursor  
+> **Updated:** 2026-10-27  
+> **Branch strategy:** single `master` only (no active feature/folder forks)  
+> **Active board path:** `qfbms32 ai pcb/`  
+> **Archived experiment:** `qfbms32 fork/` (lookalike / working / fork-time snapshot — do not edit)
+
+---
+
+## 0. Git / workflow (read first)
+
+| Item | Value |
+|------|--------|
+| **Branch** | `master` only — synced with `origin/master` |
+| **Active tree** | `qfbms32 ai pcb/` |
+| **Archive tree** | `qfbms32 fork/` — frozen backups of the abandoned lookalike/working experiment |
+| **Do not** | Create parallel git branches or treat `qfbms32 fork/` as the live design |
+
+Capacitor footprint fix (`C_SSR2` → 0805) and related docs live in the active tree on `master`.
 
 ---
 
@@ -198,6 +212,8 @@ pcbnew.SaveBoard(r"path\to\board.kicad_pcb", board)
 
 For the next agent picking up this project in Cursor:
 
+- [ ] Confirm `git status` is clean on **`master`** and matches `origin/master`
+- [ ] Work only under **`qfbms32 ai pcb/`** (ignore `qfbms32 fork/` unless restoring a backup)
 - [ ] **Verify 3D renders** look correct by opening `qfbms32_3d_top.png` and `qfbms32_3d_iso.png`
 - [ ] **Run DRC** in KiCad to check for clearance violations after the footprint change
 - [ ] **Assign nets** to `C_SSR1` and `C_SSR2` pads (currently unrouted)
@@ -210,14 +226,17 @@ For the next agent picking up this project in Cursor:
 ## 7. Quick Start for Cursor
 
 ```powershell
-# 1. Navigate to workspace
+# 1. Navigate to workspace / confirm branch
 cd "c:\Users\quinn\Documents\GitHub\Fungineers PCB designs"
+git checkout master
+git status -sb
 
 # 2. Start dashboard server
 python _tools/pcb_dashboard/server.py
 # Dashboard at http://localhost:5180/
+# Board: qfbms32 ai pcb/qfbms32.kicad_pcb
 
-# 3. Open KiCad project
+# 3. Open KiCad project (active tree)
 & "C:\Program Files\KiCad\10.0\bin\kicad.exe" "qfbms32 ai pcb\qfbms32.kicad_pro"
 
 # 4. Run a pcbnew script
