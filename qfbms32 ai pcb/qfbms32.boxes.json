@@ -9,24 +9,11 @@
  },
  "colors": [
   {
-   "id": "c0oz7vze9x",
+   "id": "cbsukigv83",
    "hex": "#4ea1ff",
-   "note": "is this right?"
+   "note": ""
   }
  ],
- "boxes": [
-  {
-   "id": "bgp4qp8jvt",
-   "c": "c0oz7vze9x",
-   "x": 75.9,
-   "y": 5,
-   "w": 3.6,
-   "h": 7.73,
-   "ref": "C_TAN1",
-   "val": "100uF_16V",
-   "fpid": "CP_EIA-6032-28_Kemet-C",
-   "pat": null
-  }
- ],
+ "boxes": [],
  "board": "qfbms32 ai pcb/qfbms32.kicad_pcb"
 }

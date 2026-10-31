@@ -1,0 +1,28 @@
+---
+description: qfbms32 footprint placement is fixed; reference designs do not move parts
+alwaysApply: true
+---
+
+# qfbms32 placement beats the reference design
+
+Active board: `qfbms32 ai pcb/`. Photos: `qfbms32 ai pcb/_reference/user_photos/`.
+
+## What wins
+
+1. Footprint position, rotation, and package already on `qfbms32.kicad_pcb`, checked against the user photos.
+2. External nets in `qfbms32 ai pcb/WORKING_TOPOLOGY.md`.
+3. TI BQ76952 / EVM docs, for values and pin function only.
+
+The placed part is the part, even when it is the wrong chip for the reference circuit (ESP32-C3-MINI-1 vs a QFN symbol, AGM15T03LL vs the EVM FET, H2440 vs the TI precharge circuit, bleed 0805s the EVM does not show).
+
+## Do not
+
+- Move, rotate, respacing, or park a footprint to copy a reference layout or to clear a routing corridor.
+- Swap a footprint or symbol because the reference uses a different chip.
+- Treat "netless", "DNP later", or "not in the TI schematic" as permission to relocate a part.
+
+Route around placed parts. Map the reference circuit onto the chips and pads that are already there. If a placed chip has no pin for that function, stop and say which ref, which pin, and what the reference wanted. Ask before changing a position, footprint, or value.
+
+## Example
+
+`R_B1`–`R_B33` are the user's 0805 row at y≈28.05 mm, 90°, beside the cell connectors. Leave those coordinates. The TI 20 Ω / 0.22 µF filter values apply to `R_F*` and `C_F*`, not to sliding `R_B*` out of the way.
