@@ -1,5 +1,7 @@
 # Funwheel X7 LED Strip PCB Ecosystem
 
+**Status:** Laid out. Headlight, taillight, and both Thor300 status bars are in the folders below.
+
 Custom, high-reliability LED PCB assemblies designed specifically for the **Funwheel X7** platform (VESC-based personal electric vehicle). 
 
 ---

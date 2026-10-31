@@ -1,5 +1,7 @@
 # Status LED Thor300 v1.1
 
+**Status:** Laid out. Flat back, wire pads on the skinny end.
+
 High-reliability direct-solder version of the Funwheel Thor300 status LED PCB indicator, featuring a **completely flat backside** (zero SMD components on B.Cu), four through-hole wire solder pads contoured safely around the mounting notch, and 100% faithful compliance with the official mechanical DXF contour.
 
 ---
@@ -43,9 +45,9 @@ The 4 solder wire pads are located on the bottom tab, strategically positioned a
 
 ## 3. Production & CAD Artifacts
 
-* **KiCad PCB File**: [`Status_LED_Thor300_v1.1.kicad_pcb`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.1/Status_LED_Thor300_v1.1.kicad_pcb)
-* **3D STEP CAD Model**: [`Status_LED_Thor300_v1.1.step`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.1/Status_LED_Thor300_v1.1.step)
-* **3D Top Render**: [`Status_LED_Thor300_v1.1_3d_top.png`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.1/Status_LED_Thor300_v1.1_3d_top.png)
-* **3D Bottom Render**: [`Status_LED_Thor300_v1.1_3d_bottom.png`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.1/Status_LED_Thor300_v1.1_3d_bottom.png)
-* **Python Generator**: [`build_status_led_v11.py`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.1/build_status_led_v11.py)
-* **DRC Report**: [`drc_v11.json`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.1/drc_v11.json) (0 unconnected items, 0 critical violations)
+* **KiCad PCB File**: [`Status_LED_Thor300_v1.1.kicad_pcb`](Status_LED_Thor300_v1.1.kicad_pcb)
+* **3D STEP CAD Model**: [`Status_LED_Thor300_v1.1.step`](Status_LED_Thor300_v1.1.step)
+* **3D Top Render**: [`Status_LED_Thor300_v1.1_3d_top.png`](Status_LED_Thor300_v1.1_3d_top.png)
+* **3D Bottom Render**: [`Status_LED_Thor300_v1.1_3d_bottom.png`](Status_LED_Thor300_v1.1_3d_bottom.png)
+* **Python Generator**: [`build_status_led_v11.py`](build_status_led_v11.py)
+* **DRC Report**: [`drc_v11.json`](drc_v11.json) (0 unconnected items, 0 critical violations)

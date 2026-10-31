@@ -1,5 +1,7 @@
 # Funwheel Rear LED 2.0 (Funwheel X7 Taillight)
 
+**Status:** Laid out.
+
 High-reliability 12V addressable RGB taillight LED PCB stick engineered for the **Funwheel X7** rear light cavity.
 
 ---
@@ -67,7 +69,7 @@ Pins run along the board edge with silkscreen markings directly alongside the so
 
 ## 4. Exported Models & Visualizations
 
-* **STEP 3D Model**: [`Funwheel_Rear_LED_2.0.step`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/taillights/Funwheel%20Rear%20LED%202.0/Funwheel_Rear_LED_2.0.step)
-* **3D Top View**: [`Funwheel_Rear_LED_2.0_3d_top.png`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/taillights/Funwheel%20Rear%20LED%202.0/Funwheel_Rear_LED_2.0_3d_top.png)
-* **3D Bottom View**: [`Funwheel_Rear_LED_2.0_3d_bottom.png`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/taillights/Funwheel%20Rear%20LED%202.0/Funwheel_Rear_LED_2.0_3d_bottom.png)
-* **2D Vector View**: [`Funwheel_Rear_LED_2.0_2d_view.png`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/taillights/Funwheel%20Rear%20LED%202.0/Funwheel_Rear_LED_2.0_2d_view.png)
+* **STEP 3D Model**: [`Funwheel_Rear_LED_2.0.step`](Funwheel_Rear_LED_2.0.step)
+* **3D Top View**: [`Funwheel_Rear_LED_2.0_3d_top.png`](Funwheel_Rear_LED_2.0_3d_top.png)
+* **3D Bottom View**: [`Funwheel_Rear_LED_2.0_3d_bottom.png`](Funwheel_Rear_LED_2.0_3d_bottom.png)
+* **2D Vector View**: [`Funwheel_Rear_LED_2.0_2d_view.png`](Funwheel_Rear_LED_2.0_2d_view.png)

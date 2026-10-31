@@ -1,5 +1,7 @@
 # Status LED Thor300 v1.0
 
+**Status:** Laid out. This version puts the connector and passives on the back. v1.1 is the flat-back board.
+
 State-of-charge / system status LED PCB indicator for the Funwheel Thor300 / X7 platform, featuring backside JST GH connectivity, backside SMD passives, and 100% faithful compliance with the official mechanical DXF contour.
 
 ---
@@ -34,9 +36,9 @@ State-of-charge / system status LED PCB indicator for the Funwheel Thor300 / X7 
 
 ## 3. Production & CAD Artifacts
 
-* **KiCad PCB File**: [`Status_LED_Thor300_v1.0.kicad_pcb`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.0/Status_LED_Thor300_v1.0.kicad_pcb)
-* **3D STEP CAD Model**: [`Status_LED_Thor300_v1.0.step`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.0/Status_LED_Thor300_v1.0.step)
-* **3D Top Render**: [`Status_LED_Thor300_v1.0_3d_top.png`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.0/Status_LED_Thor300_v1.0_3d_top.png)
-* **3D Bottom Render**: [`Status_LED_Thor300_v1.0_3d_bottom.png`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.0/Status_LED_Thor300_v1.0_3d_bottom.png)
-* **Python Generator**: [`build_status_led_v10.py`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.0/build_status_led_v10.py)
-* **DRC Report**: [`drc_v10.json`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/status%20led/Status%20LED%20Thor300%20v1.0/drc_v10.json) (0 unconnected items, 0 critical violations)
+* **KiCad PCB File**: [`Status_LED_Thor300_v1.0.kicad_pcb`](Status_LED_Thor300_v1.0.kicad_pcb)
+* **3D STEP CAD Model**: [`Status_LED_Thor300_v1.0.step`](Status_LED_Thor300_v1.0.step)
+* **3D Top Render**: [`Status_LED_Thor300_v1.0_3d_top.png`](Status_LED_Thor300_v1.0_3d_top.png)
+* **3D Bottom Render**: [`Status_LED_Thor300_v1.0_3d_bottom.png`](Status_LED_Thor300_v1.0_3d_bottom.png)
+* **Python Generator**: [`build_status_led_v10.py`](build_status_led_v10.py)
+* **DRC Report**: [`drc_v10.json`](drc_v10.json) (0 unconnected items, 0 critical violations)

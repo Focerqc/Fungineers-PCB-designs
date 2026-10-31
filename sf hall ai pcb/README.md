@@ -1,5 +1,7 @@
 # Superflux Hall Sensor PCB
 
+**Status:** Laid out. Three sensors sit on the stator pitch. The STEP export still does not model plated walls inside the hall slots.
+
 High-precision hall sensor PCB designed for the Fungineers Superflux motor.
 
 ---

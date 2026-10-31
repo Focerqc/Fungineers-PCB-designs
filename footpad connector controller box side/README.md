@@ -1,5 +1,7 @@
 # Controller-Box-Side PEV Breakout & Adapter PCBs
 
+**Status:** Laid out. The 5-pin Amphenol, 6-pin Switchcraft, and Molex header boards are in this folder.
+
 High-reliability, vibration-resistant breakout and adapter PCBs designed to mount directly inside the controller enclosure of PEV (Personal Electric Vehicle / VESC) builds such as Onewheel XR, Plus, Pint, Pint X, and GT platforms.
 
 ---

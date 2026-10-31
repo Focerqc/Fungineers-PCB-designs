@@ -1,5 +1,7 @@
 # Funwheel Front LED 2.0 (Funwheel X7 Headlight)
 
+**Status:** Laid out.
+
 High-reliability 12V addressable RGB headlight LED PCB assembly engineered for the **Funwheel X7** front light cavity.
 
 ---
@@ -33,7 +35,7 @@ High-reliability 12V addressable RGB headlight LED PCB assembly engineered for t
 
 ## 3. Production & CAD Artifacts
 
-* **KiCad PCB File**: [`Funwheel_Front_LED_2.0.kicad_pcb`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/headlights/Funwheel%20Front%20LED%202.0/Funwheel_Front_LED_2.0.kicad_pcb)
-* **3D STEP CAD Model**: [`Funwheel_Front_LED_2.0.step`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/headlights/Funwheel%20Front%20LED%202.0/Funwheel_Front_LED_2.0.step)
-* **Python Generator**: [`build_funwheel_front_led.py`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/headlights/Funwheel%20Front%20LED%202.0/build_funwheel_front_led.py)
-* **DRC Report**: [`drc_report.json`](file:///c:/Users/quinn/Desktop/AI%20PCB%20CAD/Funwheel%20LED%20strips/headlights/Funwheel%20Front%20LED%202.0/drc_report.json)
+* **KiCad PCB File**: [`Funwheel_Front_LED_2.0.kicad_pcb`](Funwheel_Front_LED_2.0.kicad_pcb)
+* **3D STEP CAD Model**: [`Funwheel_Front_LED_2.0.step`](Funwheel_Front_LED_2.0.step)
+* **Python Generator**: [`build_funwheel_front_led.py`](build_funwheel_front_led.py)
+* **DRC Report**: [`drc_report.json`](drc_report.json)

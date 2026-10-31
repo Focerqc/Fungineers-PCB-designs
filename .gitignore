@@ -52,3 +52,11 @@ desktop.ini
 # Node
 node_modules/
 
+# One-off board dumps and scratch renders. Pinout sheets under scratch/pinouts stay.
+scratch_board.json
+qfbms32 ai pcb/scratch/*.png
+qfbms32 ai pcb/scratch/*.jpg
+qfbms32 ai pcb/scratch/*.net
+qfbms32 ai pcb/scratch/*.kicad_pcb
+qfbms32 ai pcb/scratch/*.kicad_sch
+
